@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">load image test</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="arrayUrl">
+        <item>http://feeds.bbci.co.uk/news/rss.xml</item>
+        <item>http://rss.cnn.com/rss/edition.rss</item>
+        <item>http://www.khoahoc.com.vn/rss/index.aspx</item>
+        <item>http://vnexpress.net/rss/tin-moi-nhat.rss</item>
+        <item>http://dantri.com.vn/trangchu.rss</item>
+    </string-array>
+
+</resources>
