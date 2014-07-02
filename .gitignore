@@ -24,3 +24,7 @@ proguard/
 /libs
 /proguard-project.txt
 /project.properties
+
+# Eclipse ignore
+.classpath
+.project
