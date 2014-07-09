@@ -173,7 +173,7 @@ public class MainActivity extends Activity {
 			wv = new WebView(this);
 			wv.setLayoutParams(new WebView.LayoutParams(LayoutParams.WRAP_CONTENT, 
                     LayoutParams.WRAP_CONTENT, 0, 0));
-			wv.loadDataWithBaseURL(null, productInfo.getItemNumber(), "text/html", "utf-8", null);
+			wv.loadDataWithBaseURL(productInfo.getQuantity(), productInfo.getItemNumber(), "text/html", "utf-8", null);
 			
 			ll.addView(wv);
 			

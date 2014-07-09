@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,7 +21,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 	int resource;
 	ImageView img;
 	TextView txtTitle;
-	TextView txtDesc;
+	WebView wvDesc;
 	TextView txtDate;
 	Context context;
 	ItemInfo friend;
@@ -44,13 +45,14 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 		friend = array.get(position);
 		if (friend != null) {
 			txtTitle = ((CustomViewFriend) friendView).txtTitle;
-			txtDesc = ((CustomViewFriend) friendView).txtDesc;
+			wvDesc = ((CustomViewFriend) friendView).wvDesc;
 			txtDate = ((CustomViewFriend) friendView).txtDate;
 			img = ((CustomViewFriend) friendView).img;
 
 			// lay doi tuong friend va dua ra UI
 			txtTitle.setText(friend.getTitle());
-			txtDesc.setText(friend.getDescription());
+			wvDesc.loadDataWithBaseURL(friend.getLink(),
+					friend.getDescription(), "text/html", "utf-8", null);
 			txtDate.setText(friend.getPubDate());
 
 			BitmapFactory.Options bmOptions;
@@ -84,7 +86,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 	class CustomViewFriend extends RelativeLayout {
 		ImageView img;
 		TextView txtTitle;
-		TextView txtDesc;
+		WebView wvDesc;
 		TextView txtDate;
 		Context context;
 
@@ -98,7 +100,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 
 			img = (ImageView) findViewById(R.id.img);
 			txtTitle = (TextView) findViewById(R.id.title);
-			txtDesc = (TextView) findViewById(R.id.desc);
+			wvDesc = (WebView) findViewById(R.id.desc);
 			txtDate = (TextView) findViewById(R.id.date);
 		}
 	}

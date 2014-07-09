@@ -73,9 +73,10 @@ public class OrderXMLHandler extends DefaultHandler {
 	private String extractDesc (String inDesc) {
 		String output = null;
 		output = getMatch(
-				"<\\s*img\\s*[^>]+src\\s*=\\s*(['\"]?)(.*?)\\1",
+				"<\\s*img\\s*[^>]+src\\s*=\\s*(['\"]?)(.*?)(.jpg)\\1",
 				inDesc, 2);
 		
+		if (output != null) output += ".jpg";
 		return output;
 	}
 	

@@ -13,21 +13,20 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_toRightOf="@id/img"
         android:layout_alignParentTop="true"
         android:text="title"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textStyle="bold" />
 
-    <TextView
+    <WebView
         android:id="@+id/desc"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/title"
         android:layout_above="@+id/date"
-        android:layout_alignLeft="@id/title"
-        android:text="desc" />
+        android:layout_alignLeft="@id/title"/>
 
     <TextView
         android:id="@id/date"
