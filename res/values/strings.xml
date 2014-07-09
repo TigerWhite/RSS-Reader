@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">load image test</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">RSS Reader</string>
     <string name="action_settings">Settings</string>
 
     <string-array name="arrayUrl">
@@ -13,6 +12,7 @@
         <item>http://dantri.com.vn/trangchu.rss</item>
         <item >http://baodientu.chinhphu.vn/Rss/Feed.aspx?EventID=115</item>
         <item >	http://www.thanhnien.com.vn/_layouts/newsrss.aspx</item>
+        <item >http://vietbao.vn/rss2/trang-nhat.rss</item>
         
     </string-array>
 
