@@ -9,8 +9,9 @@
         <item>http://feeds.bbci.co.uk/news/rss.xml</item>
         <item>http://rss.cnn.com/rss/edition.rss</item>
         <item>http://www.khoahoc.com.vn/rss/index.aspx</item>
-        <item>http://vnexpress.net/rss/tin-moi-nhat.rss</item>
+        <item>http://www.24h.com.vn/upload/rss/tintuctrongngay.rss</item><item>http://vnexpress.net/rss/tin-moi-nhat.rss</item>
         <item>http://dantri.com.vn/trangchu.rss</item>
+        
     </string-array>
 
 </resources>
