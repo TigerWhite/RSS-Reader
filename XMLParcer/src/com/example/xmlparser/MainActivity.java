@@ -20,6 +20,8 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -32,6 +34,7 @@ public class MainActivity extends Activity {
 	private ArrayList<ProductInfo> listData;
 	private LinearLayout ll;
 	private TextView tv;
+	private WebView wv;
 	private Button btnOk;
 	private Spinner spinner;
 
@@ -92,6 +95,7 @@ public class MainActivity extends Activity {
 
 		}
 	};
+	
 
 	// private static InputStream fetchURL(String strURL) throws IOException {
 	// InputStream inputStream = null;
@@ -162,18 +166,29 @@ public class MainActivity extends Activity {
 			tv = new TextView(this);
 			tv.setText("TIEUDE : " + productInfo.getSeqNo());
 			ll.addView(tv);
-			tv = new TextView(this);
-			tv.setText("MOTA : " + productInfo.getItemNumber());
-			ll.addView(tv);
+			
+//			tv = new TextView(this);
+//			tv.setText("MOTA : " + productInfo.getItemNumber());
+//			ll.addView(tv);
+			wv = new WebView(this);
+			wv.setLayoutParams(new WebView.LayoutParams(LayoutParams.WRAP_CONTENT, 
+                    LayoutParams.WRAP_CONTENT, 0, 0));
+			wv.loadDataWithBaseURL(null, productInfo.getItemNumber(), "text/html", "utf-8", null);
+			
+			ll.addView(wv);
+			
 			tv = new TextView(this);
 			tv.setText("LINK : " + productInfo.getQuantity());
 			ll.addView(tv);
+			
 			tv = new TextView(this);
 			tv.setText("THUMB : " + productInfo.getPrice());
 			ll.addView(tv);
+			
 			tv = new TextView(this);
 			tv.setText("DATE : " + productInfo.getExtra());
 			ll.addView(tv);
+			
 			tv = new TextView(this);
 			tv.setText("---");
 			ll.addView(tv);
