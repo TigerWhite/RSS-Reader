@@ -1,8 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.zend_demo_twitter4j.MainActivity"
-    tools:ignore="MergeRootFrame" />
-
+    android:orientation="vertical" 
+    android:padding="5dp">
+	<TextView 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="You need sign into Twitter to authorise this app"
+	    android:textStyle="bold"/>
+	<Button 
+	    android:id="@+id/btnSignIn"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="Sign In"/>
+</LinearLayout>

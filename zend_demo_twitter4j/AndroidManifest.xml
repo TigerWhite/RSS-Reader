@@ -7,7 +7,9 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="15" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,19 +18,32 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.zend_demo_twitter4j.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="zend-testing" />
             </intent-filter>
         </activity>
-        <activity android:name=".Tweet"></activity>
-        <service android:name=".TimelineService"></service>
+        <activity
+            android:name="com.example.zend_demo_twitter4j.Tweet"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoActionBar" >
+        </activity>
+
+        <service android:name=".TimelineService" >
+        </service>
     </application>
 
 </manifest>
