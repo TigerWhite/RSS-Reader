@@ -6,8 +6,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import android.content.Context;
+import android.widget.Toast;
+
 public class WebAccessHandler {
-	public static InputStream OpenHttpConnection(String strURL)
+	Context c;
+	
+	public WebAccessHandler(Context c) {
+		super();
+		this.c = c;
+	}
+
+
+	public InputStream OpenHttpConnection(String strURL)
             throws IOException {
         InputStream inputStream = null;
         URL url = new URL(strURL);
@@ -22,6 +33,9 @@ public class WebAccessHandler {
                 inputStream = httpConn.getInputStream();
             }
         } catch (Exception ex) {
+        	Toast.makeText(c,
+            		"Loi ket noi",
+            		Toast.LENGTH_SHORT).show();
         }
         return inputStream;
     }

@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
 			try {
-				inStream = WebAccessHandler.OpenHttpConnection(link);
+				inStream = new WebAccessHandler(MainActivity.this).OpenHttpConnection(link);
 			} catch (IOException e) {
 				e.printStackTrace();
 				Toast.makeText(MainActivity.this,
@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 				Toast.makeText(MainActivity.this,
-                		"Wrong format rss" ,
+                		"No data received" ,
                 		Toast.LENGTH_SHORT).show();
 				return;
 			}
@@ -121,6 +121,9 @@ public class MainActivity extends Activity {
 
 				is.close();
 			} catch (Exception e) {
+				Toast.makeText(MainActivity.this,
+                		"loi format xml",
+                		Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 

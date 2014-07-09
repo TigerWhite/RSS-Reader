@@ -69,11 +69,11 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 
 	}
 
-	public static Bitmap loadBitmap(String URL, BitmapFactory.Options options) {
+	public Bitmap loadBitmap(String URL, BitmapFactory.Options options) {
 		Bitmap bitmap = null;
 		InputStream in = null;
 		try {
-			in = WebAccessHandler.OpenHttpConnection(URL);
+			in = new WebAccessHandler(context).OpenHttpConnection(URL);
 			bitmap = BitmapFactory.decodeStream(in, null, options);
 			in.close();
 		} catch (IOException e1) {
