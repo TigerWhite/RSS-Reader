@@ -1,6 +1,5 @@
 package com.ltt.rssreader;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -37,8 +36,8 @@ public class MainActivity extends Activity {
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
 			try {
-				inStream = new WebAccessHandler(MainActivity.this).OpenHttpConnection(link);
-			} catch (IOException e) {
+				inStream = new WebAccessHandler(MainActivity.this).fetchURL(link);
+			} catch (Exception e) {
 				e.printStackTrace();
 				Toast.makeText(MainActivity.this,
                 		"Cannot open stream" ,

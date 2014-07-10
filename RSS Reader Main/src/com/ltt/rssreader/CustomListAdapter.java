@@ -1,6 +1,5 @@
 package com.ltt.rssreader;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -10,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,7 +19,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 	int resource;
 	ImageView img;
 	TextView txtTitle;
-	WebView wvDesc;
+	TextView txtDesc;
 	TextView txtDate;
 	Context context;
 	ItemInfo friend;
@@ -45,14 +43,13 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 		friend = array.get(position);
 		if (friend != null) {
 			txtTitle = ((CustomViewFriend) friendView).txtTitle;
-			wvDesc = ((CustomViewFriend) friendView).wvDesc;
+			txtDesc = ((CustomViewFriend) friendView).txtDesc;
 			txtDate = ((CustomViewFriend) friendView).txtDate;
 			img = ((CustomViewFriend) friendView).img;
 
 			// lay doi tuong friend va dua ra UI
 			txtTitle.setText(friend.getTitle());
-			wvDesc.loadDataWithBaseURL(friend.getLink(),
-					friend.getDescription(), "text/html", "utf-8", null);
+			txtDesc.setText(friend.getDescription());
 			txtDate.setText(friend.getPubDate());
 
 			BitmapFactory.Options bmOptions;
@@ -71,14 +68,15 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 
 	}
 
-	public Bitmap loadBitmap(String URL, BitmapFactory.Options options) {
+	public Bitmap loadBitmap(String url, BitmapFactory.Options options) {
 		Bitmap bitmap = null;
 		InputStream in = null;
 		try {
-			in = new WebAccessHandler(context).OpenHttpConnection(URL);
+			in = new WebAccessHandler(context).fetchURL(url);
 			bitmap = BitmapFactory.decodeStream(in, null, options);
 			in.close();
-		} catch (IOException e1) {
+		} catch (Exception e1) {
+			return null;
 		}
 		return bitmap;
 	}
@@ -86,7 +84,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 	class CustomViewFriend extends RelativeLayout {
 		ImageView img;
 		TextView txtTitle;
-		WebView wvDesc;
+		TextView txtDesc;
 		TextView txtDate;
 		Context context;
 
@@ -100,7 +98,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 
 			img = (ImageView) findViewById(R.id.img);
 			txtTitle = (TextView) findViewById(R.id.title);
-			wvDesc = (WebView) findViewById(R.id.desc);
+			txtDesc = (TextView) findViewById(R.id.desc);
 			txtDate = (TextView) findViewById(R.id.date);
 		}
 	}

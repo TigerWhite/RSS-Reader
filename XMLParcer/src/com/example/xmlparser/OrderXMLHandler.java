@@ -87,8 +87,8 @@ public class OrderXMLHandler extends DefaultHandler {
 				new URL(output); //if not full url, need to concat
 			} catch (MalformedURLException e1) {
 				try {
-					URL url = new URL(productInfo.getQuantity());
-					output = url.getProtocol() + ":///" + url.getHost()
+					URL url = new URL(productInfo.getQuantity()); //base url
+					output = url.getProtocol() + "://" + url.getHost()
 							+ output + ".jpg";
 				} catch (MalformedURLException e2) {
 					return output;
