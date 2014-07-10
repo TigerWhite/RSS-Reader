@@ -2,11 +2,11 @@ package com.example.xmlparser;
 
 public class ProductInfo {
 	 
-    String seqNo = null;
-    String itemNumber = "";
-    String quantity = "";
-    String price = "";
-    String extra = "";
+    String seqNo = null; //title
+    String itemNumber = ""; //desc
+    String quantity = ""; //link
+    String price = ""; //thumb
+    String extra = ""; //pubdate
  
     public String getExtra() {
 		return extra;

@@ -167,15 +167,14 @@ public class MainActivity extends Activity {
 			tv.setText("TIEUDE : " + productInfo.getSeqNo());
 			ll.addView(tv);
 			
-//			tv = new TextView(this);
-//			tv.setText("MOTA : " + productInfo.getItemNumber());
-//			ll.addView(tv);
-			wv = new WebView(this);
-			wv.setLayoutParams(new WebView.LayoutParams(LayoutParams.WRAP_CONTENT, 
-                    LayoutParams.WRAP_CONTENT, 0, 0));
-			wv.loadDataWithBaseURL(productInfo.getQuantity(), productInfo.getItemNumber(), "text/html", "utf-8", null);
-			
-			ll.addView(wv);
+			tv = new TextView(this);
+			tv.setText("MOTA : " + productInfo.getItemNumber());
+			ll.addView(tv);
+//			wv = new WebView(this);
+//			wv.setLayoutParams(new WebView.LayoutParams(LayoutParams.WRAP_CONTENT, 
+//                    LayoutParams.WRAP_CONTENT, 0, 0));
+//			wv.loadDataWithBaseURL(productInfo.getQuantity(), productInfo.getItemNumber(), "text/html", "utf-8", null);
+//			ll.addView(wv);
 			
 			tv = new TextView(this);
 			tv.setText("LINK : " + productInfo.getQuantity());
