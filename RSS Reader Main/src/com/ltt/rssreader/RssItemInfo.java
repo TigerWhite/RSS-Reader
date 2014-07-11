@@ -1,13 +1,13 @@
 package com.ltt.rssreader;
 
-public class ItemInfo {
+public class RssItemInfo {
 	private String title;
 	private String description;
 	private String link;
 	private String thumbnail;
 	private String pubDate;
 	
-	public ItemInfo() {
+	public RssItemInfo() {
 		title = description = link = thumbnail = pubDate = "";
 	}
 	

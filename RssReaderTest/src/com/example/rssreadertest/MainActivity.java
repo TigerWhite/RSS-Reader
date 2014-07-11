@@ -1,4 +1,4 @@
-package com.ltt.rssreader;
+package com.example.rssreadertest;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,12 +21,16 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.ltt.rssreader.RssItemInfo;
+import com.ltt.rssreader.RssXMLHandler;
+import com.ltt.util.WebAccessHandler;
+
 public class MainActivity extends Activity {
 
 	private Spinner spinner;
 	private Button btnOk;
 	private ListView listViewItem;
-	private ArrayList<ItemInfo> listData;
+	private ArrayList<RssItemInfo> listData;
 	private OnClickListener btnGetImgListener = new OnClickListener() {
 		
 		@Override
@@ -97,8 +101,8 @@ public class MainActivity extends Activity {
     }
 
 	// Ham phan tich XML
-		private ArrayList<ItemInfo> parseXML(InputStream is) {
-			ArrayList<ItemInfo> cartList = null;
+		private ArrayList<RssItemInfo> parseXML(InputStream is) {
+			ArrayList<RssItemInfo> cartList = null;
 			try {
 				// Tao doi tuong dung cho viec phan tich cu phap tai lieu XML
 				SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -107,7 +111,7 @@ public class MainActivity extends Activity {
 				XMLReader xr = sp.getXMLReader();
 
 				// Tao doi tuong xu ly XML theo tuan tu cua minh
-				OrderXMLHandler myXMLHandler = new OrderXMLHandler();
+				RssXMLHandler myXMLHandler = new RssXMLHandler();
 				// Thiet lap noi dung xu ly
 				xr.setContentHandler(myXMLHandler);
 				// Nguon du lieu vao

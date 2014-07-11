@@ -1,4 +1,4 @@
-package com.ltt.rssreader;
+package com.example.rssreadertest;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -14,18 +14,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
-	ArrayList<ItemInfo> array;
+import com.ltt.rssreader.RssItemInfo;
+import com.ltt.util.WebAccessHandler;
+
+public class CustomListAdapter extends ArrayAdapter<RssItemInfo> {
+	ArrayList<RssItemInfo> array;
 	int resource;
 	ImageView img;
 	TextView txtTitle;
 	TextView txtDesc;
 	TextView txtDate;
 	Context context;
-	ItemInfo friend;
+	RssItemInfo friend;
 
 	public CustomListAdapter(Context context, int textViewResourceId,
-			ArrayList<ItemInfo> array) {
+			ArrayList<RssItemInfo> array) {
 		super(context, textViewResourceId, array);
 
 		this.context = context;

@@ -14,6 +14,9 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import com.ltt.rssreader.RssItemInfo;
+import com.ltt.rssreader.RssXMLHandler;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -31,7 +34,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	private ArrayList<ProductInfo> listData;
+	private ArrayList<RssItemInfo> listData;
 	private LinearLayout ll;
 	private TextView tv;
 	private WebView wv;
@@ -129,8 +132,8 @@ public class MainActivity extends Activity {
 	}
 
 	// Hàm phân tích XML
-	private ArrayList<ProductInfo> parseXML(InputStream is) {
-		ArrayList<ProductInfo> cartList = null;
+	private ArrayList<RssItemInfo> parseXML(InputStream is) {
+		ArrayList<RssItemInfo> cartList = null;
 		try {
 			// Tạo đối tượng dùng cho việc phân tích cú pháp tài liệu XML
 			SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -139,7 +142,7 @@ public class MainActivity extends Activity {
 			XMLReader xr = sp.getXMLReader();
 
 			// Tạo đối tượng xử lý XML theo tuần tự của mình
-			OrderXMLHandler myXMLHandler = new OrderXMLHandler();
+			RssXMLHandler myXMLHandler = new RssXMLHandler();
 			// Thiết lập nội dung xử lý
 			xr.setContentHandler(myXMLHandler);
 			// Nguồn dữ liệu vào
@@ -160,32 +163,32 @@ public class MainActivity extends Activity {
 	}
 
 	// in kq tu list lay duoc
-	private void printData(ArrayList<ProductInfo> cartList) throws NullPointerException{
+	private void printData(ArrayList<RssItemInfo> cartList) throws NullPointerException{
 
-		for (ProductInfo productInfo : cartList) {
+		for (RssItemInfo RssItemInfo : cartList) {
 			tv = new TextView(this);
-			tv.setText("TIEUDE : " + productInfo.getSeqNo());
+			tv.setText("TIEUDE : " + RssItemInfo.getTitle());
 			ll.addView(tv);
 			
 			tv = new TextView(this);
-			tv.setText("MOTA : " + productInfo.getItemNumber());
+			tv.setText("MOTA : " + RssItemInfo.getDescription());
 			ll.addView(tv);
 //			wv = new WebView(this);
 //			wv.setLayoutParams(new WebView.LayoutParams(LayoutParams.WRAP_CONTENT, 
 //                    LayoutParams.WRAP_CONTENT, 0, 0));
-//			wv.loadDataWithBaseURL(productInfo.getQuantity(), productInfo.getItemNumber(), "text/html", "utf-8", null);
+//			wv.loadDataWithBaseURL(RssItemInfo.getQuantity(), RssItemInfo.getItemNumber(), "text/html", "utf-8", null);
 //			ll.addView(wv);
 			
 			tv = new TextView(this);
-			tv.setText("LINK : " + productInfo.getQuantity());
+			tv.setText("LINK : " + RssItemInfo.getLink());
 			ll.addView(tv);
 			
 			tv = new TextView(this);
-			tv.setText("THUMB : " + productInfo.getPrice());
+			tv.setText("THUMB : " + RssItemInfo.getThumbnail());
 			ll.addView(tv);
 			
 			tv = new TextView(this);
-			tv.setText("DATE : " + productInfo.getExtra());
+			tv.setText("DATE : " + RssItemInfo.getPubDate());
 			ll.addView(tv);
 			
 			tv = new TextView(this);

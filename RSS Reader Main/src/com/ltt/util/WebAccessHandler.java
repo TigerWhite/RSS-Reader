@@ -1,4 +1,4 @@
-package com.ltt.rssreader;
+package com.ltt.util;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -10,15 +10,15 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class OrderXMLHandler extends DefaultHandler {
+public class RssXMLHandler extends DefaultHandler {
 
 	boolean currentElement = false;
 	String currentValue = "";
 
-	ItemInfo productInfo = null;
-	ArrayList<ItemInfo> cartList;
+	RssItemInfo productInfo = null;
+	ArrayList<RssItemInfo> cartList;
 
-	public ArrayList<ItemInfo> getCartList() {
+	public ArrayList<RssItemInfo> getCartList() {
 		return cartList;
 	}
 
@@ -27,9 +27,9 @@ public class OrderXMLHandler extends DefaultHandler {
 
 
 		if (qName.equals("rss")) {
-			cartList = new ArrayList<ItemInfo>();
+			cartList = new ArrayList<RssItemInfo>();
 		} else if (qName.equals("item")) {
-			productInfo = new ItemInfo();
+			productInfo = new RssItemInfo();
 			currentElement = true;
 		}
 
