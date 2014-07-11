@@ -10,6 +10,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.util.Log;
+
 public class RssXMLHandler extends DefaultHandler {
 
 	boolean currentElement = false;
@@ -60,6 +62,15 @@ public class RssXMLHandler extends DefaultHandler {
 				String extractedImg = extractDesc(desc);
 				if (extractedImg != null)
 					productInfo.setThumbnail(extractedImg);
+				//tien hanh chuan hoa link
+				String curThumb = productInfo.getThumbnail();
+				if (curThumb != null)
+				try {
+					new URL(curThumb); //if not full url, need to concat
+				} catch (MalformedURLException e1) {
+					productInfo.setThumbnail(concatUrl(productInfo.getLink(), curThumb));
+				}
+				
 				productInfo.setDescription(desc.replaceAll("<.+?>", ""));
 				
 				cartList.add(productInfo);
@@ -83,20 +94,7 @@ public class RssXMLHandler extends DefaultHandler {
 			output = getMatch("<\\s*img\\s*[^>]+src\\s*=\\s*(['\"]?)(.*?).jpg\\1",
 					inDesc, 2);
 
-			if (output != null) {
-				try {
-					new URL(output); //if not full url, need to concat
-				} catch (MalformedURLException e1) {
-					try {
-						URL url = new URL(productInfo.getLink()); //base url
-						output = url.getProtocol() + "://" + url.getHost()
-								+ output + ".jpg";
-					} catch (MalformedURLException e2) {
-						return output;
-					}
-				}
-			}
-
+			if (output != null) output += ".jpg";
 			return output;
 		}
 
@@ -118,5 +116,17 @@ public class RssXMLHandler extends DefaultHandler {
 			} else {
 				return null;
 			}
+		}
+		
+		private String concatUrl(String baseUrl, String relativeUrl){
+			try {
+				URL url = new URL(baseUrl);
+				relativeUrl = url.getProtocol() + "://" + url.getHost()
+						+ relativeUrl;
+			} catch (MalformedURLException e2) {
+				Log.e("RssreadrLib", "concat error on base url");
+				return relativeUrl;
+			}
+			return relativeUrl;
 		}
 }
