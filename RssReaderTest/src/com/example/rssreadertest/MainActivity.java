@@ -32,15 +32,15 @@ public class MainActivity extends Activity {
 			
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
-			try {
-				inStream = new WebAccessHandler(MainActivity.this).fetchURL(link);
-			} catch (Exception e) {
-				e.printStackTrace();
-				Toast.makeText(MainActivity.this,
-                		"Cannot open stream" ,
-                		Toast.LENGTH_SHORT).show();
-				return;
-			}
+//			try {
+//			inStream = (new WebAccessHandler(MainActivity.this)).fetchURL(link);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			Toast.makeText(MainActivity.this, "Cannot open stream",
+//					Toast.LENGTH_SHORT).show();
+//			return;
+//		}
+			inStream = (new WebAccessHandler(MainActivity.this)).getXmlFromUrl(link);
 			
 			listData = (new WebAccessHandler(MainActivity.this)).parseXML(inStream);
 			
