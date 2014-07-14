@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+
+import org.apache.http.client.ClientProtocolException;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -61,29 +64,51 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
+			WebAccessHandler webhandle = new WebAccessHandler();
 			String link = spinner.getSelectedItem().toString();
 
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
-//			try {
-//				inStream = (new WebAccessHandler(MainActivity.this)).fetchURL(link);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//				Toast.makeText(MainActivity.this, "Cannot open stream",
-//						Toast.LENGTH_SHORT).show();
-//				return;
-//			}
-			inStream = (new WebAccessHandler(MainActivity.this)).getXmlFromUrl(link);
 			
-			listData = (new WebAccessHandler(MainActivity.this)).parseXML(inStream);
+			try {
+				inStream = webhandle.getStreamFromUrl(link);
+			} catch (ClientProtocolException e1) {
+				e1.printStackTrace();
+				Toast.makeText(MainActivity.this, "loi phuong thuc",
+						Toast.LENGTH_SHORT).show();
+				return;
+	
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				Toast.makeText(MainActivity.this, "loi ket noi",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			if (inStream == null){
+				try {
+					inStream = webhandle.fetchURL(link);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+					Toast.makeText(MainActivity.this, "loi ket noi",
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
+			}
+			
+			listData = webhandle.parseXML(inStream);
 			ll.removeAllViews();
 			try {
 				printData(listData);
+//				printContent(inStream);
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 				Toast.makeText(MainActivity.this, "no data",
 						Toast.LENGTH_SHORT).show();
 				return;
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
 			}
 
 		}

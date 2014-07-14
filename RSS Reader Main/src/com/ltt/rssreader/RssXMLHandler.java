@@ -64,7 +64,7 @@ public class RssXMLHandler extends DefaultHandler {
 					productInfo.setThumbnail(extractedImg);
 				//tien hanh chuan hoa link
 				String curThumb = productInfo.getThumbnail();
-				if (curThumb != null)
+				if (curThumb != null && !curThumb.equals(""))
 				try {
 					new URL(curThumb); //if not full url, need to concat
 				} catch (MalformedURLException e1) {

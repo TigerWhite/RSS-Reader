@@ -1,11 +1,7 @@
 package com.ltt.util;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -14,29 +10,28 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.ltt.rssreader.RssItemInfo;
 import com.ltt.rssreader.RssXMLHandler;
 
 public class WebAccessHandler {
-	Context c;
-	
-	public WebAccessHandler(Context c) {
-		super();
-		this.c = c;
-	}
 
-
-	public InputStream fetchURL(String strUrl)
-			throws MalformedURLException {
+	/**
+	 * hàm lấy dữ liệu từ link bằng openStream
+	 * sử dụng tốt cho cnn
+	 * @param strUrl	String
+	 * @return	InputStream
+	 * @throws MalformedURLException
+	 */
+	public InputStream fetchURL(String strUrl) throws MalformedURLException {
 		URL url = null;
 		InputStream stream = null;
 		try {
@@ -50,28 +45,32 @@ public class WebAccessHandler {
 		return stream;
 	}
 
+	/**
+	 * hàm lấy dữ liệu từ link bằng POST method
+	 * sử dụng tốt cho vnexpress, dantri
+	 * @param url	String
+	 * @return	InputStream
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	public InputStream getStreamFromUrl(String url)
+			throws ClientProtocolException, IOException {
+		InputStream is;
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url);
 
-	// private static InputStream fetchURL(String strURL) throws IOException {
-	// InputStream inputStream = null;
-	// URL url = new URL(strURL);
-	// URLConnection conn = url.openConnection();
-	//
-	// try {
-	// HttpURLConnection httpConn = (HttpURLConnection) conn;
-	// httpConn.setRequestMethod("GET");
-	// httpConn.connect();
-	//
-	// if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-	// inputStream = httpConn.getInputStream();
-	// }
-	// } catch (Exception ex) {
-	// }
-	// return inputStream;
-	// }
+		HttpResponse httpResponse = httpClient.execute(httpPost);
+		if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) return null;
+		is = httpResponse.getEntity().getContent();
 
-	/** Hàm phân tích XML
+		return is;
+	}
+
+	/**
+	 * Hàm phân tích XML
 	 * 
-	 * @param is	InputStream
+	 * @param is
+	 *            InputStream
 	 * @return list of RSSItemInfo
 	 */
 	public ArrayList<RssItemInfo> parseXML(InputStream is) {
@@ -104,53 +103,4 @@ public class WebAccessHandler {
 		return cartList;
 	}
 
-	public InputStream getXmlFromUrl(String url) {
-		String xml = null;
- 
-		try {
-			InputStream is;
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(url);
- 
-			HttpResponse httpResponse = httpClient.execute(httpPost);
-			is = httpResponse.getEntity().getContent();
-			 
-			BufferedReader br = null;
-			StringBuilder sb = new StringBuilder();
- 
-			String line;
-			try {
-				br = new BufferedReader(new InputStreamReader(is));
-				while ((line = br.readLine()) != null) {
-					sb.append(line);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (br != null) {
-					try {
-						br.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
- 
-			xml = sb.toString();
-			
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// convert String into InputStream
-		InputStream is = new ByteArrayInputStream(xml.getBytes());
-	 
-		return is;
-	}
- 
 }
