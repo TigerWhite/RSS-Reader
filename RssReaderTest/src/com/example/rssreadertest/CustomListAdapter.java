@@ -75,8 +75,8 @@ public class CustomListAdapter extends ArrayAdapter<RssItemInfo> {
 		Bitmap bitmap = null;
 		InputStream in = null;
 		try {
-//			in = new WebAccessHandler().fetchURL(url);
-			in = new WebAccessHandler().getStreamFromUrl(url);
+			in = new WebAccessHandler().fetchURL(url);
+//			in = new WebAccessHandler().getStreamFromUrl(url);
 			bitmap = BitmapFactory.decodeStream(in, null, options);
 			in.close();
 		} catch (Exception e1) {

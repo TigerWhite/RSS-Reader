@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ltt.rssreader.RssItemInfo;
+import com.ltt.rssreader.RssParser;
 import com.ltt.util.WebAccessHandler;
 
 public class MainActivity extends Activity {
@@ -96,7 +97,7 @@ public class MainActivity extends Activity {
 				}
 			}
 			
-			listData = webhandle.parseXML(inStream);
+			listData = new RssParser().parseXML(inStream);
 			ll.removeAllViews();
 			try {
 				printData(listData);

@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ltt.rssreader.RssItemInfo;
+import com.ltt.rssreader.RssParser;
 import com.ltt.util.WebAccessHandler;
 
 public class MainActivity extends Activity {
@@ -64,7 +65,7 @@ public class MainActivity extends Activity {
 				}
 			}
 
-			listData = webhandle.parseXML(inStream);
+			listData = new RssParser().parseXML(inStream);
 			CustomListAdapter listAdapter = new
 			        CustomListAdapter(MainActivity.this, R.layout.list_single, listData);
 	        
