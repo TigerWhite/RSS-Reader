@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.BaseColumns;
+import android.provider.ContactsContract.Profile;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -120,6 +121,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			// launch tweet activity
 			startActivity(new Intent(this, Tweet.class));
 			break;
+		case R.id.btnProfile:
+			// launch profile activity
+			 startActivity(new Intent(this, TwitterProfile.class));
+			break;
 		default:
 			break;
 		}
@@ -190,6 +195,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		// setup onclick listener for tweet button
 		LinearLayout tweetClicker = (LinearLayout) findViewById(R.id.tweetbtn);
 		tweetClicker.setOnClickListener(this);
+
+		Button btnProfile = (Button) findViewById(R.id.btnProfile);
+		btnProfile.setOnClickListener(this);
 	}
 
 	/**
@@ -225,6 +233,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			unregisterReceiver(niceStatusReceiver);
 			// close the database
 			timelineDB.close();
+			
+			// remove twitter key
+			twitterPrefs.edit().remove(USER_TOKEN).commit();
+			twitterPrefs.edit().remove(USER_SECRET).commit();
 		} catch (Exception se) {
 			Log.e(LOG_TAG, "unable to stop Service or receiver");
 		}

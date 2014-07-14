@@ -37,7 +37,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.zend_demo_twitter4j.Tweet"
+            android:name=".Tweet"
+            android:screenOrientation="landscape"
+            android:theme="@style/NoActionBar" >
+        </activity>
+        <activity
+            android:name=".TwitterProfile"
             android:screenOrientation="landscape"
             android:theme="@style/NoActionBar" >
         </activity>
