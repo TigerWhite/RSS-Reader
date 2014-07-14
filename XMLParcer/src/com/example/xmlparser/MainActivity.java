@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
@@ -14,17 +12,12 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-import com.ltt.rssreader.RssItemInfo;
-import com.ltt.rssreader.RssXMLHandler;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -32,12 +25,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ltt.rssreader.RssItemInfo;
+import com.ltt.rssreader.RssXMLHandler;
+import com.ltt.util.WebAccessHandler;
+
 public class MainActivity extends Activity {
 
 	private ArrayList<RssItemInfo> listData;
 	private LinearLayout ll;
 	private TextView tv;
-	private WebView wv;
+//	private WebView wv;
 	private Button btnOk;
 	private Spinner spinner;
 
@@ -77,7 +74,7 @@ public class MainActivity extends Activity {
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
 			try {
-				inStream = fetchURL(link);
+				inStream = (new WebAccessHandler(MainActivity.this)).fetchURL(link);
 			} catch (IOException e) {
 				e.printStackTrace();
 				Toast.makeText(MainActivity.this, "Cannot open stream",
@@ -99,38 +96,6 @@ public class MainActivity extends Activity {
 		}
 	};
 	
-
-	// private static InputStream fetchURL(String strURL) throws IOException {
-	// InputStream inputStream = null;
-	// URL url = new URL(strURL);
-	// URLConnection conn = url.openConnection();
-	//
-	// try {
-	// HttpURLConnection httpConn = (HttpURLConnection) conn;
-	// httpConn.setRequestMethod("GET");
-	// httpConn.connect();
-	//
-	// if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-	// inputStream = httpConn.getInputStream();
-	// }
-	// } catch (Exception ex) {
-	// }
-	// return inputStream;
-	// }
-
-	private static InputStream fetchURL(String strUrl)
-			throws MalformedURLException {
-		URL url = new URL(strUrl);
-		InputStream stream = null;
-		try {
-			stream = url.openStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.e("xml reader", "loi io khi fetch");
-		}
-		return stream;
-	}
-
 	// Hàm phân tích XML
 	private ArrayList<RssItemInfo> parseXML(InputStream is) {
 		ArrayList<RssItemInfo> cartList = null;
