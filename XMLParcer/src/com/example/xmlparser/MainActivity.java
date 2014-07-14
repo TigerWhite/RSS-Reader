@@ -6,16 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -26,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ltt.rssreader.RssItemInfo;
-import com.ltt.rssreader.RssXMLHandler;
 import com.ltt.util.WebAccessHandler;
 
 public class MainActivity extends Activity {
@@ -82,7 +74,7 @@ public class MainActivity extends Activity {
 				return;
 			}
 
-			listData = parseXML(inStream);
+			listData = (new WebAccessHandler(MainActivity.this)).parseXML(inStream);
 			ll.removeAllViews();
 			try {
 				printData(listData);
@@ -96,37 +88,6 @@ public class MainActivity extends Activity {
 		}
 	};
 	
-	// Hàm phân tích XML
-	private ArrayList<RssItemInfo> parseXML(InputStream is) {
-		ArrayList<RssItemInfo> cartList = null;
-		try {
-			// Tạo đối tượng dùng cho việc phân tích cú pháp tài liệu XML
-			SAXParserFactory spf = SAXParserFactory.newInstance();
-			SAXParser sp = spf.newSAXParser();
-			// Đối tượng đọc XML
-			XMLReader xr = sp.getXMLReader();
-
-			// Tạo đối tượng xử lý XML theo tuần tự của mình
-			RssXMLHandler myXMLHandler = new RssXMLHandler();
-			// Thiết lập nội dung xử lý
-			xr.setContentHandler(myXMLHandler);
-			// Nguồn dữ liệu vào
-			InputSource inStream = new InputSource(is);
-			// Bắt đầu xử lý dữ liệu vào
-			xr.parse(inStream);
-
-			// In chi tiết sản phẩm ra giao diện ứng dụng
-			cartList = myXMLHandler.getCartList();
-
-			is.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.e("xml reader", "loi format xml");
-		}
-
-		return cartList;
-	}
-
 	// in kq tu list lay duoc
 	private void printData(ArrayList<RssItemInfo> cartList) throws NullPointerException{
 

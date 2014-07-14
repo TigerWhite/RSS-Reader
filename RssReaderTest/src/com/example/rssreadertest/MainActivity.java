@@ -3,12 +3,6 @@ package com.example.rssreadertest;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -22,7 +16,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ltt.rssreader.RssItemInfo;
-import com.ltt.rssreader.RssXMLHandler;
 import com.ltt.util.WebAccessHandler;
 
 public class MainActivity extends Activity {
@@ -49,7 +42,7 @@ public class MainActivity extends Activity {
 				return;
 			}
 			
-			listData = parseXML(inStream);
+			listData = (new WebAccessHandler(MainActivity.this)).parseXML(inStream);
 			
 			CustomListAdapter listAdapter = new
 			        CustomListAdapter(MainActivity.this, R.layout.list_single, listData);
@@ -100,36 +93,4 @@ public class MainActivity extends Activity {
         spinner.setAdapter(adapter);
     }
 
-	// Ham phan tich XML
-		private ArrayList<RssItemInfo> parseXML(InputStream is) {
-			ArrayList<RssItemInfo> cartList = null;
-			try {
-				// Tao doi tuong dung cho viec phan tich cu phap tai lieu XML
-				SAXParserFactory spf = SAXParserFactory.newInstance();
-				SAXParser sp = spf.newSAXParser();
-				// Doi tuong doc XML
-				XMLReader xr = sp.getXMLReader();
-
-				// Tao doi tuong xu ly XML theo tuan tu cua minh
-				RssXMLHandler myXMLHandler = new RssXMLHandler();
-				// Thiet lap noi dung xu ly
-				xr.setContentHandler(myXMLHandler);
-				// Nguon du lieu vao
-				InputSource inStream = new InputSource(is);
-				// Bat dau xu ly du lieu vao
-				xr.parse(inStream);
-
-				// In chi tiet san pham ra giao dien ung dung
-				cartList = myXMLHandler.getCartList();
-
-				is.close();
-			} catch (Exception e) {
-				Toast.makeText(MainActivity.this,
-                		"loi format xml",
-                		Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			}
-
-			return cartList;
-		}
 }
