@@ -59,7 +59,12 @@ public class MainActivity extends Activity {
 					inStream = webhandle.fetchURL(link);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "loi ket noi",
+					Toast.makeText(MainActivity.this, "link loi",
+							Toast.LENGTH_SHORT).show();
+					return;
+				} catch (IOException e) {
+					e.printStackTrace();
+					Toast.makeText(MainActivity.this, "loi io khi fetch",
 							Toast.LENGTH_SHORT).show();
 					return;
 				}

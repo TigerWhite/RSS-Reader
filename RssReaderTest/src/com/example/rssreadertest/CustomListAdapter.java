@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class CustomListAdapter extends ArrayAdapter<RssItemInfo> {
 
 			// lay doi tuong friend va dua ra UI
 			txtTitle.setText(friend.getTitle());
-			txtDesc.setText(friend.getDescription());
+			txtDesc.setText(Html.fromHtml(friend.getDescription()));
 			txtDate.setText(friend.getPubDate());
 
 			BitmapFactory.Options bmOptions;

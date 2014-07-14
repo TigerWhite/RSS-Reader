@@ -12,6 +12,7 @@ import org.apache.http.client.ClientProtocolException;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -91,7 +92,12 @@ public class MainActivity extends Activity {
 					inStream = webhandle.fetchURL(link);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "loi ket noi",
+					Toast.makeText(MainActivity.this, "link loi",
+							Toast.LENGTH_SHORT).show();
+					return;
+				} catch (IOException e) {
+					e.printStackTrace();
+					Toast.makeText(MainActivity.this, "loi io khi fetch",
 							Toast.LENGTH_SHORT).show();
 					return;
 				}
@@ -124,7 +130,7 @@ public class MainActivity extends Activity {
 			ll.addView(tv);
 			
 			tv = new TextView(this);
-			tv.setText("MOTA : " + RssItemInfo.getDescription());
+			tv.setText("MOTA : " + Html.fromHtml(RssItemInfo.getDescription()));
 			ll.addView(tv);
 //			wv = new WebView(this);
 //			wv.setLayoutParams(new WebView.LayoutParams(LayoutParams.WRAP_CONTENT, 

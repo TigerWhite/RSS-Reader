@@ -11,8 +11,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.util.Log;
-
 public class WebAccessHandler {
 
 	/**
@@ -20,19 +18,15 @@ public class WebAccessHandler {
 	 * sử dụng tốt cho cnn
 	 * @param strUrl	String
 	 * @return	InputStream
-	 * @throws MalformedURLException
+	 * @throws MalformedURLException, IOException
 	 */
-	public InputStream fetchURL(String strUrl) throws MalformedURLException {
+	public InputStream fetchURL(String strUrl) throws MalformedURLException, IOException {
 		URL url = null;
 		InputStream stream = null;
-		try {
-			url = new URL(strUrl);
-			stream = url.openStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.e("xml reader", "loi io khi fetch");
-			return null;
-		}
+
+		url = new URL(strUrl);
+		stream = url.openStream();
+		
 		return stream;
 	}
 
