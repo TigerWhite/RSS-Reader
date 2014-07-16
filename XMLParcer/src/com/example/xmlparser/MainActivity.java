@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			WebAccessHandler webhandle = new WebAccessHandler();
-			String link = spinner1.getSelectedItem().toString();
+			String link = spinner2.getSelectedItem().toString();
 
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
@@ -121,13 +121,11 @@ public class MainActivity extends Activity {
 				e1.printStackTrace();
 				Toast.makeText(MainActivity.this, "loi phuong thuc",
 						Toast.LENGTH_SHORT).show();
-				return;
 
 			} catch (IOException e1) {
 				e1.printStackTrace();
 				Toast.makeText(MainActivity.this, "loi ket noi",
 						Toast.LENGTH_SHORT).show();
-				return;
 			}
 
 			if (inStream == null) {
@@ -137,15 +135,14 @@ public class MainActivity extends Activity {
 					e.printStackTrace();
 					Toast.makeText(MainActivity.this, "link loi",
 							Toast.LENGTH_SHORT).show();
-					return;
 				} catch (IOException e) {
 					e.printStackTrace();
 					Toast.makeText(MainActivity.this, "loi io khi fetch",
 							Toast.LENGTH_SHORT).show();
-					return;
 				}
 			}
 
+			if (inStream == null) return;
 			listData = new RssParser().parseXML(inStream);
 			ll.removeAllViews();
 			try {
