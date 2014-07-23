@@ -21,7 +21,6 @@
         <item>http://www.thanhnien.com.vn/_layouts/newsrss.aspx</item>
         <item>http://vietbao.vn/rss2/trang-nhat.rss</item>
         <item>http://www.24h.com.vn/upload/rss/tintuctrongngay.rss</item>
-        <item>http://baodientu.chinhphu.vn/Rss/Feed.aspx?EventID=115</item>
         <item>http://vnexpress.net/rss/tin-moi-nhat.rss</item>
         <item>http://dantri.com.vn/trangchu.rss</item>
     </string-array>
@@ -32,27 +31,37 @@
         <item>http://www.24h.com.vn/upload/rss/thethao.rss</item>
         <item>http://vnexpress.net/rss/the-thao.rss</item>
         <item>http://dantri.com.vn/The-Thao.rss</item>
+        <item>http://www.baovanhoa.vn/Thethao.rss</item>
     </string-array>
     <string-array name="Education">
+        <item>http://giaoduc.net.vn/RSS/Feed.aspx</item>
         <item>http://vietbao.vn/live/Giao-duc/rss.xml</item>
         <item>http://www.24h.com.vn/upload/rss/giaoducduhoc.rss</item>
         <item>http://dantri.com.vn/giaoduc-khuyenhoc.rss</item>
         <item>http://www.thanhnien.com.vn/_layouts/newsrss.aspx?Channel=Giáo+dục</item>
+        <item>http://tuoitre.vn/Pages/RssFeeds.aspx?ChannelID=13</item>
+        <item>http://www.baovanhoa.vn/giaoduc.rss</item>
     </string-array>
     <string-array name="Economy">
+        <item>http://vneconomy.vn/rss/trang-chu</item>
         <item>http://vietbao.vn/live/Kinh-te/rss.xml</item>
         <item>http://www.24h.com.vn/upload/rss/thitruongtieudung.rss</item>
         <item>http://baodientu.chinhphu.vn/_RSS_/7.rss</item>
         <item>http://vnexpress.net/rss/kinh-doanh.rss</item>
         <item>http://dantri.com.vn/kinhdoanh.rss</item>
         <item>http://www.thanhnien.com.vn/_layouts/newsrss.aspx?Channel=Kinh+tế</item>
+        <item>http://tuoitre.vn/Pages/RssFeeds.aspx?ChannelID=11</item>
+        <item>http://www.baovanhoa.vn/Kinhte.rss</item>
     </string-array>
     <string-array name="Politics_Society">
+        <item>http://baodientu.chinhphu.vn/Rss/Feed.aspx?EventID=115</item>
         <item>http://vietbao.vn/live/Xa-hoi/rss.xml</item>
         <item>http://www.24h.com.vn/upload/rss/anninhhinhsu.rss</item>
         <item>http://vnexpress.net/rss/doi-song.rss</item>
         <item>http://dantri.com.vn/xa-hoi.rss</item>
         <item>http://www.thanhnien.com.vn/_layouts/newsrss.aspx?Channel=Chính+trị+-+Xã+hội</item>
+        <item>http://tuoitre.vn/Pages/RssFeeds.aspx?ChannelID=3</item>
+        <item>http://www.baovanhoa.vn/chinhtrixahoi.rss</item>
     </string-array>
     <string-array name="Youth">
         <item>http://vietbao.vn/live/The-gioi-tre/rss.xml</item>
@@ -62,13 +71,17 @@
     </string-array>
     <string-array name="Science_Technology">
         <item>http://www.khoahoc.com.vn/rss/index.aspx</item>
+        <item>http://feeds.feedburner.com/tinhte</item>
         <item>http://vietbao.vn/live/Cong-nghe/rss.xml</item>
         <item>http://www.24h.com.vn/upload/rss/congnghethongtin.rss</item>
         <item>http://baodientu.chinhphu.vn/_RSS_/8.rss</item>
         <item>http://vnexpress.net/rss/khoa-hoc.rss</item>
         <item>http://dantri.com.vn/cong-nghe.rss</item>
+        <item>http://tuoitre.vn/Pages/RssFeeds.aspx?ChannelID=7</item>
+        <item>http://www.baovanhoa.vn/khoahoccongnghe.rss</item>
     </string-array>
     <string-array name="Health">
+        <item>http://suckhoedoisong.vn/rss/home</item>
         <item>http://vietbao.vn/live/Suc-khoe/rss.xml</item>
         <item>http://www.24h.com.vn/upload/rss/suckhoedoisong.rss</item>
         <item>http://dantri.com.vn/suckhoe.rss</item>
@@ -78,6 +91,7 @@
         <item>http://vietbao.vn/live/The-gioi-giai-tri/rss.xml</item>
         <item>http://vnexpress.net/rss/giai-tri.rss</item>
         <item>http://dantri.com.vn/giaitri.rss</item>
+        <item>http://tuoitre.vn/Pages/RssFeeds.aspx?ChannelID=10</item>
     </string-array>
     <string-array name="World">
         <item>http://feeds.bbci.co.uk/news/rss.xml</item>
@@ -87,11 +101,14 @@
         <item>http://vnexpress.net/rss/the-gioi.rss</item>
         <item>http://dantri.com.vn/Thegioi.rss</item>
         <item>http://www.thanhnien.com.vn/_layouts/newsrss.aspx?Channel=Thế+giới</item>
+        <item>http://tuoitre.vn/Pages/RssFeeds.aspx?ChannelID=2</item>
+        <item>http://www.baovanhoa.vn/quocte.rss</item>
     </string-array>
     <string-array name="Culture">
         <item>http://vietbao.vn/live/Van-hoa/rss.xml</item>
         <item>http://dantri.com.vn/van-hoa.rss</item>
         <item>http://www.thanhnien.com.vn/_layouts/newsrss.aspx?Channel=Văn+hóa+-+Nghệ+thuật</item>
+        <item>http://www.baovanhoa.vn/vanhoavannghe.rss</item>
     </string-array>
     <string-array name="Other">
         <item>http://feeds.feedburner.com/tedtalks_video</item>
