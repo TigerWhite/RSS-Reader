@@ -35,8 +35,10 @@ public class RssXMLHandler extends DefaultHandler {
 			currentElement = true;
 		}
 
-		if (attributes.getLength() > 1 && currentElement == true)
-			if (attributes.getValue("url").contains(".jpg")) {
+		if (attributes.getLength() > 1 && currentElement == true){
+			String value = attributes.getValue("url");
+			if (value != null)
+				if (value.contains(".jpg"))
 				productInfo.setThumbnail(attributes.getValue("url"));
         }
 
