@@ -6,14 +6,18 @@
     <string-array name="Categories">
         <item>General</item>
         <item>Sport</item>
+        <item>Education</item>
+        <item>Economy</item>
+        <item>Politics_Society</item>
+        <item>Youth</item>
+        <item>Science_Technology</item>
+        <item>Health</item>
         <item>Entertainment</item>
-        
+        <item>World</item>
+        <item>Culture</item>
+        <item>Other</item>
     </string-array>
-    
     <string-array name="General">
-        <item>http://feeds.bbci.co.uk/news/rss.xml</item>
-        <item>http://rss.cnn.com/rss/edition.rss</item>
-        <item>http://www.khoahoc.com.vn/rss/index.aspx</item>
         <item>http://www.thanhnien.com.vn/_layouts/newsrss.aspx</item>
         <item>http://vietbao.vn/rss2/trang-nhat.rss</item>
         <item>http://www.24h.com.vn/upload/rss/tintuctrongngay.rss</item>
@@ -21,16 +25,71 @@
         <item>http://vnexpress.net/rss/tin-moi-nhat.rss</item>
         <item>http://dantri.com.vn/trangchu.rss</item>
     </string-array>
-    
     <string-array name="Sport">
-        <item >http://thethaongaynay.vn//rss/trangchu.xml</item>
-        <item >http://thethao.tuoitre.vn/trang/rss</item>
-       
+        <item>http://thethaongaynay.vn//rss/trangchu.xm</item>
+        <item>http://thethao.tuoitre.vn/trang/rss</item>
+        <item>http://vietbao.vn/live/Bong-da/rss.xml</item>
+        <item>http://www.24h.com.vn/upload/rss/thethao.rss</item>
+        <item>http://vnexpress.net/rss/the-thao.rss</item>
+        <item>http://dantri.com.vn/The-Thao.rss</item>
     </string-array>
-    
+    <string-array name="Education">
+        <item>http://vietbao.vn/live/Giao-duc/rss.xml</item>
+        <item>http://www.24h.com.vn/upload/rss/giaoducduhoc.rss</item>
+        <item>http://dantri.com.vn/giaoduc-khuyenhoc.rss</item>
+    </string-array>
+    <string-array name="Economy">
+        <item>http://vietbao.vn/live/Kinh-te/rss.xml</item>
+        <item>http://www.24h.com.vn/upload/rss/thitruongtieudung.rss</item>
+        <item>http://baodientu.chinhphu.vn/_RSS_/7.rss</item>
+        <item>http://vnexpress.net/rss/kinh-doanh.rss</item>
+        <item>http://dantri.com.vn/kinhdoanh.rss</item>
+    </string-array>
+    <string-array name="Politics_Society">
+        <item>http://vietbao.vn/live/Xa-hoi/rss.xml</item>
+        <item>http://www.24h.com.vn/upload/rss/anninhhinhsu.rss</item>
+        <item>http://vnexpress.net/rss/doi-song.rss</item>
+        <item>http://dantri.com.vn/xa-hoi.rss</item>
+    </string-array>
+    <string-array name="Youth">
+        <item>http://vietbao.vn/live/The-gioi-tre/rss.xml</item>
+        <item>http://www.24h.com.vn/upload/rss/bantrecuocsong.rss</item>
+        <item>http://dantri.com.vn/nhipsongtre.rss</item>
+    </string-array>
+    <string-array name="Science_Technology">
+        <item>http://www.khoahoc.com.vn/rss/index.aspx</item>
+        <item>http://vietbao.vn/live/Cong-nghe/rss.xml</item>
+        <item>http://www.24h.com.vn/upload/rss/congnghethongtin.rss</item>
+        <item>http://baodientu.chinhphu.vn/_RSS_/8.rss</item>
+        <item>http://vnexpress.net/rss/khoa-hoc.rss</item>
+        <item>http://dantri.com.vn/cong-nghe.rss</item>
+    </string-array>
+    <string-array name="Health">
+        <item>http://vietbao.vn/live/Suc-khoe/rss.xml</item>
+        <item>http://www.24h.com.vn/upload/rss/suckhoedoisong.rss</item>
+        <item>http://dantri.com.vn/suckhoe.rss</item>
+    </string-array>
     <string-array name="Entertainment">
-        <item >http://feeds.feedburner.com/tedtalks_video</item>
-        
+        <item>http://vietbao.vn/live/The-gioi-giai-tri/rss.xml</item>
+        <item>http://vnexpress.net/rss/giai-tri.rss</item>
+        <item>http://dantri.com.vn/giaitri.rss</item>
+    </string-array>
+    <string-array name="World">
+        <item>http://feeds.bbci.co.uk/news/rss.xml</item>
+        <item>http://rss.cnn.com/rss/edition.rss</item>
+        <item>http://vietbao.vn/live/The-gioi/rss.xml</item>
+        <item>http://baodientu.chinhphu.vn/_RSS_/6.rss</item>
+        <item>http://vnexpress.net/rss/the-gioi.rss</item>
+        <item>http://dantri.com.vn/Thegioi.rss</item>
+    </string-array>
+    <string-array name="Culture">
+        <item>http://vietbao.vn/live/Van-hoa/rss.xml</item>
+        <item>http://dantri.com.vn/van-hoa.rss</item>
+    </string-array>
+    <string-array name="Other">
+        <item>http://feeds.feedburner.com/tedtalks_video</item>
+        <item>http://www.24h.com.vn/upload/rss/phithuongkyquac.rss</item>
+        <item>http://dantri.com.vn/chuyen-la.rss</item>
     </string-array>
 
 </resources>
