@@ -1,5 +1,6 @@
 package com.example.rssreadertest;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -79,10 +80,17 @@ public class CustomListAdapter extends ArrayAdapter<RssItemInfo> {
 			in = new WebAccessHandler().fetchURL(url);
 //			in = new WebAccessHandler().getStreamFromUrl(url);
 			bitmap = BitmapFactory.decodeStream(in, null, options);
-			in.close();
 		} catch (Exception e1) {
 			return null;
 		}
+		
+		//close connection
+		try {
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		return bitmap;
 	}
 

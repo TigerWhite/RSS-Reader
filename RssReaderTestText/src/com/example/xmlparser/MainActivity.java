@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
 	private Spinner spinner1;
 	private Spinner spinner2;
 	private SourceHelper sh;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,7 +58,7 @@ public class MainActivity extends Activity {
 		spinner2 = (Spinner) findViewById(R.id.spinner2);
 
 		btnOk.setOnClickListener(btnGetImgListener);
-		btnGet.setOnClickListener(btnFetchListener);
+		btnGet.setOnClickListener(btnGetImgListener);
 		sh = new SourceHelper(this);
 
 		// Create an ArrayAdapter using a default spinner1 layout
@@ -107,59 +108,6 @@ public class MainActivity extends Activity {
 
 	}
 
-	private OnClickListener btnFetchListener  = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			WebAccessHandler webhandle = new WebAccessHandler();
-			String link = spinner2.getSelectedItem().toString();
-
-			// Thuc hien phan tich XML
-			InputStream inStream = null;
-
-			try {
-				inStream = webhandle.getStreamFromUrl(link);
-			} catch (ClientProtocolException e1) {
-				e1.printStackTrace();
-				Toast.makeText(MainActivity.this, "loi phuong thuc",
-						Toast.LENGTH_SHORT).show();
-
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				Toast.makeText(MainActivity.this, "loi ket noi",
-						Toast.LENGTH_SHORT).show();
-			}
-
-			if (inStream == null) {
-				try {
-					inStream = webhandle.fetchURL(link);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "link loi",
-							Toast.LENGTH_SHORT).show();
-				} catch (IOException e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "loi io khi fetch",
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-
-			if (inStream == null) return;
-			ll.removeAllViews();
-			try {
-				printContent(inStream);
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-				Toast.makeText(MainActivity.this, "no data", Toast.LENGTH_SHORT)
-						.show();
-				return;
-				 } catch (IOException e) {
-				 e.printStackTrace();
-			}
-
-		}
-	};
-	
 	private OnClickListener btnGetImgListener = new OnClickListener() {
 
 		@Override
@@ -197,18 +145,39 @@ public class MainActivity extends Activity {
 				}
 			}
 
-			if (inStream == null) return;
-			listData = new RssParser().parseXML(inStream);
-			ll.removeAllViews();
-			try {
-				printData(listData);
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-				Toast.makeText(MainActivity.this, "no data", Toast.LENGTH_SHORT)
-						.show();
+			if (inStream == null)
 				return;
+			
+			switch (v.getId()){
+			case R.id.btnOk:
+				listData = new RssParser().parseXML(inStream);
+				ll.removeAllViews();
+				try {
+					printData(listData);			
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+					Toast.makeText(MainActivity.this, "no data", Toast.LENGTH_SHORT)
+							.show();
+					return;
+				}			
+				break;
+			case R.id.btnGet:
+				try {
+					printContent(inStream);
+				} catch (IOException e) {
+					e.printStackTrace();
+					Toast.makeText(MainActivity.this, "cannot display", Toast.LENGTH_SHORT)
+					.show();
+					return;
+				}
 			}
-
+			
+			//close connection
+			try {
+				inStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	};
 
