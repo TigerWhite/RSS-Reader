@@ -23,7 +23,8 @@ local.properties
 proguard/
 /libs
 /proguard-project.txt
-/project.properties
+#/project.properties
 
 # Eclipse ignore
 .classpath
+.project
