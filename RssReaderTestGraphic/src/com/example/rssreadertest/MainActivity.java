@@ -98,6 +98,13 @@ public class MainActivity extends Activity {
 	                    		Toast.LENGTH_SHORT).show();
 	                }
 	            });
+			
+			//close connection
+			try {
+				inStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	};
 	@Override
