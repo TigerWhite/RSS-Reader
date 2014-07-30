@@ -29,5 +29,12 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:text="Time Line" />
+     <Button
+        android:id="@+id/share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="Share" />
 
 </LinearLayout>

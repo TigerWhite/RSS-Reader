@@ -3,12 +3,12 @@ package com.facebook.scrumptious;
 import org.json.JSONObject;
 
 
+
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +23,7 @@ import android.widget.TextView;
 public class SelectionFragment extends Fragment {
 	private static final String TAG = "SelectionFragment";
 	Button timeline;
+	Button share;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -33,6 +34,14 @@ public class SelectionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				doRequest();
+			}
+		});
+		share=(Button) view.findViewById(R.id.share);
+		share.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i=new Intent(getActivity(),Share.class);
+				startActivity(i);
 			}
 		});
 		return view;

@@ -112,11 +112,7 @@ public class Post {
 		c.setName(name);
 		c.setMessage(mess);
 		comm.add(c);
-		Log.d("+++++++++++++++++++++++++++++++",
-				"" + comm.indexOf(c)
-						+ comm.get(comm.indexOf(c)).getMessage()
-						
-					);
+		
 	
 	}
 	public void setLike(String src, String name){
