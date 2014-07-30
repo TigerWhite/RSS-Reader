@@ -11,6 +11,12 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+/**
+ * Class cung cap ham xu ly ket noi du lieu tren web
+ * 
+ * @author Nguyen Duc Hieu
+ *
+ */
 public class WebAccessHandler {
 
 	/**

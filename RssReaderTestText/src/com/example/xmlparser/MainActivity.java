@@ -214,6 +214,10 @@ public class MainActivity extends Activity {
 			ll.addView(tv);
 
 			tv = new TextView(this);
+			tv.setText("DATE FORMAT: " + RssItemInfo.getPubDateFormat());
+			ll.addView(tv);
+			
+			tv = new TextView(this);
 			tv.setText("---");
 			ll.addView(tv);
 		}

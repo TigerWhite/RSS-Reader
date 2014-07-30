@@ -11,6 +11,11 @@ import org.xml.sax.XMLReader;
 
 import android.util.Log;
 
+/**
+ * Class cung cap ham xu ly rss cho end-user
+ * 
+ * @author Nguyen Duc Hieu
+ */
 public class RssParser {
 
 	/**
