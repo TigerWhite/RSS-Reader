@@ -12,6 +12,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 
+/**
+ * Class trung gian, thua ke {@link DefaultHandler} dung de parse du lieu xml
+ * 
+ * @author Nguyen Duc Hieu
+ */
 public class RssXMLHandler extends DefaultHandler {
 
 	boolean currentElement = false;
@@ -24,9 +29,10 @@ public class RssXMLHandler extends DefaultHandler {
 		return cartList;
 	}
 
+	//ham xu ly khi tag mo
+	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-
 
 		if (qName.equals("rss")) {
 			cartList = new ArrayList<RssItemInfo>();
@@ -35,15 +41,17 @@ public class RssXMLHandler extends DefaultHandler {
 			currentElement = true;
 		}
 
-		if (attributes.getLength() > 1 && currentElement == true){
+		if (attributes.getLength() > 1 && currentElement == true) {
 			String value = attributes.getValue("url");
 			if (value != null)
 				if (value.contains(".jpg"))
-				productInfo.setThumbnail(attributes.getValue("url"));
-        }
+					productInfo.setThumbnail(attributes.getValue("url"));
+		}
 
 	}
 
+	//ham xu ly khi tag dong
+	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 
@@ -64,17 +72,18 @@ public class RssXMLHandler extends DefaultHandler {
 				String extractedImg = extractDesc(desc);
 				if (extractedImg != null)
 					productInfo.setThumbnail(extractedImg);
-				//tien hanh chuan hoa link
+				// tien hanh chuan hoa link
 				String curThumb = productInfo.getThumbnail();
 				if (curThumb != null && !curThumb.equals(""))
-				try {
-					new URL(curThumb); //if not full url, need to concat
-				} catch (MalformedURLException e1) {
-					productInfo.setThumbnail(concatUrl(productInfo.getLink(), curThumb));
-				}
-				
+					try {
+						new URL(curThumb); // if not full url, need to concat
+					} catch (MalformedURLException e1) {
+						productInfo.setThumbnail(concatUrl(
+								productInfo.getLink(), curThumb));
+					}
+
 				productInfo.setDescription(desc.replaceAll("<.+?>", ""));
-				
+
 				cartList.add(productInfo);
 				currentElement = false;
 			}
@@ -82,6 +91,8 @@ public class RssXMLHandler extends DefaultHandler {
 		currentValue = "";
 	}
 
+	//ham xu ly khi duyet qua cac ky tu
+	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 
@@ -89,46 +100,54 @@ public class RssXMLHandler extends DefaultHandler {
 			currentValue = currentValue + new String(ch, start, length);
 		}
 	}
-	
+
 	// extract data from complex description
-		private String extractDesc(String inDesc) {
-			String output = null;
-			output = getMatch("<\\s*img\\s*[^>]+src\\s*=\\s*(['\"]?)(.*?).jpg\\1",
-					inDesc, 2);
+	private String extractDesc(String inDesc) {
+		String output = null;
+		output = getMatch("<\\s*img\\s*[^>]+src\\s*=\\s*(['\"]?)(.*?).jpg\\1",
+				inDesc, 2);
 
-			if (output != null) output += ".jpg";
-			return output;
-		}
+		if (output != null)
+			output += ".jpg";
+		return output;
+	}
 
-		private String getMatch(String patternString, String text, int groupIndex) {
-			Pattern pattern = Pattern.compile(patternString,
-					Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-			return getMatch(pattern, text, groupIndex);
-		}
+	// 2 ham xu ly pattern
+	private String getMatch(String patternString, String text, int groupIndex) {
+		Pattern pattern = Pattern.compile(patternString,
+				Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		return getMatch(pattern, text, groupIndex);
+	}
 
-		private String getMatch(Pattern pattern, String text, int groupIndex) {
-			if (text != null) {
-				Matcher matcher = pattern.matcher(text);
-				String match = null;
-				while (matcher.find()) {
-					match = matcher.group(groupIndex);
-					break;
-				}
-				return match;
-			} else {
-				return null;
+	private String getMatch(Pattern pattern, String text, int groupIndex) {
+		if (text != null) {
+			Matcher matcher = pattern.matcher(text);
+			String match = null;
+			while (matcher.find()) {
+				match = matcher.group(groupIndex);
+				break;
 			}
+			return match;
+		} else {
+			return null;
 		}
-		
-		private String concatUrl(String baseUrl, String relativeUrl){
-			try {
-				URL url = new URL(baseUrl);
-				relativeUrl = url.getProtocol() + "://" + url.getHost()
-						+ relativeUrl;
-			} catch (MalformedURLException e2) {
-				Log.e("RssreadrLib", "concat error on base url");
-				return relativeUrl;
-			}
+	}
+
+	/**
+	 * Ham xu ly link, chuyen doi link relative sang absolute
+	 * @param baseUrl	link goc
+	 * @param relativeUrl	link relative can convert
+	 * @return
+	 */
+	private String concatUrl(String baseUrl, String relativeUrl) {
+		try {
+			URL url = new URL(baseUrl);
+			relativeUrl = url.getProtocol() + "://" + url.getHost()
+					+ relativeUrl;
+		} catch (MalformedURLException e2) {
+			Log.e("RssreadrLib", "concat error on base url");
 			return relativeUrl;
 		}
+		return relativeUrl;
+	}
 }
