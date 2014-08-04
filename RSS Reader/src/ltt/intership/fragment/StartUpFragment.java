@@ -103,6 +103,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener {
 
 	/**
 	 * Khoi tao cac nut va hieu ung
+	 * 
 	 * @param view
 	 */
 	private void initView(View view) {
@@ -122,7 +123,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener {
 		loginbutton.setReadPermissions(Arrays.asList("user_location",
 				"user_birthday", "user_likes", "read_stream"));
 		loginbutton.setOnClickListener(this);
-		
+
 		Button btnGplusSignIn = (Button) view
 				.findViewById(R.id.startup_googlePlus_sign_in);
 		btnGplusSignIn.setOnClickListener(this);
@@ -132,15 +133,15 @@ public class StartUpFragment extends Fragment implements View.OnClickListener {
 		btnTwitterSignIn.setOnClickListener(this);
 
 	}
-	
+
 	/**
 	 * Chuyen sang activity moi sau khi dang nhap thanh cong
 	 */
-	private void LoginSuccess(){
-		
+	private void LoginSuccess() {
+
 		startActivity(new Intent(getActivity(), MainActivity.class));
 		getActivity().finish();
-		
+
 	}
-	
+
 }

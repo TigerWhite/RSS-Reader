@@ -1,7 +1,6 @@
 package ltt.intership.fragment;
 
 import ltt.intership.R;
-import ltt.intership.activity.ListRssActivity;
 import ltt.intership.activity.ReadArticleActivity;
 import ltt.intership.custom.mListRssAdapter;
 import ltt.intership.data.mListItem;
@@ -11,9 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class ListRssFragment extends Fragment {
@@ -22,6 +23,7 @@ public class ListRssFragment extends Fragment {
 
 	mListRssAdapter mAdapter;
 	String url;
+	LinearLayout btnBack;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,12 +46,21 @@ public class ListRssFragment extends Fragment {
 		lvRss.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
 				Intent i = new Intent(getActivity(), ReadArticleActivity.class);
 				i.putExtra("url", url);
+				i.putExtra("position", pos);
 
 				startActivity(i);
+				// getActivity().finish();
+			}
+		});
+
+		btnBack = (LinearLayout) rootView.findViewById(R.id.listRss_btn_back);
+		btnBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				getActivity().finish();
 			}
 		});

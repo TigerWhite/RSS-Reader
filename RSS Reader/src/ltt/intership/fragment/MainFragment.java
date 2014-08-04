@@ -52,6 +52,6 @@ public class MainFragment extends Fragment {
 		i.putExtra("url", this.url);
 
 		startActivity(i);
-		getActivity().finish();
+		// getActivity().finish();
 	}
 }

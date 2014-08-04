@@ -14,6 +14,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class ReadArticleActivity extends FragmentActivity {
 	private int NUM_PAGES = 1;
@@ -28,7 +32,10 @@ public class ReadArticleActivity extends FragmentActivity {
 	 * The pager adapter, which provides the pages to the view pager widget.
 	 */
 	private PagerAdapter mPagerAdapter;
+
 	private mListItem list;
+
+	private LinearLayout btnBack;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,8 @@ public class ReadArticleActivity extends FragmentActivity {
 		setContentView(R.layout.read_article);
 
 		String url = getIntent().getStringExtra("url");
+		int pos = getIntent().getIntExtra("position", 1);
+
 		Log.i("url received", url);
 
 		list = new mListItem(url);
@@ -60,6 +69,15 @@ public class ReadArticleActivity extends FragmentActivity {
 			}
 		});
 		mPager.setPageTransformer(true, new DepthPageTransformer());
+		mPager.setCurrentItem(pos+1);
+
+		btnBack = (LinearLayout) findViewById(R.id.readArticle_btn_back);
+		btnBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
 	@Override
