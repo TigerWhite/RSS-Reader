@@ -34,6 +34,18 @@ public class SelectionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				doRequest();
+				Log.d("lenglist", ""+StreamRenderer.getLengList());
+				for(int i=0;i<StreamRenderer.getLengList();i++){
+					if(StreamRenderer.getList(i).getLengComment()!=0){
+						Log.d("lengcomment", ""+StreamRenderer.getList(i).getLengComment());
+						for(int j=0;j<StreamRenderer.getList(i).getLengComment();j++) {
+							
+							Log.d("commet",""+j+"  "+StreamRenderer.getList(i).getComment(j).getMessage());
+						}
+					}
+						
+				}
+			
 			}
 		});
 		share=(Button) view.findViewById(R.id.share);
@@ -55,8 +67,8 @@ public class SelectionFragment extends Fragment {
 			public void onCompleted(Response response) {
 				JSONObject graphResponse = response.getGraphObject().getInnerJSONObject();
 				
-				Log.d("data", ""+StreamRenderer.render(graphResponse));
-
+				StreamRenderer.render(graphResponse);
+				Log.d("data",graphResponse.toString());
 			}
 		};
 
@@ -65,6 +77,7 @@ public class SelectionFragment extends Fragment {
 
 		RequestAsyncTask task = new RequestAsyncTask(request);
 		task.execute();
+		
 	}
 	
 

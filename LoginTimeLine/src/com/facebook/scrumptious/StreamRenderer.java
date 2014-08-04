@@ -29,48 +29,31 @@ import org.json.JSONObject;
 import android.util.Log;
 
 class StreamRenderer {
-	List<Post> model = new ArrayList<Post>();
+	static List<Post> model = new ArrayList<Post>();
 
-	private StringBuilder sb;
-
-	public static String render(JSONObject data) {
+	public static void render(JSONObject data) {
 		StreamRenderer renderer = new StreamRenderer();
-		return renderer.doRender(data);
+		renderer.doRender(data);
 	}
 
-	private StreamRenderer() {
-		this.sb = new StringBuilder();
-	}
 
 	public static SimpleDateFormat getDateFormat() {
 		return new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
 	}
 
-	private String getResult() {
-		return sb.toString();
-	}
-
-	private String doRender(JSONObject data) {
+	private void doRender(JSONObject data) {
 
 		try {
 			JSONArray posts = data.getJSONArray("data");
 
 			for (int i = 0; i < posts.length(); i++) {
 				renderPost(posts.getJSONObject(i));
-				
+
 			}
-//			for(int i=0;i<model.size();i++){
-//				if(model.get(i).comm.get(location)){
-//					Log.d("comment",""+model.get(i).comm.get(0).getMessage());
-//					Log.d("=============",""+model.get(i).getTime().toString());
-//				}
-//				
-//			}
-			return getResult();
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch bloc
 			e.printStackTrace();
-			return "";
 		}
 	}
 
@@ -154,7 +137,7 @@ class StreamRenderer {
 		String dateStr = post.optString("created_time");
 		SimpleDateFormat formatter = getDateFormat();
 		ParsePosition pos = new ParsePosition(0);
-		Date date=formatter.parse(dateStr,pos);
+		Date date = formatter.parse(dateStr, pos);
 		p.setTime(date);
 	}
 
@@ -184,7 +167,7 @@ class StreamRenderer {
 		String authorId = like.optString("id");
 		String authorName = like.optString("name");
 		String src = "http://graph.facebook.com/" + authorId + "/picture";
-	
+
 		p.setLike(src, authorName);
 	}
 
@@ -226,6 +209,14 @@ class StreamRenderer {
 
 		String message = comment.optString("message");
 		p.setComment(src, authorName, message);
+	}
+
+	public static int getLengList() {
+		return model.size();
+	}
+
+	public static Post getList(int index) {
+		return model.get(index);
 	}
 
 }
