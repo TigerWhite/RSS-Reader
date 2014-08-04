@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class ReadArticleActivity extends FragmentActivity {
-	private static int NUM_PAGES = 1;
+	private int NUM_PAGES = 1;
 
 	/**
 	 * The pager widget, which handles animation and allows swiping horizontally
@@ -93,7 +93,8 @@ public class ReadArticleActivity extends FragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			return ScreenSlidePageFragment.create(position, list.getList().get(position));
+			return ScreenSlidePageFragment.create(position,
+					list.getList().get(position));
 		}
 
 		@Override
