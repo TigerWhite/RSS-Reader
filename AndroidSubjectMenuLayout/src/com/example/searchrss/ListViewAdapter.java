@@ -26,12 +26,14 @@ public class ListViewAdapter extends BaseAdapter {
 	ArrayList<HashMap<String, String>> data;
 	HashMap<String, String> resultp = new HashMap<String, String>();
 	String titleName;
+	int flag;
 
 	public ListViewAdapter(Context context,
-			ArrayList<HashMap<String, String>> arraylist, String titleName) {
+			ArrayList<HashMap<String, String>> arraylist, String titleName, int flag) {
 		this.context = context;
 		this.titleName = titleName;;
 		data = arraylist;
+		this.flag = flag;
 	}
 
 	@Override
@@ -66,16 +68,14 @@ public class ListViewAdapter extends BaseAdapter {
 		// Locate the TextViews in listview_item.xml
 		url = (TextView) itemView.findViewById(R.id.url);
 		title = (TextView) itemView.findViewById(R.id.title);
-		description = (TextView) itemView.findViewById(R.id.description);
+//		description = (TextView) itemView.findViewById(R.id.description);
 
 
 		// Capture position and set results to the TextViews
 		url.setText(resultp.get(SearchActivity.URL));
-//Log.d("tag2", "tag2 "+resultp.get(SearchActivity.URL));
 		title.setText(resultp.get(SearchActivity.TITLE));
-		description.setText(resultp.get(SearchActivity.DESCRIPTION));
+//		description.setText(resultp.get(SearchActivity.DESCRIPTION));
 		// Capture position and set results to the ImageView
-		// Passes flag images URL into ImageLoader.class
 		// Capture ListView item click
 		itemView.setOnClickListener(new OnClickListener() {
 
@@ -84,10 +84,15 @@ public class ListViewAdapter extends BaseAdapter {
 				// Get the position
 				resultp = data.get(position);
 				Log.d("tag", "onclick");
-				DatabaseHandler db = new DatabaseHandler(context);
-				Log.d("tag", "onclick1: "+db.getListCount());
-				db.addData2(titleName, R.drawable.selector_orange, resultp.get(SearchActivity.URL), db.getListCount()+1);
+
 				Intent intent = new Intent(context, MainActivity.class);
+				if(flag == 1){
+				DatabaseHandler db = new DatabaseHandler(context);
+				db.addData2(titleName, R.drawable.selector_orange, resultp.get(SearchActivity.URL), db.getListCount()+1);
+				}
+				else{
+					intent.putExtra("url", resultp.get(SearchActivity.URL));
+				}
 //				// Pass all data rank
 //				intent.putExtra("url", resultp.get(SearchActivity.URL));
 //				// Pass all data country
@@ -96,7 +101,6 @@ public class ListViewAdapter extends BaseAdapter {
 //				intent.putExtra("population",resultp.get(MainActivity.POPULATION));
 //				// Start SingleItemView Class
 				context.startActivity(intent);
-				
 				((SearchActivity)context).finish();
 			}
 		});

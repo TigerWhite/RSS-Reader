@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +18,6 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.datahelper.DatabaseHandler;
 import com.example.searchrss.SearchActivity;
@@ -33,7 +34,7 @@ public class MainActivity extends Activity implements OnClickListener, OnLongCli
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-//		mMetroItem = createMetro();
+		mMetroItem = createMetro();
 //		this.deleteDatabase("RSSSearch");
 		
 		File database=this.getDatabasePath("RSSSearch");
@@ -44,8 +45,8 @@ public class MainActivity extends Activity implements OnClickListener, OnLongCli
 		else
 		db = new DatabaseHandler(this);
 		mMetroItem = db.getAllMetroItem();
-		Intent i = getIntent();
-		url = i.getStringExtra("url");
+//		Intent i = getIntent();
+//		url = i.getStringExtra("url");
 //		Log.d("str", "newstr: "+url);
 //		if(url != null){
 //		db.addData(new MetroItem(this, "title", R.drawable.selector_orange, url, mMetroItem.size()+1));
@@ -107,6 +108,7 @@ public class MainActivity extends Activity implements OnClickListener, OnLongCli
 		if(v.getId() == mMetroItem.size()) {
 			// add new subject into Metro UI
 			Intent intent = new Intent(this, SearchActivity.class);
+			intent.putExtra("flag", "1");
 		    startActivity(intent);
 		    finish();
 		}
@@ -124,25 +126,19 @@ public class MainActivity extends Activity implements OnClickListener, OnLongCli
 		
 	}
 	@Override
-    public boolean onLongClick(View v) {
+    public boolean onLongClick(View view) {
         // TODO Auto-generated method stub
 //        Toast.makeText(getBaseContext(), "Long Clicked", Toast.LENGTH_SHORT).show();
 		Log.d("tag", "mMetroSize onlongclick: "+ mMetroItem.size());
-        if(v.getId() == mMetroItem.size()) {
+        if(view.getId() == mMetroItem.size()) {
 			// add new subject into Metro UI
 			Intent intent = new Intent(this, SearchActivity.class);
+			intent.putExtra("flag", "1");
 		    startActivity(intent);
 		    finish();
 		}
 		else{
-//			Uri uri = Uri.parse(urlMaker(mMetroItem.get(v.getId()-1).getLink()));
-//			this.startActivity(new Intent(Intent.ACTION_VIEW, uri));
-
-			db.deleteMetroItem(mMetroItem.get(v.getId()-1));
-			Intent intent = getIntent();
-		    finish();
-		    startActivity(intent);
-		    finish();
+			showAlertDialog(view);
 			}
 //		case 9:
 //			   Intent intent = getIntent();
@@ -177,5 +173,36 @@ public class MainActivity extends Activity implements OnClickListener, OnLongCli
 			return url;
 		else
 			return "http://" + url;
+	}
+	public void showAlertDialog(final View view){
+		AlertDialog.Builder b=new AlertDialog.Builder(this);
+		 
+		b.setTitle("Delete Item");
+		b.setMessage("Are you sure you want to delete?");
+		b.setPositiveButton("Yes", new DialogInterface. OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which)
+		{
+			db.deleteMetroItem(mMetroItem.get(view.getId()-1));
+			Intent intent = getIntent();
+		    finish();
+		    startActivity(intent);
+		    finish();
+		}});
+		b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+		@Override
+
+		public void onClick(DialogInterface dialog, int which)
+
+		{
+
+		dialog.cancel();
+
+		}
+
+		});
+
+		b.create().show();
 	}
 }

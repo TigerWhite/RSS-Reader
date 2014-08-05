@@ -23,6 +23,15 @@ import android.widget.TextView;
 import com.example.androidlayout.MainActivity;
 import com.example.androidlayout.R;
 
+/**
+ * Searchrss
+ * if intent.putInt = 1, save database
+ * else intent.putExtra put a RSS url
+ * @author Hoang Cong Thang
+ * @param a			Description of a
+ * @param b			Description of b
+ * @return			Description of c
+ */
 public class SearchActivity extends Activity {
 	// Declare Variables
 	JSONObject jsonobject;
@@ -34,7 +43,8 @@ public class SearchActivity extends Activity {
 	static String URL = "url";
 	static String TITLE = "title";
 	static String DESCRIPTION = "description";
-	public String temp;
+	public String searchKey;
+	public int flag;
 	
 	private EditText searchInput;
 
@@ -44,7 +54,8 @@ public class SearchActivity extends Activity {
 		// Get the view from listview_main.xml
 		setContentView(R.layout.listview_main);
 		
-		
+		Intent i = getIntent();
+		flag = Integer.parseInt(i.getStringExtra("flag"));
 		searchInput = (EditText) findViewById(R.id.searchInput);
 //		searchInput.addTextChangedListener(new TextWatcher() {
 //			
@@ -88,7 +99,6 @@ public class SearchActivity extends Activity {
 		startActivity(intent);
 		finish();
 	}
-//public void searchRSS()
 	// DownloadJSON AsyncTask
 	private class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
@@ -96,7 +106,7 @@ public class SearchActivity extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 //			// Create a progressdialog
-//			mProgressDialog = new ProgressDialog(MainActivity.this);
+//			mProgressDialog = new ProgressDialog(SearchActivitythis);
 //			// Set progressdialog title
 //			mProgressDialog.setTitle("Android Search RSS");
 //			// Set progressdialog message
@@ -111,12 +121,10 @@ public class SearchActivity extends Activity {
 			// Create an array
 			arraylist = new ArrayList<HashMap<String, String>>();
 			
-			temp = searchInput.getText().toString();
-			String searchCode = temp.replaceAll("\\s", "%20");
-			
+			searchKey = searchInput.getText().toString();
+			String searchCode = searchKey.replaceAll("\\s", "%20");
 			
 			// Retrieve JSON Objects from the given URL address
-//			Log.d("tag8", "tag8 " + temp.replaceAll("\\s", "%20"));
 			jsonobject = JSONfunctions
 					.getJSONfromURL("https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&q="+searchCode.toString()+"&output=json");
 
@@ -124,16 +132,14 @@ public class SearchActivity extends Activity {
 		JSONObject jsonobject2 = jsonobject.getJSONObject("responseData");
 				jsonarray = jsonobject2.getJSONArray("entries");
 
-//				Log.d("tag5", "tag5 " + jsonarray.length());
 				for (int i = 0; i < jsonarray.length(); i++) {
 					HashMap<String, String> map = new HashMap<String, String>();
 					jsonobject = jsonarray.getJSONObject(i);
 					// Retrive JSON Objects
 					map.put("url", jsonobject.getString("url"));
-//					Log.d("tag4", "tag4 " + jsonobject.getString("url"));
 					map.put("title", Jsoup.parse(jsonobject.getString("title")).text());
 					map.put("description", Jsoup.parse(jsonobject.getString("contentSnippet")).text());
-//					// Set the JSON Objects into the array
+					// Set the JSON Objects into the array
 					arraylist.add(map);
 				}
 			} catch (JSONException e) {
@@ -148,7 +154,7 @@ public class SearchActivity extends Activity {
 			// Locate the listview in listview_main.xml
 			listview = (ListView) findViewById(R.id.listview);
 			// Pass the results into ListViewAdapter.java
-			adapter = new ListViewAdapter(SearchActivity.this, arraylist, temp);
+			adapter = new ListViewAdapter(SearchActivity.this, arraylist, searchKey, flag);
 			
 			// Set the adapter to the ListView
 			listview.setAdapter(adapter);

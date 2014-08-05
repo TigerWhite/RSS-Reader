@@ -3,7 +3,6 @@ package com.example.androidlayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.util.Log;
 import android.widget.RelativeLayout;
 
 public class MetroLayout {
@@ -41,10 +40,18 @@ public class MetroLayout {
 		tempList.add(setMetroLayoutParams(1, 1, 6, 0, -20, 10, 10, 10));
 		tempList.add(setMetroLayoutParams(1, 1, 7, 8, 10, 10, 10, 10));
 		tempList.add(setMetroLayoutParams(1, 1, 7, 9, 10, 10, 0, 0));
+		
 		tempList.add(setMetroLayoutParams(2, 2, 8, 0, 0, 10, 10, 10));
 		tempList.add(setMetroLayoutParams(1, 1, 8, 11, 10, 10, 0, 10));
 		tempList.add(setMetroLayoutParams(1, 1, 12, 11, 10, 10, 0, 10));
 		tempList.add(setMetroLayoutParams(1, 1, 11, 0, 0, 10, 10, 10));
+		tempList.add(setMetroLayoutParams(2, 1, 11, 14, 10, 10, 0, 10));
+		tempList.add(setMetroLayoutParams(2, 1, 14, 0, 0, 10, 10, 10));
+		tempList.add(setMetroLayoutParams(1, 1, 15, 16, 10, 10, 0, 10));
+		tempList.add(setMetroLayoutParams(1, 1, 16, 0, -20, 10, 10, 10));
+		tempList.add(setMetroLayoutParams(1, 1, 17, 18, 10, 10, 10, 10));
+		tempList.add(setMetroLayoutParams(1, 1, 17, 19, 10, 10, 0, 0));
+
 		return tempList;
 	}
 
