@@ -12,7 +12,6 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class RssXMLNameHandler extends DefaultHandler {
 
-//	boolean currentElement = false;
 	String currentValue = "";
 
 	NewsSourceInfo ns = null;
@@ -21,7 +20,7 @@ public class RssXMLNameHandler extends DefaultHandler {
 		return ns;
 	}
 
-	//ham xu ly khi tag mo
+	// ham xu ly khi tag mo
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws MySAXException {
@@ -29,19 +28,12 @@ public class RssXMLNameHandler extends DefaultHandler {
 		if (qName.equals("rss")) {
 			ns = new NewsSourceInfo();
 		} else if (qName.equals("item")) {
-			 throw new MySAXException("Done get News sourse");
-		}
-
-		if (attributes.getLength() > 1) {
-			String value = attributes.getValue("url");
-			if (value != null)
-				if (value.contains(".jpg"))
-					ns.setThumbnail(attributes.getValue("url"));
+			throw new MySAXException("Done get News sourse");
 		}
 
 	}
 
-	//ham xu ly khi tag dong
+	// ham xu ly khi tag dong
 	@Override
 	public void endElement(String uri, String localName, String qName) {
 
@@ -50,22 +42,22 @@ public class RssXMLNameHandler extends DefaultHandler {
 				ns.setTitle(currentValue.trim());
 			else if (qName.equalsIgnoreCase("description"))
 				ns.setDescription(currentValue.trim());
+		//TODO 1 so trang k tra ve link that ma chi tra ve link trang chu
 			else if (qName.equalsIgnoreCase("link"))
 				ns.setLink(currentValue.trim());
-			
+			else if (currentValue.contains(".jpg")
+					|| currentValue.contains(".gif")) {
+				ns.setThumbnail(currentValue.trim());
+			}
 
 		currentValue = "";
 	}
 
-	//ham xu ly khi duyet qua cac ky tu
+	// ham xu ly khi duyet qua cac ky tu
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-
-//		if (currentElement) {
-			currentValue = currentValue + new String(ch, start, length);
-//		}
+		currentValue = currentValue + new String(ch, start, length);
 	}
-
 
 }
