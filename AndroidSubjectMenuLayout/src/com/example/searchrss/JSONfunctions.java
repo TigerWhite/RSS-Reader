@@ -29,7 +29,7 @@ public class JSONfunctions {
 			 builder.append(line);
 			}
 
-			Log.d("tag1","tag1 "+ builder.toString());
+//			Log.d("tag1","tag1 "+ builder.toString());
 			jsonobject = new JSONObject(builder.toString());
 
 	} catch (IOException e) {

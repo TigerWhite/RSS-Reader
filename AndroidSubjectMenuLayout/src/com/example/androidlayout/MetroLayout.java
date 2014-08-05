@@ -44,6 +44,7 @@ public class MetroLayout {
 		tempList.add(setMetroLayoutParams(2, 2, 8, 0, 0, 10, 10, 10));
 		tempList.add(setMetroLayoutParams(1, 1, 8, 11, 10, 10, 0, 10));
 		tempList.add(setMetroLayoutParams(1, 1, 12, 11, 10, 10, 0, 10));
+		tempList.add(setMetroLayoutParams(1, 1, 11, 0, 0, 10, 10, 10));
 		return tempList;
 	}
 

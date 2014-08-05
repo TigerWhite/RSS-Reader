@@ -10,14 +10,17 @@ import org.jsoup.Jsoup;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.androidlayout.MainActivity;
 import com.example.androidlayout.R;
 
 public class SearchActivity extends Activity {
@@ -31,6 +34,7 @@ public class SearchActivity extends Activity {
 	static String URL = "url";
 	static String TITLE = "title";
 	static String DESCRIPTION = "description";
+	public String temp;
 	
 	private EditText searchInput;
 
@@ -40,43 +44,49 @@ public class SearchActivity extends Activity {
 		// Get the view from listview_main.xml
 		setContentView(R.layout.listview_main);
 		
+		
 		searchInput = (EditText) findViewById(R.id.searchInput);
-		searchInput.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-				// Execute DownloadJSON AsyncTask
-				new DownloadJSON().execute();
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-			}
-		});
-				
-//		searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//		searchInput.addTextChangedListener(new TextWatcher() {
 //			
 //			@Override
-//			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
 //				// TODO Auto-generated method stub
-//				if(actionId == EditorInfo.IME_ACTION_SEARCH){
-//
-//					// Execute DownloadJSON AsyncTask
-//					new DownloadJSON().execute();
-//				}
-//				return false;
+//				// Execute DownloadJSON AsyncTask
+//				new DownloadJSON().execute();
+//			}
+//			
+//			@Override
+//			public void beforeTextChanged(CharSequence s, int start, int count,
+//					int after) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void afterTextChanged(Editable s) {
+//				// TODO Auto-generated method stub
 //			}
 //		});
-		
+				
+		searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				// TODO Auto-generated method stub
+				if(actionId == EditorInfo.IME_ACTION_SEARCH){
+
+					// Execute DownloadJSON AsyncTask
+					new DownloadJSON().execute();
+				}
+				return false;
+			}
+		});
+	}
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
 	}
 //public void searchRSS()
 	// DownloadJSON AsyncTask
@@ -101,12 +111,12 @@ public class SearchActivity extends Activity {
 			// Create an array
 			arraylist = new ArrayList<HashMap<String, String>>();
 			
-			String temp = searchInput.getText().toString();
+			temp = searchInput.getText().toString();
 			String searchCode = temp.replaceAll("\\s", "%20");
 			
 			
 			// Retrieve JSON Objects from the given URL address
-			Log.d("tag8", "tag8 " + temp.replaceAll("\\s", "%20"));
+//			Log.d("tag8", "tag8 " + temp.replaceAll("\\s", "%20"));
 			jsonobject = JSONfunctions
 					.getJSONfromURL("https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&q="+searchCode.toString()+"&output=json");
 
@@ -114,13 +124,13 @@ public class SearchActivity extends Activity {
 		JSONObject jsonobject2 = jsonobject.getJSONObject("responseData");
 				jsonarray = jsonobject2.getJSONArray("entries");
 
-				Log.d("tag5", "tag5 " + jsonarray.length());
+//				Log.d("tag5", "tag5 " + jsonarray.length());
 				for (int i = 0; i < jsonarray.length(); i++) {
 					HashMap<String, String> map = new HashMap<String, String>();
 					jsonobject = jsonarray.getJSONObject(i);
 					// Retrive JSON Objects
 					map.put("url", jsonobject.getString("url"));
-					Log.d("tag4", "tag4 " + jsonobject.getString("url"));
+//					Log.d("tag4", "tag4 " + jsonobject.getString("url"));
 					map.put("title", Jsoup.parse(jsonobject.getString("title")).text());
 					map.put("description", Jsoup.parse(jsonobject.getString("contentSnippet")).text());
 //					// Set the JSON Objects into the array
@@ -138,7 +148,8 @@ public class SearchActivity extends Activity {
 			// Locate the listview in listview_main.xml
 			listview = (ListView) findViewById(R.id.listview);
 			// Pass the results into ListViewAdapter.java
-			adapter = new ListViewAdapter(SearchActivity.this, arraylist);
+			adapter = new ListViewAdapter(SearchActivity.this, arraylist, temp);
+			
 			// Set the adapter to the ListView
 			listview.setAdapter(adapter);
 			// Close the progressdialog

@@ -10,6 +10,7 @@
     android:layout_toRightOf="@+id/searchView1"
     android:hint="Search RSS ..."
     android:imeOptions="actionSearch"
+    android:drawableLeft="@drawable/search_icon"
     android:inputType="text" />
 
 <ListView
@@ -18,14 +19,6 @@
     android:layout_height="fill_parent"
     android:layout_below="@+id/searchInput" />
 
-<SearchView
-    android:id="@+id/searchView1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignBottom="@+id/searchInput"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentTop="true" >
 
-</SearchView>
 
 </RelativeLayout>

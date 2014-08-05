@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.androidlayout.MainActivity;
+import com.example.androidlayout.MetroItem;
 import com.example.androidlayout.R;
+import com.example.datahelper.DatabaseHandler;
 
 public class ListViewAdapter extends BaseAdapter {
 
@@ -21,16 +25,17 @@ public class ListViewAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	ArrayList<HashMap<String, String>> data;
 	HashMap<String, String> resultp = new HashMap<String, String>();
+	String titleName;
 
 	public ListViewAdapter(Context context,
-			ArrayList<HashMap<String, String>> arraylist) {
+			ArrayList<HashMap<String, String>> arraylist, String titleName) {
 		this.context = context;
+		this.titleName = titleName;;
 		data = arraylist;
 	}
 
 	@Override
 	public int getCount() {
-		Log.d("tag", "tag3" + data.size());
 		return data.size();
 		
 	}
@@ -66,7 +71,7 @@ public class ListViewAdapter extends BaseAdapter {
 
 		// Capture position and set results to the TextViews
 		url.setText(resultp.get(SearchActivity.URL));
-Log.d("tag2", "tag2 "+resultp.get(SearchActivity.URL));
+//Log.d("tag2", "tag2 "+resultp.get(SearchActivity.URL));
 		title.setText(resultp.get(SearchActivity.TITLE));
 		description.setText(resultp.get(SearchActivity.DESCRIPTION));
 		// Capture position and set results to the ImageView
@@ -77,17 +82,22 @@ Log.d("tag2", "tag2 "+resultp.get(SearchActivity.URL));
 			@Override
 			public void onClick(View arg0) {
 				// Get the position
-//				resultp = data.get(position);
-//				Intent intent = new Intent(context, SingleItemView.class);
+				resultp = data.get(position);
+				Log.d("tag", "onclick");
+				DatabaseHandler db = new DatabaseHandler(context);
+				Log.d("tag", "onclick1: "+db.getListCount());
+				db.addData2(titleName, R.drawable.selector_orange, resultp.get(SearchActivity.URL), db.getListCount()+1);
+				Intent intent = new Intent(context, MainActivity.class);
 //				// Pass all data rank
-//				intent.putExtra("rank", resultp.get(MainActivity.RANK));
+//				intent.putExtra("url", resultp.get(SearchActivity.URL));
 //				// Pass all data country
 //				intent.putExtra("country", resultp.get(MainActivity.COUNTRY));
 //				// Pass all data population
 //				intent.putExtra("population",resultp.get(MainActivity.POPULATION));
 //				// Start SingleItemView Class
-//				context.startActivity(intent);
-
+				context.startActivity(intent);
+				
+				((SearchActivity)context).finish();
 			}
 		});
 		return itemView;
