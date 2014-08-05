@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ltt.rssreader.NewsSourceInfo;
 import com.ltt.rssreader.RssItemInfo;
 import com.ltt.rssreader.RssParser;
 import com.ltt.util.SourceHelper;
@@ -32,9 +33,11 @@ import com.ltt.util.WebAccessHandler;
 public class MainActivity extends Activity {
 
 	private ArrayList<RssItemInfo> listData;
+	private NewsSourceInfo ns;
 	private LinearLayout ll;
 	private TextView tv;
 	// private WebView wv;
+	private Button btnInfo;
 	private Button btnOk;
 	private Button btnGet;
 	private Spinner spinner1;
@@ -52,11 +55,13 @@ public class MainActivity extends Activity {
 		ll = (LinearLayout) findViewById(R.id.linearLayout1);
 		tv = new TextView(this);
 
+		btnInfo = (Button) findViewById(R.id.btnInfo);
 		btnOk = (Button) findViewById(R.id.btnOk);
 		btnGet = (Button) findViewById(R.id.btnGet);
 		spinner1 = (Spinner) findViewById(R.id.spinner1);
 		spinner2 = (Spinner) findViewById(R.id.spinner2);
 
+		btnInfo.setOnClickListener(btnGetImgListener);
 		btnOk.setOnClickListener(btnGetImgListener);
 		btnGet.setOnClickListener(btnGetImgListener);
 		sh = new SourceHelper(this);
@@ -149,6 +154,11 @@ public class MainActivity extends Activity {
 				return;
 			
 			switch (v.getId()){
+			case R.id.btnInfo:
+				ns = new RssParser().getSourceInfo(inStream);
+				ll.removeAllViews();
+				printSource(ns);
+				break;
 			case R.id.btnOk:
 				listData = new RssParser().parseXML(inStream);
 				ll.removeAllViews();
@@ -222,6 +232,25 @@ public class MainActivity extends Activity {
 			ll.addView(tv);
 		}
 
+	}
+
+	protected void printSource(NewsSourceInfo ns2) {
+		tv = new TextView(this);
+		tv.setText("Ten bao: " + ns.getTitle());
+		ll.addView(tv);
+		
+		tv = new TextView(this);
+		tv.setText("Mo ta: " + ns.getDescription());
+		ll.addView(tv);
+		
+		tv = new TextView(this);
+		tv.setText("link: " + ns.getLink());
+		ll.addView(tv);
+		
+		tv = new TextView(this);
+		tv.setText("thumb: " + ns.getThumbnail());
+		ll.addView(tv);
+		
 	}
 
 	private void printContent(InputStream is) throws IOException {

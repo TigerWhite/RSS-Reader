@@ -14,6 +14,7 @@ import android.util.Log;
 
 /**
  * Class trung gian, thua ke {@link DefaultHandler} dung de parse du lieu xml
+ * Nhiem vu: Lay cac vu Rss item
  * 
  * @author Nguyen Duc Hieu
  */

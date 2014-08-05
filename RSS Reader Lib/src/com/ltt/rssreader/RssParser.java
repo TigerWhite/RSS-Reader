@@ -1,5 +1,6 @@
 package com.ltt.rssreader;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -53,6 +54,42 @@ public class RssParser {
 		}
 
 		return cartList;
+	}
+
+	public NewsSourceInfo getSourceInfo(InputStream is) {
+		NewsSourceInfo nsi = null;
+		// Đối tượng đọc XML
+		XMLReader xr = null;
+		// Tạo đối tượng xử lý XML theo tuần tự của mình
+		RssXMLNameHandler myXMLHandler = new RssXMLNameHandler();
+		try {
+			// Khởi tạo đối tượng đọc
+			xr = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+			// Thiết lập nội dung xử lý
+			xr.setContentHandler(myXMLHandler);
+			// Nguồn dữ liệu vào
+			InputSource inStream = new InputSource(is);
+			// Bắt đầu xử lý dữ liệu vào
+			xr.parse(inStream);
+
+		} catch (MySAXException e1) {
+			Log.i("xml reader", "xu ly xong");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("xml reader", "loi khi parse");
+		}
+
+		try {
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.e("xml reader", "loi io khi dong stream");
+		}
+
+		// Lay thong tin trang bao
+		nsi = myXMLHandler.getSource();
+
+		return nsi;
 	}
 
 }
