@@ -160,7 +160,7 @@ public class MainActivity extends Activity {
 				printSource(ns);
 				break;
 			case R.id.btnOk:
-				listData = new RssParser().parseXML(inStream);
+				listData = new RssParser().parseXML(inStream, 3);
 				ll.removeAllViews();
 				try {
 					printData(listData);			

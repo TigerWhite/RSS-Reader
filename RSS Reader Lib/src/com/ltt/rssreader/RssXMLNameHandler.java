@@ -13,9 +13,18 @@ import org.xml.sax.helpers.DefaultHandler;
 public class RssXMLNameHandler extends DefaultHandler {
 
 	String currentValue = "";
-
 	NewsSourceInfo ns = null;
 
+	// default constructor
+	public RssXMLNameHandler() {
+		super();
+	}
+
+	/**
+	 * Ham tra ve thong tin trang bao parse duoc
+	 * 
+	 * @return NewsSourceInfo
+	 */
 	public NewsSourceInfo getSource() {
 		return ns;
 	}
@@ -42,7 +51,7 @@ public class RssXMLNameHandler extends DefaultHandler {
 				ns.setTitle(currentValue.trim());
 			else if (qName.equalsIgnoreCase("description"))
 				ns.setDescription(currentValue.trim());
-		//TODO 1 so trang k tra ve link that ma chi tra ve link trang chu
+			// TODO 1 so trang k tra ve link that ma chi tra ve link trang chu
 			else if (qName.equalsIgnoreCase("link"))
 				ns.setLink(currentValue.trim());
 			else if (currentValue.contains(".jpg")

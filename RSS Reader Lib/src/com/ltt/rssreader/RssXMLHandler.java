@@ -20,20 +20,41 @@ import android.util.Log;
  */
 public class RssXMLHandler extends DefaultHandler {
 
+	int testNumber = 0;
+	private int curItemNo = 0;
+
 	boolean currentElement = false;
 	String currentValue = "";
 
 	RssItemInfo productInfo = null;
 	ArrayList<RssItemInfo> cartList;
 
+	// constructors
+	public RssXMLHandler() {
+		super();
+	}
+
+	public RssXMLHandler(int iTestNumber) {
+		super();
+		if (iTestNumber < 0)
+			testNumber = 0;
+		else
+			testNumber = iTestNumber;
+	}
+
+	/**
+	 * Ham tra ve items parse duoc
+	 * 
+	 * @return ArrayList of RssItemInfo
+	 */
 	public ArrayList<RssItemInfo> getCartList() {
 		return cartList;
 	}
 
-	//ham xu ly khi tag mo
+	// ham xu ly khi tag mo
 	@Override
 	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
+			Attributes attributes) {
 
 		if (qName.equals("rss")) {
 			cartList = new ArrayList<RssItemInfo>();
@@ -51,10 +72,10 @@ public class RssXMLHandler extends DefaultHandler {
 
 	}
 
-	//ham xu ly khi tag dong
+	// ham xu ly khi tag dong
 	@Override
 	public void endElement(String uri, String localName, String qName)
-			throws SAXException {
+			throws MySAXException {
 
 		if (productInfo != null)
 			if (qName.equalsIgnoreCase("title"))
@@ -87,12 +108,18 @@ public class RssXMLHandler extends DefaultHandler {
 
 				cartList.add(productInfo);
 				currentElement = false;
+
+				// xu ly so phan tu cho testmode
+				if (testNumber > 0)
+					if (++curItemNo >= testNumber)
+						throw new MySAXException("Done testMode with "
+								+ curItemNo + " items");
 			}
 
 		currentValue = "";
 	}
 
-	//ham xu ly khi duyet qua cac ky tu
+	// ham xu ly khi duyet qua cac ky tu
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
@@ -136,8 +163,11 @@ public class RssXMLHandler extends DefaultHandler {
 
 	/**
 	 * Ham xu ly link, chuyen doi link relative sang absolute
-	 * @param baseUrl	link goc
-	 * @param relativeUrl	link relative can convert
+	 * 
+	 * @param baseUrl
+	 *            link goc
+	 * @param relativeUrl
+	 *            link relative can convert
 	 * @return
 	 */
 	private String concatUrl(String baseUrl, String relativeUrl) {
