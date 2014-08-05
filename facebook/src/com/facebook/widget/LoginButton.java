@@ -242,7 +242,7 @@ public class LoginButton extends Button {
                 // of a background resource.
                 this.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 // hardcoding in edit mode as getResources().getString() doesn't seem to work in IntelliJ
-                loginText = "Log in with Facebook";
+                loginText = "Sign in with Facebook";
             } else {
                 this.setBackgroundResource(R.drawable.com_facebook_button_blue);
                 this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.com_facebook_inverse_icon, 0, 0, 0);

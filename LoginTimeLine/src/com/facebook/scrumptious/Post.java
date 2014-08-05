@@ -1,10 +1,9 @@
 package com.facebook.scrumptious;
 
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
-
-import android.util.Log;
 
 public class Post {
 	private String srcFrom="";
@@ -24,8 +23,25 @@ public class Post {
 	private String numberComments="";
 	private String numberShares="";
 	
-	List<Comment> comm=new ArrayList<Comment>();
-	List<Like> like=new ArrayList<Like>();
+	private  List<Comment> comm;
+	private  List<Like> like;
+	
+	public Post(){
+		comm=new ArrayList<Comment>();
+		like=new ArrayList<Like>();
+	}
+	public  int getLengComment(){
+		return comm.size();
+	}
+	public  Comment getComment(int index){
+		return comm.get(index);
+	}
+	public  int getLengLike(){
+		return like.size();
+	}
+	public  Like getLike(int index){
+		return like.get(index);
+	}
 	public String getNumberLike() {
 		return numberLike;
 	}
@@ -105,18 +121,13 @@ public class Post {
 		this.message = message;
 	}
 	
-	
 	public void setComment(String src,String name, String mess){
 		Comment c=new Comment();
 		c.setSrc(src);
 		c.setName(name);
 		c.setMessage(mess);
 		comm.add(c);
-		Log.d("+++++++++++++++++++++++++++++++",
-				"" + comm.indexOf(c)
-						+ comm.get(comm.indexOf(c)).getMessage()
-						
-					);
+		
 	
 	}
 	public void setLike(String src, String name){
@@ -134,4 +145,3 @@ public class Post {
 	}
 	
 }
-

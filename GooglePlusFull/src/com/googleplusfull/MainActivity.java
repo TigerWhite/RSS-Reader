@@ -148,6 +148,7 @@ public class MainActivity extends FragmentActivity implements
             	.setContentUrl(Uri.parse("http://google.com"))
             	.getIntent();
         		startActivityForResult(shareIntent, 0);
+        		// text: noi dung muon chia se | uri.parse(...) link muon chia se
 //          case R.id.intent_button:
 //        	  Intent i = new Intent(MainActivity.this,
 //						PlusSample.class);

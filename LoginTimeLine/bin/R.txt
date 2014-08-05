@@ -88,7 +88,7 @@ int drawable facebook 0x7f02002c
 int drawable ic_launcher 0x7f02002d
 int drawable icon 0x7f02002e
 int drawable title_bar_logo 0x7f02002f
-int id action_settings 0x7f040024
+int id action_settings 0x7f040025
 int id com_facebook_body_frame 0x7f040015
 int id com_facebook_button_xout 0x7f040017
 int id com_facebook_login_activity_progress_bar 0x7f040005
@@ -115,14 +115,15 @@ int id com_facebook_usersettingsfragment_login_button 0x7f04001c
 int id com_facebook_usersettingsfragment_logo_image 0x7f04001a
 int id com_facebook_usersettingsfragment_profile_name 0x7f04001b
 int id large 0x7f040002
-int id login_button 0x7f040023
+int id login_button 0x7f040024
 int id normal 0x7f040001
 int id picker_subtitle 0x7f040012
-int id profile_name 0x7f040022
+int id profile_name 0x7f040023
 int id selectionFragment 0x7f04001d
+int id share 0x7f040021
 int id small 0x7f040000
 int id splashFragment 0x7f04001e
-int id splash_icon 0x7f040021
+int id splash_icon 0x7f040022
 int id timeline 0x7f040020
 int id userSettingsFragment 0x7f04001f
 int layout com_facebook_friendpickerfragment 0x7f030000
