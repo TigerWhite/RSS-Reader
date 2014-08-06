@@ -121,8 +121,12 @@ public class MainActivity extends Activity {
 			InputStream inStream = null;
 			inStream = webhandle.getStreamFromLink(link);
 			
-			if (inStream == null)
+			if (inStream == null){
+				Toast.makeText(MainActivity.this,
+                		"No data received" ,
+                		Toast.LENGTH_SHORT).show();
 				return;
+			}
 			
 			switch (v.getId()){
 			case R.id.btnInfo:
