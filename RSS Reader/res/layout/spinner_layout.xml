@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/rssItem_imageIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/rssItem_tv_media"
+        style="@style/SpinnerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:gravity="left"
+        android:singleLine="true"
+        android:text="@string/hello_world"
+        android:textColor="@color/default_text_color" />
+
+</LinearLayout>

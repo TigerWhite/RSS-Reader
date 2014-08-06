@@ -30,7 +30,7 @@ public class mListRssAdapter extends ArrayAdapter<mRssItem> {
 	mRssItem item;
 
 	TextView newspaper, title, date;
-	ImageView img_article;
+	ImageView img_article, img_news;
 
 	public mListRssAdapter(Activity context, int layoutId, mListItem list) {
 		super(context, layoutId, list.getList());
@@ -61,13 +61,20 @@ public class mListRssAdapter extends ArrayAdapter<mRssItem> {
 		if (item != null) {
 			newspaper = (TextView) convertView
 					.findViewById(R.id.itemrss_newspaper);
+			img_news = (ImageView) convertView
+					.findViewById(R.id.itemrss_img_newspaper);
+
 			title = (TextView) convertView.findViewById(R.id.itemrss_title);
 			date = (TextView) convertView.findViewById(R.id.itemrss_date);
 			img_article = (ImageView) convertView
 					.findViewById(R.id.itemrss_img_article);
 
+			newspaper.setText(mArr.getNewsSource().getNewsSource().getTitle());
+			img_news.setImageBitmap(mArr.getNewsSource().getImg());
+
 			title.setText(item.getRssItemInfo().getTitle());
-			date.setText(item.getRssItemInfo().getPubDate());
+			date.setText(item.getRssItemInfo().getPubDateFormat().getDate()
+					+ "");
 
 			if (item.getImg() != null) {
 				Log.i("load existed image", "position :" + position);

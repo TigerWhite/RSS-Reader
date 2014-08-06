@@ -5,38 +5,24 @@ import java.io.InputStream;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.ltt.rssreader.RssItemInfo;
+import com.ltt.rssreader.NewsSourceInfo;
 import com.ltt.util.WebAccessHandler;
 
-public class mRssItem {
-	private RssItemInfo item;
+public class mNewsInfo {
+	private NewsSourceInfo news;
 	private Bitmap img;
-
-	public mRssItem(RssItemInfo rss_item) {
-		this.item = rss_item;
-	}
-
-	public mRssItem(RssItemInfo rss_item, Bitmap rss_img) {
-		this.item = rss_item;
-		this.img = rss_img;
-		// this.img = renderImage(rss_item.getThumbnail());
-	}
-
-	public RssItemInfo getRssItemInfo() {
-		return this.item;
-	}
-
-	public void setImg(Bitmap img) {
-		this.img = img;
-	}
-
-	public Bitmap getImg() {
-		// if (this.img == null) {
-		// this.img = renderImage(this.item.getThumbnail());
-		// }
-		return this.img;
+	
+	public mNewsInfo(NewsSourceInfo news){
+		this.news = news;
+		this.img = renderImage(news.getThumbnail());
 	}
 	
+	public NewsSourceInfo getNewsSource(){
+		return this.news;
+	}
+	public Bitmap getImg(){
+		return this.img;
+	}
 	private Bitmap loadBitmap(String url, BitmapFactory.Options options) {
 		Bitmap bitmap = null;
 		InputStream in = null;
@@ -50,13 +36,6 @@ public class mRssItem {
 		return bitmap;
 	}
 	
-	public Bitmap renderImage(){
-		if (img != null) {
-			return img;
-		}else{
-			return renderImage(this.item.getThumbnail());
-		}
-	}
 	private Bitmap renderImage(String src) {
 		if (img != null) {
 			return img;

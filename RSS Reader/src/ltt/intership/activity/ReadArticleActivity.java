@@ -1,7 +1,11 @@
 package ltt.intership.activity;
 
+import java.util.ArrayList;
+
 import ltt.intership.R;
+import ltt.intership.custom.mSpinnerAdapter;
 import ltt.intership.data.mListItem;
+import ltt.intership.data.mSocialMedia;
 import ltt.intership.fragment.ScreenSlidePageFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,9 +19,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-public class ReadArticleActivity extends FragmentActivity {
+public class ReadArticleActivity extends FragmentActivity implements
+		OnClickListener, OnItemSelectedListener {
 	private int NUM_PAGES = 1;
 
 	/**
@@ -34,6 +44,9 @@ public class ReadArticleActivity extends FragmentActivity {
 	private mListItem list;
 
 	private LinearLayout btnBack;
+	private Button btnSearch, btnShare;
+
+	private Spinner spinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +80,29 @@ public class ReadArticleActivity extends FragmentActivity {
 			}
 		});
 		mPager.setPageTransformer(true, new DepthPageTransformer());
-		mPager.setCurrentItem(pos+1);
+		mPager.setCurrentItem(pos);
 
 		btnBack = (LinearLayout) findViewById(R.id.readArticle_btn_back);
-		btnBack.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		btnBack.setOnClickListener(this);
+
+		btnSearch = (Button) findViewById(R.id.readArticle_btn_search);
+		btnSearch.setOnClickListener(this);
+
+		btnShare = (Button) findViewById(R.id.readArticle_btn_share);
+		btnShare.setOnClickListener(this);
+
+		spinner = (Spinner) findViewById(R.id.readArticle_spinner);
+		spinner.setOnItemSelectedListener(this);
+		ArrayList<mSocialMedia> data = new ArrayList<mSocialMedia>();
+		data.add(new mSocialMedia("facebook", R.drawable.fb_logo));
+		data.add(new mSocialMedia("google", R.drawable.google_logo));
+		data.add(new mSocialMedia("twitter", R.drawable.twitter_logo));
+		mSpinnerAdapter mAdapter = new mSpinnerAdapter(this,
+				android.R.layout.simple_spinner_item, data);
+		spinner.setPrompt("");
+		spinner.setSelection(-1);
+		spinner.setAdapter(mAdapter);
+
 	}
 
 	@Override
@@ -96,6 +123,36 @@ public class ReadArticleActivity extends FragmentActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.readArticle_btn_back:
+			finish();
+			break;
+		case R.id.readArticle_btn_search:
+			Toast.makeText(this, "search", Toast.LENGTH_LONG).show();
+			break;
+		case R.id.readArticle_btn_share:
+			spinner.performClick();
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**

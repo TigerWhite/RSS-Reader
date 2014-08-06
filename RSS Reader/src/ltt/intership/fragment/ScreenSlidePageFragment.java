@@ -11,16 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ScreenSlidePageFragment extends Fragment {
-	// public ScreenSlidePageFragment(){
-	//
-	// }
-	// @Override
-	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	// Bundle savedInstanceState) {
-	// View rootView = inflater.inflate(R.layout.fragment_sliding,
-	// container, false);
-	// return rootView;
-	// }
 	public static final String ARG_PAGE = "page";
 
 	/**
