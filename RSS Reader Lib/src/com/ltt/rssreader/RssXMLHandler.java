@@ -14,10 +14,14 @@ import android.util.Log;
 
 /**
  * Class trung gian, thua ke {@link DefaultHandler} dung de parse du lieu xml
+ * Nhiem vu: Lay cac vu Rss item
  * 
  * @author Nguyen Duc Hieu
  */
 public class RssXMLHandler extends DefaultHandler {
+
+	int testNumber = 0;
+	private int curItemNo = 0;
 
 	boolean currentElement = false;
 	String currentValue = "";
@@ -25,6 +29,24 @@ public class RssXMLHandler extends DefaultHandler {
 	RssItemInfo productInfo = null;
 	ArrayList<RssItemInfo> cartList;
 
+	// constructors
+	public RssXMLHandler() {
+		super();
+	}
+
+	public RssXMLHandler(int iTestNumber) {
+		super();
+		if (iTestNumber < 0)
+			testNumber = 0;
+		else
+			testNumber = iTestNumber;
+	}
+
+	/**
+	 * Ham tra ve items parse duoc
+	 * 
+	 * @return ArrayList of RssItemInfo
+	 */
 	public ArrayList<RssItemInfo> getCartList() {
 		return cartList;
 	}
@@ -32,7 +54,7 @@ public class RssXMLHandler extends DefaultHandler {
 	// ham xu ly khi tag mo
 	@Override
 	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
+			Attributes attributes) {
 
 		if (qName.equals("rss")) {
 			cartList = new ArrayList<RssItemInfo>();
@@ -53,7 +75,7 @@ public class RssXMLHandler extends DefaultHandler {
 	// ham xu ly khi tag dong
 	@Override
 	public void endElement(String uri, String localName, String qName)
-			throws SAXException {
+			throws MySAXException {
 
 		if (productInfo != null)
 			if (qName.equalsIgnoreCase("title"))
@@ -86,6 +108,12 @@ public class RssXMLHandler extends DefaultHandler {
 
 				cartList.add(productInfo);
 				currentElement = false;
+
+				// xu ly so phan tu cho testmode
+				if (testNumber > 0)
+					if (++curItemNo >= testNumber)
+						throw new MySAXException("Done testMode with "
+								+ curItemNo + " items");
 			}
 
 		currentValue = "";

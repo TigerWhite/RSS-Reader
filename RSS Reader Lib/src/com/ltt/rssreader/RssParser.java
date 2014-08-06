@@ -1,9 +1,9 @@
 package com.ltt.rssreader;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
@@ -18,24 +18,28 @@ import android.util.Log;
  */
 public class RssParser {
 
+	public ArrayList<RssItemInfo> parseXML(InputStream is) {
+		return parseXML(is, 0);
+	}
+	
 	/**
-	 * Hàm phân tích XML
+	 * Hàm phân tích XML tổng quát
 	 * 
 	 * @param is
 	 *            InputStream
+	 * @param iTestNumber
+	 *            integer
 	 * @return list of RSSItemInfo
 	 */
-	public ArrayList<RssItemInfo> parseXML(InputStream is) {
+	public ArrayList<RssItemInfo> parseXML(InputStream is, int iTestNumber) {
 		ArrayList<RssItemInfo> cartList = null;
+		// Đối tượng đọc XML
+		XMLReader xr = null;
+		// Tạo đối tượng xử lý XML với chỉ số testMode
+		RssXMLHandler myXMLHandler = new RssXMLHandler(iTestNumber);
 		try {
-			// Tạo đối tượng dùng cho việc phân tích cú pháp tài liệu XML
-			SAXParserFactory spf = SAXParserFactory.newInstance();
-			SAXParser sp = spf.newSAXParser();
-			// Đối tượng đọc XML
-			XMLReader xr = sp.getXMLReader();
-
-			// Tạo đối tượng xử lý XML theo tuần tự của mình
-			RssXMLHandler myXMLHandler = new RssXMLHandler();
+			// Khởi tạo đối tượng đọc
+			xr = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
 			// Thiết lập nội dung xử lý
 			xr.setContentHandler(myXMLHandler);
 			// Nguồn dữ liệu vào
@@ -43,16 +47,67 @@ public class RssParser {
 			// Bắt đầu xử lý dữ liệu vào
 			xr.parse(inStream);
 
-			// In chi tiết sản phẩm ra giao diện ứng dụng
-			cartList = myXMLHandler.getCartList();
-
-			is.close();
+		} catch (MySAXException e1) {
+			Log.i("xml reader", e1.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.e("xml reader", "loi format xml");
+			Log.e("xml reader", "loi khi parse");
 		}
 
+		try {
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.e("xml reader", "loi io khi dong stream");
+		}
+
+		// Lay cac muc rss cua trang bao
+		cartList = myXMLHandler.getCartList();
+
 		return cartList;
+	}
+
+	/**
+	 * Ham lay thong tin trang bao
+	 * 
+	 * @param is
+	 *            InputStream
+	 * @return NewsSourceInfo
+	 */
+	public NewsSourceInfo getSourceInfo(InputStream is) {
+		NewsSourceInfo nsi = null;
+		// Đối tượng đọc XML
+		XMLReader xr = null;
+		// Tạo đối tượng xử lý XML theo tuần tự của mình
+		RssXMLNameHandler myXMLHandler = new RssXMLNameHandler();
+		try {
+			// Khởi tạo đối tượng đọc
+			xr = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+			// Thiết lập nội dung xử lý
+			xr.setContentHandler(myXMLHandler);
+			// Nguồn dữ liệu vào
+			InputSource inStream = new InputSource(is);
+			// Bắt đầu xử lý dữ liệu vào
+			xr.parse(inStream);
+
+		} catch (MySAXException e1) {
+			Log.i("xml reader", e1.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("xml reader", "loi khi parse");
+		}
+
+		try {
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.e("xml reader", "loi io khi dong stream");
+		}
+
+		// Lay thong tin trang bao
+		nsi = myXMLHandler.getSource();
+
+		return nsi;
 	}
 
 }
