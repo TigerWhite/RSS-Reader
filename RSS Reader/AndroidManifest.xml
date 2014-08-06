@@ -7,23 +7,33 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="18" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         <activity
             android:name="ltt.intership.activity.StartUpActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="ltt-intership" />
             </intent-filter>
         </activity>
         <activity
@@ -46,8 +56,24 @@
             android:name="ltt.intership.activity.SettingActivity"
             android:label="@string/title_activity_setting" >
         </activity>
-        <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId"/>
-        <activity android:name="com.facebook.LoginActivity"/>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+
+        <activity android:name="com.facebook.LoginActivity" />
+        <activity
+            android:name="ltt.intership.activity.AccountHelpActivity"
+            android:label="@string/title_activity_account_help" >
+        </activity>
+        <activity
+            android:name="ltt.intership.activity.AccountManageActivity"
+            android:label="@string/title_activity_account_manage" >
+        </activity>
+        <activity
+            android:name="ltt.intership.activity.AccountProfileActivity"
+            android:label="@string/title_activity_account_profile" >
+        </activity>
     </application>
 
 </manifest>

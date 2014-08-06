@@ -4,6 +4,7 @@ import ltt.intership.R;
 import ltt.intership.fragment.StartUpFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -19,24 +20,31 @@ public class StartUpActivity extends FragmentActivity {
 	private boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
 
+	private StartUpFragment startFrg;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+				.permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+
 		super.onCreate(savedInstanceState);
 
-		uiHelper = new UiLifecycleHelper(this, callback);
-		uiHelper.onCreate(savedInstanceState);
-
 		setContentView(R.layout.start_up);
-
+		
+		startFrg = new StartUpFragment();
+		
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new StartUpFragment()).commit();
+					.add(R.id.container, startFrg).commit();
 		}
+		
+		uiHelper = new UiLifecycleHelper(this, callback);
+		uiHelper.onCreate(savedInstanceState);
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		uiHelper.onResume();
 		isResumed = true;
@@ -44,7 +52,6 @@ public class StartUpActivity extends FragmentActivity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		uiHelper.onPause();
 		isResumed = false;
@@ -70,7 +77,6 @@ public class StartUpActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.start_up, menu);
 		return true;
@@ -111,12 +117,28 @@ public class StartUpActivity extends FragmentActivity {
 				// If the session state is open:
 				// Show the authenticated fragment
 				Log.i("state", "opend");
+				startFrg.onLoginFacebookSuccess(true);
 			} else if (state.isClosed()) {
 				// If the session state is closed:
 				// Show the login fragment
 				Log.i("state", "closed");
+				startFrg.onLoginFacebookSuccess(false);
 			}
 		}
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		Log.i("received new intent", "ltt.intership");
+		setIntent(intent);
+		startFrg.onNewIntentReceive(intent);
+
+	}
+
+	public interface mFragmentReceiver {
+		public void onNewIntentReceive(Intent intent);
+		
+		public void onLoginFacebookSuccess(boolean login);
+	}
 }
