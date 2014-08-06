@@ -2,10 +2,7 @@ package com.example.rssreadertest;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-
-import org.apache.http.client.ClientProtocolException;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -43,37 +40,14 @@ public class MainActivity extends Activity {
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
 			
-			try {
-				inStream = webhandle.getStreamFromUrl(link);
-			} catch (ClientProtocolException e1) {
-				e1.printStackTrace();
-				Toast.makeText(MainActivity.this, "loi phuong thuc",
-						Toast.LENGTH_SHORT).show();
-				return;
-	
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				Toast.makeText(MainActivity.this, "loi ket noi",
-						Toast.LENGTH_SHORT).show();
+			inStream = webhandle.getStreamFromLink(link);
+			if (inStream == null){
+				Toast.makeText(MainActivity.this,
+                		"No data received" ,
+                		Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
-			if (inStream == null){
-				try {
-					inStream = webhandle.fetchURL(link);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "link loi",
-							Toast.LENGTH_SHORT).show();
-					return;
-				} catch (IOException e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "loi io khi fetch",
-							Toast.LENGTH_SHORT).show();
-					return;
-				}
-			}
-
 			listData = new RssParser().parseXML(inStream);
 			CustomListAdapter listAdapter = new
 			        CustomListAdapter(MainActivity.this, R.layout.list_single, listData);
@@ -83,7 +57,7 @@ public class MainActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 				Toast.makeText(MainActivity.this,
-                		"No data received" ,
+                		"No item to display" ,
                 		Toast.LENGTH_SHORT).show();
 				return;
 			}

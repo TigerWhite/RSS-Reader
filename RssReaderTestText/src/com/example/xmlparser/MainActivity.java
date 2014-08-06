@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-
-import org.apache.http.client.ClientProtocolException;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -122,34 +119,8 @@ public class MainActivity extends Activity {
 
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
-
-			try {
-				inStream = webhandle.getStreamFromUrl(link);
-			} catch (ClientProtocolException e1) {
-				e1.printStackTrace();
-				Toast.makeText(MainActivity.this, "loi phuong thuc",
-						Toast.LENGTH_SHORT).show();
-
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				Toast.makeText(MainActivity.this, "loi ket noi",
-						Toast.LENGTH_SHORT).show();
-			}
-
-			if (inStream == null) {
-				try {
-					inStream = webhandle.fetchURL(link);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "link loi",
-							Toast.LENGTH_SHORT).show();
-				} catch (IOException e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "loi io khi fetch",
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-
+			inStream = webhandle.getStreamFromLink(link);
+			
 			if (inStream == null)
 				return;
 			
