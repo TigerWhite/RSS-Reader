@@ -72,7 +72,7 @@ public class MainScreenComment extends Activity {
 				JSONObject jPlusoners = object.getJSONObject("plusoners");
 				JSONObject jImage = jActor.getJSONObject("image");
 
-				JSONArray jaInReplyTo = object.getJSONArray("inReplyTo");
+				//JSONArray jaInReplyTo = object.getJSONArray("inReplyTo");
 
 				myItemComment.setKind(jsonObject.getString("kind").toString());
 				myItemComment.setEtag(jsonObject.getString("etag").toString());
@@ -127,12 +127,12 @@ public class MainScreenComment extends Activity {
 	private class ApiCallExecutor extends AsyncTask<Uri, Void, String> {
 
 		String apiResponse = null;
-		
+		String idPost = "z12qclnauqzne14rr04chbbigpntw12i3f0";
 		@Override
 		protected String doInBackground(Uri...params) {
 			
 			try {
-				apiResponse = oAuth2Helper.executeApiCall();
+				apiResponse = oAuth2Helper.executeApiCall1("https://content.googleapis.com/plus/v1/activities/"+idPost+"/comments");
 				Log.i(Constants.TAG, "Received response from API : " + apiResponse);
 			} catch (Exception ex) {
 				ex.printStackTrace();

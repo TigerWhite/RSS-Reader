@@ -73,6 +73,11 @@ public class OAuth2Helper {
 		return HTTP_TRANSPORT.createRequestFactory(loadCredential()).buildGetRequest(new GenericUrl(this.oauth2Params.getApiUrl())).execute().parseAsString();
 	}
 	
+	public String executeApiCall1(String apiUrl) throws IOException {
+		
+		return HTTP_TRANSPORT.createRequestFactory(loadCredential()).buildGetRequest(new GenericUrl(apiUrl)).execute().parseAsString();
+	}
+	
 	public Credential loadCredential() throws IOException {
 		return flow.loadCredential(oauth2Params.getUserId());
 	}

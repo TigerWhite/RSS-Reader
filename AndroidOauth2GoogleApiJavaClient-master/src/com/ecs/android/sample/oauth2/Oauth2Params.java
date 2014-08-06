@@ -53,11 +53,6 @@ public enum Oauth2Params {
 	private String apiUrl;
 	//private String activityId;
 
-	
-	
-	
-	
-	
 	Oauth2Params(String clientId,
 				String clientSecret,
 				String tokenServerUrl,

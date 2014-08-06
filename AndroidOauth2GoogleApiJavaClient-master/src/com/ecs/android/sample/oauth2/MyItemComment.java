@@ -179,7 +179,7 @@ public class MyItemComment {
 	}
 
 	public String toString() {
-		return "Comments: "
+		return displayName_actor+": "
 				+ content_object;
 	}
 	
