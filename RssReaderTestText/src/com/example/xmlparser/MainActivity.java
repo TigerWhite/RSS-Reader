@@ -115,7 +115,8 @@ public class MainActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			WebAccessHandler webhandle = new WebAccessHandler();
-			String link = spinner2.getSelectedItem().toString();
+//			String link = spinner2.getSelectedItem().toString();
+			String link = "http://dantri.com.vn";
 
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
@@ -210,6 +211,7 @@ public class MainActivity extends Activity {
 	}
 
 	protected void printSource(NewsSourceInfo ns2) {
+		if (ns2 == null) return;
 		tv = new TextView(this);
 		tv.setText("Ten bao: " + ns.getTitle());
 		ll.addView(tv);
