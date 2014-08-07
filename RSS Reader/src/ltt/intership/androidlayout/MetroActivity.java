@@ -162,7 +162,7 @@ public class MetroActivity extends Activity implements OnClickListener,
 			finish();
 		} else {
 			// //// can delete this code if check all exception...
-			if (view.getId() > 9)
+			if (view.getId() > 10)
 				showAlertDialog(view);
 		}
 		// case 9:

@@ -1,10 +1,13 @@
 package ltt.intership.fragment;
 
+import com.facebook.Session;
+
 import ltt.intership.R;
 import ltt.intership.activity.AccountManageActivity;
 import ltt.intership.activity.StartUpActivity;
 import ltt.intership.utils.Config;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -71,13 +74,35 @@ public class SettingFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.setting_btn_logout:
 			mPrefs.edit().clear().commit();
-			// Intent i2 = new Intent(getActivity(), StartUpActivity.class);
-			// startActivity(i2);
-			// getActivity().finish();
+			logoutFacebook(getActivity());
+			Intent i2 = new Intent(getActivity(), StartUpActivity.class);
+			startActivity(i2);
+			getActivity().finish();
 			break;
 		default:
 			break;
 		}
 
+	}
+	
+	private void logoutFacebook(Context context) {
+		Session session = Session.getActiveSession();
+		if (session != null) {
+
+			if (!session.isClosed()) {
+				session.closeAndClearTokenInformation();
+				// clear your preferences if saved
+			}
+		} else {
+
+			session = new Session(context);
+			Session.setActiveSession(session);
+
+			session.closeAndClearTokenInformation();
+			// clear your preferences if saved
+
+		}
+		Intent i = new Intent(getActivity(), StartUpActivity.class);
+		startActivity(i);
 	}
 }

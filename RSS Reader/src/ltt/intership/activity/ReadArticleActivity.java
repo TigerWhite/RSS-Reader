@@ -8,6 +8,7 @@ import ltt.intership.data.mListItem;
 import ltt.intership.data.mSocialMedia;
 import ltt.intership.fragment.ScreenSlidePageFragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -35,6 +36,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
+import com.google.android.gms.plus.PlusShare;
 
 public class ReadArticleActivity extends FragmentActivity implements
 		OnClickListener {
@@ -58,31 +60,30 @@ public class ReadArticleActivity extends FragmentActivity implements
 
 	private Spinner spinner;
 	private boolean firstTime;
-	
+
 	// share facebook
 	private static final String PERMISSION = "publish_actions";
-	private UiLifecycleHelper uiHelper; 
-	
+	private UiLifecycleHelper uiHelper;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.read_article);
 
 		firstTime = true;
-		
+
 		String url = getIntent().getStringExtra("url");
 		int pos = getIntent().getIntExtra("position", 1);
 
 		Log.i("url received", url);
-		
+
 		list = new mListItem(url);
 		this.NUM_PAGES = list.getList().size();
-		
+
 		// init facebook
 		uiHelper = new UiLifecycleHelper(this, null);
 		uiHelper.onCreate(savedInstanceState);
-		
-		
+
 		// Instantiate a ViewPager and a PagerAdapter.
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -138,10 +139,11 @@ public class ReadArticleActivity extends FragmentActivity implements
 					shareFacebook(list.get(pos).getRssItemInfo().getLink());
 					break;
 				case 1:
-					shareGoogle("google " + list.get(pos).getRssItemInfo().getLink());
+					shareGoogle(list.get(pos).getRssItemInfo().getLink());
 					break;
 				case 2:
-					shareTwitter("twitter " + list.get(pos).getRssItemInfo().getLink());
+					shareTwitter("twitter "
+							+ list.get(pos).getRssItemInfo().getLink());
 					break;
 				default:
 					break;
@@ -197,7 +199,8 @@ public class ReadArticleActivity extends FragmentActivity implements
 	}
 
 	private void shareFacebook(String url) {
-		Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+		// Toast.makeText(getApplicationContext(), url,
+		// Toast.LENGTH_LONG).show();
 		if (FacebookDialog.canPresentShareDialog(getApplicationContext(),
 				FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
 			// Publish the post using the Share Dialog
@@ -210,6 +213,7 @@ public class ReadArticleActivity extends FragmentActivity implements
 			// Fallback. For example, publish the post using the Feed Dialog
 		}
 	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -226,64 +230,69 @@ public class ReadArticleActivity extends FragmentActivity implements
 					@Override
 					public void onComplete(
 							FacebookDialog.PendingCall pendingCall, Bundle data) {
-					// xu ly khi dang ki thanh cong
+						// xu ly khi dang ki thanh cong
 					}
 				});
 	}
-private void publishFeedDialog() {
-	    Bundle params = new Bundle();
-	    int pos = mPager.getCurrentItem();
-	    params.putString("name", list.get(pos).getRssItemInfo().getTitle());
-//	    params.putString("caption", "Build great social apps and get more installs.");
-//	    params.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
-	    params.putString("link", list.get(pos).getRssItemInfo().getLink());
-	    params.putString("picture", list.get(pos).getRssItemInfo().getThumbnail());
 
-	    WebDialog feedDialog = (
-	        new WebDialog.FeedDialogBuilder(getApplicationContext(),
-	            Session.getActiveSession(),
-	            params)).setOnCompleteListener(listener).build();
-	    feedDialog.show();
+	private void publishFeedDialog() {
+		Bundle params = new Bundle();
+		int pos = mPager.getCurrentItem();
+		params.putString("name", list.get(pos).getRssItemInfo().getTitle());
+		// params.putString("caption",
+		// "Build great social apps and get more installs.");
+		// params.putString("description",
+		// "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
+		params.putString("link", list.get(pos).getRssItemInfo().getLink());
+		params.putString("picture", list.get(pos).getRssItemInfo()
+				.getThumbnail());
+
+		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(
+				getApplicationContext(), Session.getActiveSession(), params))
+				.setOnCompleteListener(listener).build();
+		feedDialog.show();
 	}
-	
-	OnCompleteListener listener=new OnCompleteListener() {
-		
+
+	OnCompleteListener listener = new OnCompleteListener() {
+
 		@Override
 		public void onComplete(Bundle values, FacebookException error) {
 			// TODO Auto-generated method stub
 			if (error == null) {
-                // When the story is posted, echo the success
-                // and the post Id.
-                final String postId = values.getString("post_id");
-                if (postId != null) {
-                    Toast.makeText(getApplicationContext(),
-                        "Posted story, id: "+postId,
-                        Toast.LENGTH_SHORT).show();
-                } else {
-                    // User clicked the Cancel button
-                    Toast.makeText(getApplicationContext(), 
-                        "Publish cancelled", 
-                        Toast.LENGTH_SHORT).show();
-                }
-            } else if (error instanceof FacebookOperationCanceledException) {
-                // User clicked the "x" button
-                Toast.makeText(getApplicationContext(), 
-                    "Publish cancelled", 
-                    Toast.LENGTH_SHORT).show();
-            } else {
-                // Generic, ex: network error
-                Toast.makeText(getApplicationContext(), 
-                    "Error posting story", 
-                    Toast.LENGTH_SHORT).show();
-            }
+				// When the story is posted, echo the success
+				// and the post Id.
+				final String postId = values.getString("post_id");
+				if (postId != null) {
+					Toast.makeText(getApplicationContext(),
+							"Posted story, id: " + postId, Toast.LENGTH_SHORT)
+							.show();
+				} else {
+					// User clicked the Cancel button
+					Toast.makeText(getApplicationContext(),
+							"Publish cancelled", Toast.LENGTH_SHORT).show();
+				}
+			} else if (error instanceof FacebookOperationCanceledException) {
+				// User clicked the "x" button
+				Toast.makeText(getApplicationContext(), "Publish cancelled",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				// Generic, ex: network error
+				Toast.makeText(getApplicationContext(), "Error posting story",
+						Toast.LENGTH_SHORT).show();
+			}
 		}
 	};
+
 	private void shareGoogle(String url) {
-		Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+		Intent shareIntent = new PlusShare.Builder(ReadArticleActivity.this)
+				.setType("text/plain").setText(" ")
+				.setContentUrl(Uri.parse(url)).getIntent();
+		startActivityForResult(shareIntent, 0);
 	}
 
 	private void shareTwitter(String url) {
-		Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+		// Toast.makeText(getApplicationContext(), url,
+		// Toast.LENGTH_LONG).show();
 	}
 
 	/**

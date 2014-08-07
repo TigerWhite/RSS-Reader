@@ -128,7 +128,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 					}
 					break;
 				case mGOOGLE:
-					Log.i("login google succesfull","");
+					Log.i("login google succesfull", "");
 					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
 						mPrefs.edit()
 								.putString(Config.PREFS_TYPE_ACC, "GOOGLE")
@@ -196,7 +196,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		switch (v.getId()) {
 		case R.id.startup_googlePlus_sign_in:
 			// dang nhap bang tai khoan google-plus
-			GBtnLogin.performClick();
+			// GBtnLogin.performClick();
 			startLoginByGoogle();
 			break;
 		case R.id.startup_facebook_sign_in:
