@@ -1,6 +1,5 @@
 package com.ltt.rssreader;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -54,13 +53,6 @@ public class RssParser {
 			Log.e("xml reader", "loi khi parse");
 		}
 
-		try {
-			is.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.e("xml reader", "loi io khi dong stream");
-		}
-
 		// Lay cac muc rss cua trang bao
 		cartList = myXMLHandler.getCartList();
 
@@ -95,13 +87,6 @@ public class RssParser {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.e("xml reader", "loi khi parse");
-		}
-
-		try {
-			is.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.e("xml reader", "loi io khi dong stream");
 		}
 
 		// Lay thong tin trang bao

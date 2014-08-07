@@ -27,7 +27,7 @@ public class RssXMLHandler extends DefaultHandler {
 	String currentValue = "";
 
 	RssItemInfo productInfo = null;
-	ArrayList<RssItemInfo> cartList;
+	ArrayList<RssItemInfo> cartList = null;
 
 	// constructors
 	public RssXMLHandler() {

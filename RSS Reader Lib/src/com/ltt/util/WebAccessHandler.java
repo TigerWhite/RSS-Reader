@@ -37,7 +37,7 @@ public class WebAccessHandler {
 			e1.printStackTrace();
 			Log.e("web handle", "loi phuong thuc");
 
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 			Log.e("web handle", "loi ket noi");
 		}
@@ -48,7 +48,7 @@ public class WebAccessHandler {
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 				Log.e("web handle", "loi link");
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				Log.e("web handle", "loi io khi fetch");
 			}
