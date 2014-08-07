@@ -85,6 +85,10 @@
             android:name="ltt.intership.activity.ShowWebviewActivity"
             android:label="@string/title_activity_show_webview" >
         </activity>
+        <activity android:name="ltt.intership.androidlayout.MetroActivity" >
+        </activity>
+        <activity android:name="ltt.intership.searchrss.SearchActivity" >
+        </activity>
     </application>
 
 </manifest>

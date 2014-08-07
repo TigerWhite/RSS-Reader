@@ -6,6 +6,7 @@ import ltt.intership.R;
 import ltt.intership.activity.MainActivity;
 import ltt.intership.activity.StartUpActivity;
 import ltt.intership.activity.StartUpActivity.mFragmentReceiver;
+import ltt.intership.androidlayout.MetroActivity;
 import ltt.intership.connection.PrefManagement;
 import ltt.intership.connection.UserFunctions;
 import ltt.intership.utils.Config;
@@ -383,7 +384,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 	 */
 	private void LoginSuccess() {
 
-		startActivity(new Intent(getActivity(), MainActivity.class));
+		startActivity(new Intent(getActivity(), MetroActivity.class));
 		getActivity().finish();
 
 	}

@@ -68,13 +68,17 @@ public class ScreenSlidePageFragment extends Fragment {
 		// Set the view of article.
 		((TextView) rootView.findViewById(R.id.rss_tv_newspaper)).setText(news
 				.getNewsSource().getTitle());
-		Picasso.with(getActivity())
-				.load(news.getNewsSource().getThumbnail())
-				.into(((ImageView) rootView
-						.findViewById(R.id.rss_img_newspaper)));
-
-		Picasso.with(getActivity()).load(item.getRssItemInfo().getThumbnail())
-				.into(((ImageView) rootView.findViewById(R.id.rss_img)));
+		if (news.getNewsSource().getThumbnail().length() != 0) {
+			Picasso.with(getActivity())
+					.load(news.getNewsSource().getThumbnail())
+					.into(((ImageView) rootView
+							.findViewById(R.id.rss_img_newspaper)));
+		}
+		if (item.getRssItemInfo().getThumbnail().length() !=0) {
+			Picasso.with(getActivity()).load(item.getRssItemInfo().getThumbnail())
+					.into(((ImageView) rootView.findViewById(R.id.rss_img)));
+		}
+		
 		((TextView) rootView.findViewById(R.id.rss_title)).setText(item
 				.getRssItemInfo().getTitle());
 		((TextView) rootView.findViewById(R.id.rss_tv_publish_time))
