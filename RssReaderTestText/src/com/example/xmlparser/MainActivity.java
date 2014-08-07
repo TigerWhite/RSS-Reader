@@ -116,7 +116,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			WebAccessHandler webhandle = new WebAccessHandler();
 //			String link = spinner2.getSelectedItem().toString();
-			String link = "http://dantri.com.vn";
+			String link = "dantri.com.vn";
 
 			// Thuc hien phan tich XML
 			InputStream inStream = null;
