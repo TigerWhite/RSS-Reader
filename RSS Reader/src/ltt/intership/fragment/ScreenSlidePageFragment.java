@@ -80,9 +80,11 @@ public class ScreenSlidePageFragment extends Fragment {
 		
 		((TextView) rootView.findViewById(R.id.rss_title)).setText(item
 				.getRssItemInfo().getTitle());
-		((TextView) rootView.findViewById(R.id.rss_tv_publish_time))
-				.setText(item.getRssItemInfo().getPubDateFormat()
-						.toLocaleString());
+		if (item.getRssItemInfo().getPubDateFormat() != null) {
+			((TextView) rootView.findViewById(R.id.rss_tv_publish_time))
+			.setText(item.getRssItemInfo().getPubDateFormat()
+					.toLocaleString());
+		}
 		((TextView) rootView.findViewById(R.id.rss_content)).setText(item
 				.getRssItemInfo().getDescription());
 		((Button) rootView.findViewById(R.id.rss_btn_show_article))

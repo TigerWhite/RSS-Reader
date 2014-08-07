@@ -20,6 +20,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -99,8 +100,9 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 	private static String KEY_NAME = "name";
 	private static String KEY_EMAIL = "email";
 
-	public StartUpFragment() {
+	private Activity activity;
 
+	public StartUpFragment() {
 	}
 
 	@SuppressLint("HandlerLeak")
