@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.os.Build;
 
 public class AccountProfileActivity extends Activity {
@@ -79,7 +80,8 @@ public class AccountProfileActivity extends Activity {
 
 			btnLogout = (Button) rootView.findViewById(R.id.accProfile_logout);
 			btnLogout.setOnClickListener(this);
-
+			
+			((TextView)rootView.findViewById(R.id.accProfile_social_name)).setText(type);
 			return rootView;
 		}
 

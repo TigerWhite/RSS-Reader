@@ -3,8 +3,10 @@ package ltt.intership.fragment;
 import ltt.intership.R;
 import ltt.intership.activity.AccountManageActivity;
 import ltt.intership.activity.StartUpActivity;
+import ltt.intership.utils.Config;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +19,8 @@ public class SettingFragment extends Fragment implements OnClickListener {
 
 	LinearLayout btn_acc, btn_lang, btn_theme, btn_logout;
 	ImageButton btn_back;
-
+	SharedPreferences mPrefs;
+	
 	public SettingFragment() {
 
 	}
@@ -27,6 +30,8 @@ public class SettingFragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_setting, container,
 				false);
+		mPrefs = getActivity().getSharedPreferences(Config.GLOBAL_PREFS, 0);
+		
 		btn_back = (ImageButton) rootView.findViewById(R.id.setting_btn_back);
 		btn_back.setOnClickListener(this);
 
@@ -65,6 +70,10 @@ public class SettingFragment extends Fragment implements OnClickListener {
 		case R.id.setting_btn_theme:
 			break;
 		case R.id.setting_btn_logout:
+			mPrefs.edit().clear().commit();
+			// Intent i2 = new Intent(getActivity(), StartUpActivity.class);
+			// startActivity(i2);
+			// getActivity().finish();
 			break;
 		default:
 			break;

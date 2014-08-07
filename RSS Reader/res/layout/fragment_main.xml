@@ -49,5 +49,15 @@
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="logout twitter" />
+    
+    <Button
+        android:id="@+id/main_btn_load_fb_timeline"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_btn_logout_google"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="logout fb timeline" />
 
 </RelativeLayout>

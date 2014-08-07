@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.widget.LoginButton;
+import com.google.android.gms.common.SignInButton;
 
 public class StartUpFragment extends Fragment implements View.OnClickListener,
 		mFragmentReceiver {
@@ -54,6 +55,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 	private LinearLayout llSignUp;
 
 	private LoginButton FbBtnLogin;
+	private SignInButton GBtnLogin;
 
 	private EditText edSignInName;
 	private EditText edSignInPass;
@@ -110,52 +112,55 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 				Log.i("mHandler", "para: " + msg.arg1);
 				switch (msg.arg1) {
 				case mFACEBOOK:
-					Toast.makeText(getActivity(), "login facebook succesfull",
-							Toast.LENGTH_SHORT).show();
-					mPrefs.edit().putString(Config.PREFS_LOGIN_FACEBOOK, "true");
+					Log.i("login facebook succesfull", "");
+					mPrefs.edit()
+							.putString(Config.PREFS_LOGIN_FACEBOOK, "true");
 					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
 						mPrefs.edit()
 								.putString(Config.PREFS_TYPE_ACC, "FACEBOOK")
 								.putString(Config.PREFS_LOGIN_FACEBOOK, "true")
 								.commit();
-					}else{
-						mPrefs.edit().putString(Config.PREFS_LOGIN_FACEBOOK, "true").commit();
+					} else {
+						mPrefs.edit()
+								.putString(Config.PREFS_LOGIN_FACEBOOK, "true")
+								.commit();
 					}
 					break;
 				case mGOOGLE:
-					Toast.makeText(getActivity(), "login google succesfull",
-							Toast.LENGTH_SHORT).show();
+					Log.i("login google succesfull","");
 					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
 						mPrefs.edit()
 								.putString(Config.PREFS_TYPE_ACC, "GOOGLE")
 								.putString(Config.PREFS_LOGIN_GOOGLE, "true")
 								.commit();
-					}else {
-						mPrefs.edit().putString(Config.PREFS_LOGIN_GOOGLE, "true").commit();
+					} else {
+						mPrefs.edit()
+								.putString(Config.PREFS_LOGIN_GOOGLE, "true")
+								.commit();
 					}
 					break;
 				case mTWITTER:
-					Toast.makeText(getActivity(), "login twitter succesfull",
-							Toast.LENGTH_SHORT).show();
+					Log.i("login twitter succesfull", "");
 					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
 						mPrefs.edit()
 								.putString(Config.PREFS_TYPE_ACC, "TWITTER")
 								.putString(Config.PREFS_LOGIN_TWITTER, "true")
 								.commit();
-					}else {
-						mPrefs.edit().putString(Config.PREFS_LOGIN_TWITTER, "true").commit();
+					} else {
+						mPrefs.edit()
+								.putString(Config.PREFS_LOGIN_TWITTER, "true")
+								.commit();
 					}
 					break;
 				case mLTT:
-					Toast.makeText(getActivity(),
-							"login ltt account succesfull", Toast.LENGTH_SHORT)
-							.show();
+					Log.i("login ltt account succesfull", "");
 					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
 						mPrefs.edit().putString(Config.PREFS_TYPE_ACC, "LTT")
 								.putString(Config.PREFS_LOGIN_LTT, "true")
 								.commit();
-					}else {
-						mPrefs.edit().putString(Config.PREFS_LOGIN_LTT, "true").commit();
+					} else {
+						mPrefs.edit().putString(Config.PREFS_LOGIN_LTT, "true")
+								.commit();
 					}
 					break;
 				default:
@@ -190,6 +195,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		switch (v.getId()) {
 		case R.id.startup_googlePlus_sign_in:
 			// dang nhap bang tai khoan google-plus
+			GBtnLogin.performClick();
 			startLoginByGoogle();
 			break;
 		case R.id.startup_facebook_sign_in:
@@ -328,6 +334,9 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		FbBtnLogin.setReadPermissions(Arrays.asList("user_location",
 				"user_birthday", "user_likes", "read_stream"));
 
+		GBtnLogin = (SignInButton) view
+				.findViewById(R.id.startup_google_login_button);
+
 		LinearLayout btnFbSignIn = (LinearLayout) view
 				.findViewById(R.id.startup_facebook_sign_in);
 		btnFbSignIn.setOnClickListener(this);
@@ -388,8 +397,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 			if (isLoginTwitter()) {
 				sendNewMss(login_succes, mTWITTER);
 			}
-			if (mPrefs.getString(Config.PREFS_TYPE_ACC, null).equalsIgnoreCase(
-					"LTT")) {
+			if (mPrefs.getString(Config.PREFS_LOGIN_LTT, null) != null) {
 				sendNewMss(login_succes, mLTT);
 			}
 		}
@@ -416,9 +424,6 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 	}
 
 	private void startLoginByTwitterAcc() {
-		if (mPrefs == null) {
-			mPrefs = getActivity().getSharedPreferences(Config.GLOBAL_PREFS, 0);
-		}
 		twitterConnection = new TwitterFactory().getInstance();
 		twitterConnection.setOAuthConsumer(Config.TWITTER_KEY,
 				Config.TWITTER_SECRET);

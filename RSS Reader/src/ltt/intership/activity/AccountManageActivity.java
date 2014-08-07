@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -145,6 +146,7 @@ public class AccountManageActivity extends Activity {
 
 		private void checkLogin() {
 			if (mPrefs.getString(Config.PREFS_LOGIN_FACEBOOK, null) != null) {
+				Log.i("acc manage fb", mPrefs.getString(Config.PREFS_LOGIN_FACEBOOK, null));
 				btn_accFb.setVisibility(View.VISIBLE);
 				btn_new_accFb.setVisibility(View.GONE);
 			} else {
@@ -152,6 +154,7 @@ public class AccountManageActivity extends Activity {
 				btn_new_accFb.setVisibility(View.VISIBLE);
 			}
 			if (mPrefs.getString(Config.PREFS_LOGIN_GOOGLE, null) != null) {
+				Log.i("acc manage google", mPrefs.getString(Config.PREFS_LOGIN_GOOGLE, null));
 				btn_accGoogle.setVisibility(View.VISIBLE);
 				btn_new_accGoogle.setVisibility(View.GONE);
 			} else {
@@ -160,6 +163,7 @@ public class AccountManageActivity extends Activity {
 			}
 
 			if (mPrefs.getString(Config.PREFS_LOGIN_TWITTER, null) != null) {
+				Log.i("acc manage twitter", mPrefs.getString(Config.PREFS_LOGIN_TWITTER, null));
 				btn_accTwitter.setVisibility(View.VISIBLE);
 				btn_new_accTwitter.setVisibility(View.GONE);
 			} else {
@@ -167,7 +171,10 @@ public class AccountManageActivity extends Activity {
 				btn_new_accTwitter.setVisibility(View.VISIBLE);
 			}
 			if (mPrefs.getString(Config.PREFS_LOGIN_LTT, null) != null) {
+				Log.i("acc manage ltt", mPrefs.getString(Config.PREFS_LOGIN_LTT, null));
 				btn_accLtt.setVisibility(View.VISIBLE);
+			}else {
+				btn_accLtt.setVisibility(View.GONE);
 			}
 		}
 

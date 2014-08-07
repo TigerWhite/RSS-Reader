@@ -32,7 +32,8 @@ public class MainFragment extends Fragment implements ConnectionCallbacks,
 	private Button btnLogoutFB;
 	private Button btnLogoutGoogle;
 	private Button btnLogoutTwitter;
-
+	private Button btnTimeline;
+	
 	private String url = "";
 
 	private GoogleApiClient mGoogleApiClient;
@@ -88,7 +89,6 @@ public class MainFragment extends Fragment implements ConnectionCallbacks,
 				Toast.makeText(getActivity(), "logout", Toast.LENGTH_SHORT)
 						.show();
 				logoutGoogle();
-				;
 			}
 		});
 		// btnLogoutTwitter = (Button)
@@ -101,6 +101,15 @@ public class MainFragment extends Fragment implements ConnectionCallbacks,
 		// logoutFacebook(getActivity());
 		// }
 		// });
+		
+		btnTimeline = (Button)rootView.findViewById(R.id.main_btn_load_fb_timeline);
+		btnTimeline.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i("main", "loadtimeline");
+				handingTimeline();
+			}
+		});
 		return rootView;
 	}
 
@@ -157,7 +166,14 @@ public class MainFragment extends Fragment implements ConnectionCallbacks,
 		startActivity(i);
 		// getActivity().finish();
 	}
+	private void handingTimeline() {
+		this.url = sp.getSelectedItem().toString();
 
+		Intent i = new Intent(getActivity(), ListRssActivity.class);
+		i.putExtra("url", "facebook");
+		startActivity(i);
+		// getActivity().finish();
+	}
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		// TODO Auto-generated method stub

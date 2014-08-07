@@ -21,6 +21,7 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -50,8 +51,9 @@ public class StartUpActivity extends FragmentActivity implements
 	private int mSignInProgress;
 	private PendingIntent mSignInIntent;
 	private int mSignInError;
-
 	private static final String TAG = "google_plus login";
+
+	
 	// fragment hien thi giao dien dang nhap
 	private StartUpFragment startFrg;
 

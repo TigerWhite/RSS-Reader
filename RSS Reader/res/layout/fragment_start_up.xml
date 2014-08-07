@@ -19,6 +19,11 @@
         android:rotation="45"
         android:src="@drawable/logo" />
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/startup_google_login_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
     <LinearLayout
         android:id="@+id/startup_login_social_account"
         android:layout_width="match_parent"
