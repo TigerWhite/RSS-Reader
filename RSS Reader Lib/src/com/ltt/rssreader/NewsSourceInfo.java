@@ -1,11 +1,17 @@
 package com.ltt.rssreader;
 
+import java.io.Serializable;
+
 /**
  * Class chua thong tin ve 1 trang cung cap rss
  * 
  * @author Nguyen Duc Hieu
  */
-public class NewsSourceInfo {
+public class NewsSourceInfo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1054706848764425074L;
 	private String title;
 	private String description;
 	private String link;

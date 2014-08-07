@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="30dp"
                 android:gravity="left"
                 android:text="@string/google_plus_sign_in"
                 android:textColor="#ffffff"
@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="24dp"
+                android:layout_marginLeft="34dp"
                 android:gravity="left"
                 android:text="@string/facebook_sign_in"
                 android:textColor="#ffffff"
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="30dp"
                 android:gravity="left"
                 android:text="@string/twitter_plus_sign_in"
                 android:textColor="#ffffff"
@@ -206,7 +206,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="70dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="bottom"
@@ -217,10 +217,10 @@
             android:id="@+id/startup_edit_username"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="#32ffffff"
+            android:background="#96FFFFAC"
             android:hint="@string/user_name"
             android:singleLine="true"
-            android:textSize="18sp" >
+            android:textSize="25sp" >
 
             <requestFocus />
         </EditText>
@@ -229,15 +229,26 @@
             android:id="@+id/startup_edit_password"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:background="#32ffffff"
+            android:layout_marginTop="20dp"
+            android:background="#96FFFFAC"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:singleLine="true"
-            android:textSize="18sp" >
+            android:textSize="25sp" >
 
             <requestFocus />
         </EditText>
+
+        <TextView
+            android:id="@+id/startup_tv_create_new_acc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:text="@string/create_new_account"
+            android:textColor="#FF5050"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/startup_tv_forgot_account"
@@ -247,33 +258,24 @@
             android:layout_marginTop="10dp"
             android:clickable="true"
             android:text="@string/forgot_account"
-            android:textColor="#3333ff"
-            android:textSize="15sp" />
+            android:textColor="#FF5050"
+            android:textSize="17sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/startup_btn_ltt_signin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:weightSum="2" >
-
-            <Button
-                android:id="@+id/startup_btn_create_account"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/create_new_account" />
-
-            <Button
-                android:id="@+id/startup_btn_ltt_signin"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="@string/sign_in" />
-        </LinearLayout>
+            android:background="@drawable/custom_btn_sign_in"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="15dp"
+            android:text="@string/sign_in"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -292,10 +294,10 @@
             android:id="@+id/startup_ed_create_username"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="#32ffffff"
+            android:background="#96FFFFAC"
             android:hint="@string/user_name"
             android:singleLine="true"
-            android:textSize="18sp" >
+            android:textSize="22sp" >
 
             <requestFocus />
         </EditText>
@@ -304,12 +306,12 @@
             android:id="@+id/startup_ed_create_email"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:background="#32ffffff"
+            android:layout_marginTop="15dp"
+            android:background="#96FFFFAC"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:singleLine="true"
-            android:textSize="18sp" >
+            android:textSize="22sp" >
 
             <requestFocus />
         </EditText>
@@ -318,40 +320,42 @@
             android:id="@+id/startup_ed_create_password"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:background="#32ffffff"
+            android:layout_marginTop="15dp"
+            android:background="#96FFFFAC"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:singleLine="true"
-            android:textSize="18sp" >
+            android:textSize="22sp" >
 
             <requestFocus />
         </EditText>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/startup_tv_existed_acc"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:text="@string/existed"
+            android:textColor="#FF5050"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/startup_btn_ltt_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:weightSum="2" >
-
-            <Button
-                android:id="@+id/startup_btn_back_social_login"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sign_in_information" />
-
-            <Button
-                android:id="@+id/startup_btn_ltt_signup"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="@string/sign_up" />
-        </LinearLayout>
+            android:background="@drawable/custom_btn_sign_in"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="15dp"
+            android:text="@string/sign_up"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </RelativeLayout>

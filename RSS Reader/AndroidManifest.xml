@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <application
         android:allowBackup="true"
@@ -72,6 +73,15 @@
         <activity
             android:name="ltt.intership.activity.AccountProfileActivity"
             android:label="@string/title_activity_account_profile" >
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="ltt.intership.activity.ShowWebviewActivity"
+            android:label="@string/title_activity_show_webview" >
         </activity>
     </application>
 

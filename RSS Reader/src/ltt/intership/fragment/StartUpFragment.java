@@ -2,15 +2,17 @@ package ltt.intership.fragment;
 
 import java.util.Arrays;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import ltt.intership.R;
 import ltt.intership.activity.MainActivity;
+import ltt.intership.activity.StartUpActivity;
 import ltt.intership.activity.StartUpActivity.mFragmentReceiver;
 import ltt.intership.connection.PrefManagement;
 import ltt.intership.connection.UserFunctions;
 import ltt.intership.utils.Config;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -37,7 +39,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import com.facebook.widget.LoginButton;
 
 public class StartUpFragment extends Fragment implements View.OnClickListener,
@@ -62,7 +66,8 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 
 	private Twitter twitterConnection;
 	private RequestToken twitterRequestToken;
-	private SharedPreferences twitterPrefs;
+
+	private SharedPreferences mPrefs;
 
 	private boolean LoginFacebook = false;
 	private boolean LoginGoogle = false;
@@ -75,6 +80,11 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 	private static final int mGOOGLE = 1;
 	private static final int mTWITTER = 2;
 	private static final int mLTT = 3;
+
+	private static int stateScreen = 0;
+	private static final int stateSocial = 1;
+	private static final int stateSignIn = 2;
+	private static final int stateSignUp = 3;
 
 	/*
 	 * key khi dang nhap bang server cua nhom
@@ -94,6 +104,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 	Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+
 			Log.i("mHandler", "mess: " + (String) msg.obj);
 			if (((String) msg.obj).equalsIgnoreCase(login_succes)) {
 				Log.i("mHandler", "para: " + msg.arg1);
@@ -101,19 +112,51 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 				case mFACEBOOK:
 					Toast.makeText(getActivity(), "login facebook succesfull",
 							Toast.LENGTH_SHORT).show();
+					mPrefs.edit().putString(Config.PREFS_LOGIN_FACEBOOK, "true");
+					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
+						mPrefs.edit()
+								.putString(Config.PREFS_TYPE_ACC, "FACEBOOK")
+								.putString(Config.PREFS_LOGIN_FACEBOOK, "true")
+								.commit();
+					}else{
+						mPrefs.edit().putString(Config.PREFS_LOGIN_FACEBOOK, "true").commit();
+					}
 					break;
 				case mGOOGLE:
 					Toast.makeText(getActivity(), "login google succesfull",
 							Toast.LENGTH_SHORT).show();
+					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
+						mPrefs.edit()
+								.putString(Config.PREFS_TYPE_ACC, "GOOGLE")
+								.putString(Config.PREFS_LOGIN_GOOGLE, "true")
+								.commit();
+					}else {
+						mPrefs.edit().putString(Config.PREFS_LOGIN_GOOGLE, "true").commit();
+					}
 					break;
 				case mTWITTER:
 					Toast.makeText(getActivity(), "login twitter succesfull",
 							Toast.LENGTH_SHORT).show();
+					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
+						mPrefs.edit()
+								.putString(Config.PREFS_TYPE_ACC, "TWITTER")
+								.putString(Config.PREFS_LOGIN_TWITTER, "true")
+								.commit();
+					}else {
+						mPrefs.edit().putString(Config.PREFS_LOGIN_TWITTER, "true").commit();
+					}
 					break;
 				case mLTT:
 					Toast.makeText(getActivity(),
 							"login ltt account succesfull", Toast.LENGTH_SHORT)
 							.show();
+					if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) == null) {
+						mPrefs.edit().putString(Config.PREFS_TYPE_ACC, "LTT")
+								.putString(Config.PREFS_LOGIN_LTT, "true")
+								.commit();
+					}else {
+						mPrefs.edit().putString(Config.PREFS_LOGIN_LTT, "true").commit();
+					}
 					break;
 				default:
 					break;
@@ -147,7 +190,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		switch (v.getId()) {
 		case R.id.startup_googlePlus_sign_in:
 			// dang nhap bang tai khoan google-plus
-			sendNewMss(login_succes, mGOOGLE);
+			startLoginByGoogle();
 			break;
 		case R.id.startup_facebook_sign_in:
 			// dang nhap bang tai khoan facebook
@@ -159,16 +202,17 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 			break;
 
 		case R.id.startup_sign_in:
-			llLoginSocial.setAnimation(lslide);
 			llLoginSocial.setVisibility(View.GONE);
+			llSignUp.setVisibility(View.GONE);
 
-			llLoginLtt.setAnimation(rslide);
+			llLoginLtt.setAnimation(lslide);
 			llLoginLtt.setVisibility(View.VISIBLE);
 			break;
 		case R.id.startup_get_started:
 			sendNewMss(login_succes, notLogin);
 			break;
 		case R.id.startup_btn_ltt_signin:
+			// sign in with ltt account
 			if (!"".equals(edSignInName.getText().toString())
 					&& !"".equals(edSignInPass.getText().toString())) {
 				new SigninTask().execute();
@@ -176,13 +220,6 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 				Toast.makeText(getActivity(), "Please input full information",
 						Toast.LENGTH_LONG).show();
 			}
-			break;
-		case R.id.startup_btn_create_account:
-			llLoginLtt.setAnimation(lslide);
-			llLoginLtt.setVisibility(View.GONE);
-
-			llSignUp.setAnimation(lslide);
-			llSignUp.setVisibility(View.VISIBLE);
 			break;
 		case R.id.startup_btn_ltt_signup:
 			if (!"".equals(edRegisterName.getText().toString())
@@ -193,6 +230,21 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 				Toast.makeText(getActivity(), "Please input full information",
 						Toast.LENGTH_LONG).show();
 			}
+			break;
+		case R.id.startup_tv_create_new_acc:
+			llLoginLtt.setVisibility(View.GONE);
+			llLoginSocial.setVisibility(View.GONE);
+
+			llSignUp.setAnimation(rslide);
+			llSignUp.setVisibility(View.VISIBLE);
+			break;
+		case R.id.startup_tv_existed_acc:
+			llSignUp.setVisibility(View.GONE);
+			llLoginLtt.setVisibility(View.GONE);
+
+			llLoginSocial.setAnimation(rslide);
+			llLoginSocial.setVisibility(View.VISIBLE);
+			break;
 		default:
 			break;
 		}
@@ -222,10 +274,16 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+			stateScreen = stateSocial;
 			pgBar.setVisibility(View.GONE);
+			llLoginLtt.setVisibility(View.GONE);
+			llSignUp.setVisibility(View.GONE);
+
 			llLoginSocial.setAnimation(bslide);
 			llLoginSocial.setVisibility(View.VISIBLE);
 			Log.i("progess bar", "completed");
+
+			checkLogin();
 		}
 	}
 
@@ -240,11 +298,9 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		islide = AnimationUtils.loadAnimation(getActivity(),
 				R.anim.hyperspace_out);
 		lslide = AnimationUtils.loadAnimation(getActivity(),
-				R.anim.slide_left_to_right);
-		lslide.setDuration(1000);
+				R.anim.slide_from_left);
 		rslide = AnimationUtils.loadAnimation(getActivity(),
-				R.anim.slide_from_right_to_left);
-		rslide.setDuration(1000);
+				R.anim.slide_from_right);
 
 		llLoginSocial = (LinearLayout) view
 				.findViewById(R.id.startup_login_social_account);
@@ -288,10 +344,6 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 				.findViewById(R.id.startup_btn_ltt_signin);
 		btnLttSignIn.setOnClickListener(this);
 
-		Button btnCreateLttAcc = (Button) view
-				.findViewById(R.id.startup_btn_create_account);
-		btnCreateLttAcc.setOnClickListener(this);
-
 		Button btnLttSignUp = (Button) view
 				.findViewById(R.id.startup_btn_ltt_signup);
 		btnLttSignUp.setOnClickListener(this);
@@ -306,11 +358,14 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		edRegisterPass = (EditText) view
 				.findViewById(R.id.startup_ed_create_password);
 
+		((TextView) view.findViewById(R.id.startup_tv_existed_acc))
+				.setOnClickListener(this);
+		((TextView) view.findViewById(R.id.startup_tv_create_new_acc))
+				.setOnClickListener(this);
 	}
 
 	private void initParameter() {
-		twitterPrefs = getActivity().getSharedPreferences(Config.GLOBAL_PREFS,
-				0);
+		mPrefs = getActivity().getSharedPreferences(Config.GLOBAL_PREFS, 0);
 		pref = new PrefManagement(getActivity());
 	}
 
@@ -328,11 +383,20 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 	 * kiem tra cac tai khoan hien co
 	 */
 	private void checkLogin() {
+		if (mPrefs.getString(Config.PREFS_TYPE_ACC, null) != null) {
 
+			if (isLoginTwitter()) {
+				sendNewMss(login_succes, mTWITTER);
+			}
+			if (mPrefs.getString(Config.PREFS_TYPE_ACC, null).equalsIgnoreCase(
+					"LTT")) {
+				sendNewMss(login_succes, mLTT);
+			}
+		}
 	}
 
 	private boolean isLoginTwitter() {
-		if (twitterPrefs.getString(Config.TWITTER_USER_TOKEN, null) == null) {
+		if (mPrefs.getString(Config.TWITTER_USER_TOKEN, null) == null) {
 			return false;
 		} else {
 			return true;
@@ -347,10 +411,13 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		return false;
 	}
 
+	private void startLoginByGoogle() {
+		((StartUpActivity) getActivity()).resolveSignInError();
+	}
+
 	private void startLoginByTwitterAcc() {
-		if (twitterPrefs == null) {
-			twitterPrefs = getActivity().getSharedPreferences(
-					Config.GLOBAL_PREFS, 0);
+		if (mPrefs == null) {
+			mPrefs = getActivity().getSharedPreferences(Config.GLOBAL_PREFS, 0);
 		}
 		twitterConnection = new TwitterFactory().getInstance();
 		twitterConnection.setOAuthConsumer(Config.TWITTER_KEY,
@@ -367,6 +434,36 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 	}
 
 	@Override
+	public boolean onBackPressed() {
+		boolean backState = false;
+		switch (stateScreen) {
+		case stateSocial:
+			backState = false;
+			break;
+		case stateSignIn:
+			backState = true;
+			llLoginLtt.setVisibility(View.GONE);
+			llSignUp.setVisibility(View.GONE);
+
+			llLoginSocial.setAnimation(rslide);
+			llLoginSocial.setVisibility(View.VISIBLE);
+			break;
+		case stateSignUp:
+			backState = true;
+			llSignUp.setVisibility(View.GONE);
+			llLoginLtt.setVisibility(View.GONE);
+
+			llLoginLtt.setAnimation(rslide);
+			llLoginLtt.setVisibility(View.VISIBLE);
+			break;
+		default:
+			break;
+		}
+		return backState;
+
+	}
+
+	@Override
 	public void onNewIntentReceive(Intent intent) {
 		Uri twitterURI = intent.getData();
 		if (twitterURI != null
@@ -379,8 +476,7 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 			try {
 				AccessToken accToken = twitterConnection.getOAuthAccessToken(
 						twitterRequestToken, oaVerifier);
-				twitterPrefs
-						.edit()
+				mPrefs.edit()
 						.putString(Config.TWITTER_USER_TOKEN,
 								accToken.getToken())
 						.putString(Config.TWITTER_USER_SECRET,
@@ -404,6 +500,14 @@ public class StartUpFragment extends Fragment implements View.OnClickListener,
 		this.LoginFacebook = login;
 		if (login == true) {
 			sendNewMss(login_succes, mFACEBOOK);
+		}
+	}
+
+	@Override
+	public void onLoginGoogleSuccess(boolean login) {
+		this.LoginGoogle = login;
+		if (login == true) {
+			sendNewMss(login_succes, mGOOGLE);
 		}
 	}
 

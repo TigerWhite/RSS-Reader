@@ -7,6 +7,7 @@ import ltt.intership.custom.mSpinnerAdapter;
 import ltt.intership.data.mListItem;
 import ltt.intership.data.mSocialMedia;
 import ltt.intership.fragment.ScreenSlidePageFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -24,10 +25,19 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
+import com.facebook.Session;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.FacebookDialog;
+import com.facebook.widget.WebDialog;
+import com.facebook.widget.WebDialog.OnCompleteListener;
+
 public class ReadArticleActivity extends FragmentActivity implements
-		OnClickListener, OnItemSelectedListener {
+		OnClickListener {
 	private int NUM_PAGES = 1;
 
 	/**
@@ -47,20 +57,32 @@ public class ReadArticleActivity extends FragmentActivity implements
 	private Button btnSearch, btnShare;
 
 	private Spinner spinner;
-
+	private boolean firstTime;
+	
+	// share facebook
+	private static final String PERMISSION = "publish_actions";
+	private UiLifecycleHelper uiHelper; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.read_article);
 
+		firstTime = true;
+		
 		String url = getIntent().getStringExtra("url");
 		int pos = getIntent().getIntExtra("position", 1);
 
 		Log.i("url received", url);
-
+		
 		list = new mListItem(url);
 		this.NUM_PAGES = list.getList().size();
-
+		
+		// init facebook
+		uiHelper = new UiLifecycleHelper(this, null);
+		uiHelper.onCreate(savedInstanceState);
+		
+		
 		// Instantiate a ViewPager and a PagerAdapter.
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -92,17 +114,49 @@ public class ReadArticleActivity extends FragmentActivity implements
 		btnShare.setOnClickListener(this);
 
 		spinner = (Spinner) findViewById(R.id.readArticle_spinner);
-		spinner.setOnItemSelectedListener(this);
+		// spinner.setOnItemSelectedListener(this);
 		ArrayList<mSocialMedia> data = new ArrayList<mSocialMedia>();
 		data.add(new mSocialMedia("facebook", R.drawable.fb_logo));
 		data.add(new mSocialMedia("google", R.drawable.google_logo));
 		data.add(new mSocialMedia("twitter", R.drawable.twitter_logo));
 		mSpinnerAdapter mAdapter = new mSpinnerAdapter(this,
 				android.R.layout.simple_spinner_item, data);
-		spinner.setPrompt("");
-		spinner.setSelection(-1);
 		spinner.setAdapter(mAdapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				if (firstTime) {
+					firstTime = false;
+					return;
+				}
+				int pos = mPager.getCurrentItem();
+				switch (arg2) {
+				case 0:
+					shareFacebook(list.get(pos).getRssItemInfo().getLink());
+					break;
+				case 1:
+					shareGoogle("google " + list.get(pos).getRssItemInfo().getLink());
+					break;
+				case 2:
+					shareTwitter("twitter " + list.get(pos).getRssItemInfo().getLink());
+					break;
+				default:
+					break;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		((TextView) findViewById(R.id.readArticle_tv_theme)).setText(list
+				.getNewsSource().getNewsSource().getTitle());
 	}
 
 	@Override
@@ -142,17 +196,94 @@ public class ReadArticleActivity extends FragmentActivity implements
 		}
 	}
 
-	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-			long arg3) {
-		// TODO Auto-generated method stub
+	private void shareFacebook(String url) {
+		Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+		if (FacebookDialog.canPresentShareDialog(getApplicationContext(),
+				FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+			// Publish the post using the Share Dialog
+			FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
+					this).setLink(url).build();
+			uiHelper.trackPendingDialogCall(shareDialog.present());
 
+		} else {
+			publishFeedDialog();
+			// Fallback. For example, publish the post using the Feed Dialog
+		}
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		uiHelper.onActivityResult(requestCode, resultCode, data,
+				new FacebookDialog.Callback() {
+					@Override
+					public void onError(FacebookDialog.PendingCall pendingCall,
+							Exception error, Bundle data) {
+						Log.e("Activity",
+								String.format("Error: %s", error.toString()));
+					}
+
+					@Override
+					public void onComplete(
+							FacebookDialog.PendingCall pendingCall, Bundle data) {
+					// xu ly khi dang ki thanh cong
+					}
+				});
+	}
+private void publishFeedDialog() {
+	    Bundle params = new Bundle();
+	    int pos = mPager.getCurrentItem();
+	    params.putString("name", list.get(pos).getRssItemInfo().getTitle());
+//	    params.putString("caption", "Build great social apps and get more installs.");
+//	    params.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
+	    params.putString("link", list.get(pos).getRssItemInfo().getLink());
+	    params.putString("picture", list.get(pos).getRssItemInfo().getThumbnail());
+
+	    WebDialog feedDialog = (
+	        new WebDialog.FeedDialogBuilder(getApplicationContext(),
+	            Session.getActiveSession(),
+	            params)).setOnCompleteListener(listener).build();
+	    feedDialog.show();
+	}
+	
+	OnCompleteListener listener=new OnCompleteListener() {
+		
+		@Override
+		public void onComplete(Bundle values, FacebookException error) {
+			// TODO Auto-generated method stub
+			if (error == null) {
+                // When the story is posted, echo the success
+                // and the post Id.
+                final String postId = values.getString("post_id");
+                if (postId != null) {
+                    Toast.makeText(getApplicationContext(),
+                        "Posted story, id: "+postId,
+                        Toast.LENGTH_SHORT).show();
+                } else {
+                    // User clicked the Cancel button
+                    Toast.makeText(getApplicationContext(), 
+                        "Publish cancelled", 
+                        Toast.LENGTH_SHORT).show();
+                }
+            } else if (error instanceof FacebookOperationCanceledException) {
+                // User clicked the "x" button
+                Toast.makeText(getApplicationContext(), 
+                    "Publish cancelled", 
+                    Toast.LENGTH_SHORT).show();
+            } else {
+                // Generic, ex: network error
+                Toast.makeText(getApplicationContext(), 
+                    "Error posting story", 
+                    Toast.LENGTH_SHORT).show();
+            }
+		}
+	};
+	private void shareGoogle(String url) {
+		Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
 	}
 
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
-
+	private void shareTwitter(String url) {
+		Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -167,12 +298,18 @@ public class ReadArticleActivity extends FragmentActivity implements
 		@Override
 		public Fragment getItem(int position) {
 			return ScreenSlidePageFragment.create(position,
-					list.getList().get(position));
+					list.getList().get(position), list.getNewsSource());
 		}
 
 		@Override
 		public int getCount() {
 			return NUM_PAGES;
+		}
+
+		@Override
+		public int getItemPosition(Object object) {
+			// TODO Auto-generated method stub
+			return super.getItemPosition(object);
 		}
 	}
 

@@ -1,18 +1,14 @@
 package ltt.intership.custom;
 
-import java.io.InputStream;
-
 import ltt.intership.R;
 import ltt.intership.data.mListItem;
 import ltt.intership.data.mRssItem;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ltt.util.WebAccessHandler;
+import com.squareup.picasso.Picasso;
 
 public class mListRssAdapter extends ArrayAdapter<mRssItem> {
 	Activity context = null;
@@ -32,6 +28,16 @@ public class mListRssAdapter extends ArrayAdapter<mRssItem> {
 	TextView newspaper, title, date;
 	ImageView img_article, img_news;
 
+	public interface OnItemClick {
+		public void onClick(int position);
+	}
+
+	private OnItemClick onItemClick;
+
+	public void setOnItemClick(OnItemClick onItemClick) {
+		this.onItemClick = onItemClick;
+	}
+
 	public mListRssAdapter(Activity context, int layoutId, mListItem list) {
 		super(context, layoutId, list.getList());
 		this.context = context;
@@ -39,14 +45,13 @@ public class mListRssAdapter extends ArrayAdapter<mRssItem> {
 		this.mArr = list;
 		this.metrics = new DisplayMetrics();
 		context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
 		Log.i("init mListRssAdapter", "list size " + list.getList().size());
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 
-		Log.i("init view", "start at position " + position);
+		Log.i("init view in mListRssAdapter", "start at position " + position);
 
 		LayoutInflater inflater = context.getLayoutInflater();
 		convertView = inflater.inflate(layoutId, null);
@@ -70,86 +75,30 @@ public class mListRssAdapter extends ArrayAdapter<mRssItem> {
 					.findViewById(R.id.itemrss_img_article);
 
 			newspaper.setText(mArr.getNewsSource().getNewsSource().getTitle());
-			img_news.setImageBitmap(mArr.getNewsSource().getImg());
-
-			title.setText(item.getRssItemInfo().getTitle());
-			date.setText(item.getRssItemInfo().getPubDateFormat().getDate()
-					+ "");
-
-			if (item.getImg() != null) {
-				Log.i("load existed image", "position :" + position);
-				img_article.setImageBitmap(item.getImg());
-			} else {
-				Log.i("created image", "position :" + position);
-				new mLoadBitmap(convertView, item.getRssItemInfo()
-						.getThumbnail(), position).execute();
+			String news_logo_url = mArr.getNewsSource().getNewsSource()
+					.getThumbnail();
+			if (news_logo_url.length() != 0) {
+				Picasso.with(context).load(news_logo_url).into(img_news);
 			}
+			title.setText(item.getRssItemInfo().getTitle());
+			date.setText(item.getRssItemInfo().getPubDate());
+
+			Picasso.with(context).load(item.getRssItemInfo().getThumbnail())
+					.into(img_article);
 
 		} else {
 			Log.i("adapter", "item null");
 		}
 
-		return convertView;
-	}
+		convertView.setOnClickListener(new OnClickListener() {
 
-	public Bitmap loadBitmap(String url, BitmapFactory.Options options) {
-		Bitmap bitmap = null;
-		InputStream in = null;
-		try {
-			in = new WebAccessHandler().fetchURL(url);
-			bitmap = BitmapFactory.decodeStream(in, null, options);
-			in.close();
-		} catch (Exception e1) {
-			return null;
-		}
-		return bitmap;
-	}
+			@Override
+			public void onClick(View v) {
+				if (onItemClick != null)
+					onItemClick.onClick(position);
 
-	private class mLoadBitmap extends AsyncTask<Void, Void, Void> {
-		View v;
-		String thumb;
-		Bitmap bmpContent;
-		int pos;
-
-		public mLoadBitmap(View view, String thumbnail, int position) {
-			this.v = view;
-			this.thumb = thumbnail;
-			this.pos = position;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-		}
-
-		protected Void doInBackground(Void... params) {
-			BitmapFactory.Options bmOptions;
-			bmOptions = new BitmapFactory.Options();
-			bmOptions.inSampleSize = 1;
-
-			bmpContent = loadBitmap(this.thumb, bmOptions);
-
-			publishProgress();
-			return null;
-		};
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			super.onProgressUpdate(values);
-
-			ImageView img = (ImageView) this.v
-					.findViewById(R.id.itemrss_img_article);
-			if (bmpContent != null) {
-				img.setImageBitmap(bmpContent);
-			} else {
-				// img.setVisibility(View.GONE);
 			}
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
-			mArr.get(pos).setImg(bmpContent);
-		}
+		});
+		return convertView;
 	}
 }

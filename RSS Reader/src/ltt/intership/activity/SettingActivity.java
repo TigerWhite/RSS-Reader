@@ -1,6 +1,8 @@
 package ltt.intership.activity;
 
 import ltt.intership.R;
+import ltt.intership.fragment.MainFragment;
+import ltt.intership.fragment.SettingFragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +15,10 @@ public class SettingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.setting);
 
+		if (savedInstanceState == null) {
+			getFragmentManager().beginTransaction()
+					.add(R.id.setting_container, new SettingFragment()).commit();
+		}
 	}
 
 	@Override

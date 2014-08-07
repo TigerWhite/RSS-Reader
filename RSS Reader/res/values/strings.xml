@@ -24,6 +24,7 @@
     <string name="create_new_account">Create new account</string>
     <string name="sign_up">Sign Up</string>
     <string name="email">Email</string>
+    <string name="existed">Existed account ?</string>
     <!--  -->
     <string name="account_help">Account Help</string>
     <string name="forgot_password">Forgot Password?</string>
@@ -60,7 +61,10 @@
     <!--  -->
     <string name="app_id">275032959348813</string>
     <string name="space"></string>
-
+    <!--  -->
+    <string name="play_services_error">Google Play services is not available.  This application will close.</string>
+    <string name="close">Close</string>
+    <!--  -->
     <string-array name="rss_category">
         <item>http://feeds.feedburner.com/tedtalks_video</item>
         <item>http://www.24h.com.vn/upload/rss/phithuongkyquac.rss</item>
@@ -106,5 +110,6 @@
     <string name="title_activity_account_help">AccountHelpActivity</string>
     <string name="title_activity_account_manage">AccountManageActivity</string>
     <string name="title_activity_account_profile">AccountProfileActivity</string>
+    <string name="title_activity_show_webview">ShowWebviewActivity</string>
 
 </resources>

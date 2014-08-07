@@ -4,15 +4,20 @@ import ltt.intership.R;
 import ltt.intership.R.id;
 import ltt.intership.R.layout;
 import ltt.intership.R.menu;
+import ltt.intership.utils.Config;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.os.Build;
 
 public class AccountProfileActivity extends Activity {
@@ -24,7 +29,7 @@ public class AccountProfileActivity extends Activity {
 
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+					.add(R.id.container, new AccProfileFragment()).commit();
 		}
 	}
 
@@ -51,9 +56,13 @@ public class AccountProfileActivity extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
+	public static class AccProfileFragment extends Fragment implements
+			OnClickListener {
+		ImageButton btnBack;
+		Button btnLogout;
+		String type;
 
-		public PlaceholderFragment() {
+		public AccProfileFragment() {
 		}
 
 		@Override
@@ -61,7 +70,60 @@ public class AccountProfileActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_account_profile,
 					container, false);
+			type = getActivity().getIntent().getStringExtra(
+					Config.PREFS_TYPE_ACC);
+
+			btnBack = (ImageButton) rootView
+					.findViewById(R.id.accProfile_btn_back);
+			btnBack.setOnClickListener(this);
+
+			btnLogout = (Button) rootView.findViewById(R.id.accProfile_logout);
+			btnLogout.setOnClickListener(this);
+
 			return rootView;
+		}
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.accProfile_btn_back:
+				startActivity(new Intent(getActivity(),
+						AccountManageActivity.class));
+				getActivity().finish();
+				break;
+			case R.id.accProfile_logout:
+
+				logout();
+
+				startActivity(new Intent(getActivity(),
+						AccountManageActivity.class));
+				getActivity().finish();
+				break;
+			default:
+				break;
+			}
+		}
+
+		private void logout() {
+			if (Config.PREFS_FACEBOOK.equalsIgnoreCase(type)) {
+				
+				return;
+			}
+
+			if (Config.PREFS_GOOGLE.equalsIgnoreCase(type)) {
+
+				return;
+			}
+
+			if (Config.PREFS_TWITTER.equalsIgnoreCase(type)) {
+
+				return;
+			}
+
+			if (Config.PREFS_LTT.equalsIgnoreCase(type)) {
+
+				return;
+			}
 		}
 	}
 

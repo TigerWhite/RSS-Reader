@@ -10,8 +10,8 @@
         android:layout_width="120dip"
         android:layout_height="120dip"
         android:layout_margin="5dp"
-        android:padding="0dp"
         android:contentDescription="@string/img_description"
+        android:padding="0dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_launcher" />
 
@@ -28,14 +28,14 @@
 
             <ImageButton
                 android:id="@+id/itemrss_img_newspaper"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentLeft="true"
                 android:contentDescription="@string/img_description"
                 android:padding="1dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_launcher"
-                android:scaleType="fitXY" 
-                android:visibility="gone"/>
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/itemrss_newspaper"
@@ -43,14 +43,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@id/itemrss_img_newspaper"
-                android:text="@string/newspaper" 
-                android:textSize="12sp"/>
+                android:text="@string/newspaper"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/itemrss_date"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:singleLine="true"
                 android:text="@string/timer" />
         </RelativeLayout>
 
@@ -58,11 +60,11 @@
             android:id="@+id/itemrss_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/title"
             android:textColor="#e6000000"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp" 
-            android:textStyle="bold"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

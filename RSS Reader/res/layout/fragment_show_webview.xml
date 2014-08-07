@@ -3,10 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="zend.layout.ListRssActivity$ListRssFragment" >
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="ltt.intership.ShowWebviewActivity$PlaceholderFragment" >
 
     <RelativeLayout
-        android:id="@+id/listRss_bar"
+        android:id="@+id/showWebview_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/default_background"
@@ -14,11 +18,11 @@
         android:paddingTop="8dp" >
 
         <LinearLayout
-            android:id="@+id/listRss_btn_back"
+            android:id="@+id/showWebview_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_btn_back"
             android:layout_alignParentLeft="true"
+            android:background="@drawable/custom_btn_back"
             android:clickable="true"
             android:orientation="horizontal"
             android:padding="0dp" >
@@ -38,32 +42,15 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/listRss_tv_category"
+            android:id="@+id/showWebview_tv_article"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/hello_world"
             android:textColor="@color/default_text_color" />
-
-        <ImageButton
-            android:id="@+id/listRss_btn_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginLeft="5dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/setting"
-            android:background="@drawable/custom_btn_setting" />
-
     </RelativeLayout>
-
-    <ListView
-        android:id="@+id/listRss_lv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#B3eee9e9"
-        android:divider="#B3eee9e9"
-        android:dividerHeight="20dp" 
-        android:visibility="visible">
-    </ListView>
-
+	<WebView 
+	    android:id="@+id/showWebview_web"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"/>
 </LinearLayout>

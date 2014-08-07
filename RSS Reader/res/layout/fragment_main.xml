@@ -20,4 +20,34 @@
         android:gravity="center"
         android:text="start" />
 
+    <Button
+        android:id="@+id/main_btn_logout_fb"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_btn_start_list_rss"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="logout facebook" />
+
+    <Button
+        android:id="@+id/main_btn_logout_google"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_btn_logout_fb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="logout google" />
+
+    <Button
+        android:id="@+id/main_btn_logout_twitter"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_btn_logout_google"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="logout twitter" />
+
 </RelativeLayout>

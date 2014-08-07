@@ -1,11 +1,7 @@
 package ltt.intership.data;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-
-import org.apache.http.client.ClientProtocolException;
 
 import android.util.Log;
 
@@ -30,7 +26,7 @@ public class mListItem {
 			list.clear();
 		}
 		if (this.url == null) {
-			Log.i("update instance mListItem", "url null");
+			Log.i("update instance mListItem", "first time");
 		} else if (new_url.equalsIgnoreCase(this.url)) {
 			Log.i("update instance mListItem", "repeated -> ignore");
 			return;
@@ -47,6 +43,7 @@ public class mListItem {
 		NewsSourceInfo newSource = new RssParser().getSourceInfo(inStream);
 		this.news = new mNewsInfo(newSource);
 
+		inStream = getStreamRss(new_url);
 		ArrayList<RssItemInfo> listRssItem = new RssParser().parseXML(inStream);
 
 		if (listRssItem == null) {
@@ -55,7 +52,6 @@ public class mListItem {
 
 		for (RssItemInfo item : listRssItem) {
 			this.list.add(new mRssItem(item));
-			Log.i("add item", item.getLink());
 		}
 		Log.i("after add item", "size: " + this.list.size());
 	}
@@ -72,7 +68,7 @@ public class mListItem {
 		return this.news;
 	}
 
-	public InputStream getStreamRss(String link) {
+	private InputStream getStreamRss(String link) {
 		WebAccessHandler webhandle = new WebAccessHandler();
 		InputStream inStream = null;
 		inStream = webhandle.getStreamFromLink(link);
