@@ -43,7 +43,7 @@ public class MetroActivity extends Activity implements OnClickListener,
 				.permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		// mMetroItem = createMetro();
-		 this.deleteDatabase("RSSSearch");
+//		 this.deleteDatabase("RSSSearch");
 
 		File database = this.getDatabasePath("RSSSearch");
 		if (!database.exists()) {

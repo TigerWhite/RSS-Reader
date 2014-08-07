@@ -7,10 +7,17 @@
     android:id="@+id/searchInput"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_toRightOf="@+id/searchView1"
+    android:layout_toLeftOf="@+id/btnSpeak"
     android:hint="Search RSS ..."
     android:imeOptions="actionSearch"
     android:inputType="text" />
+    <ImageButton
+        android:id="@+id/btnSpeak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_search"
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentTop="true" />
 
 <ListView
     android:id="@+id/listview"
@@ -18,14 +25,7 @@
     android:layout_height="fill_parent"
     android:layout_below="@+id/searchInput" />
 
-<SearchView
-    android:id="@+id/searchView1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignBottom="@+id/searchInput"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentTop="true" >
 
-</SearchView>
+
 
 </RelativeLayout>

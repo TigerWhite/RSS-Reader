@@ -82,9 +82,11 @@ public class mListRssAdapter extends ArrayAdapter<mRssItem> {
 			}
 			title.setText(item.getRssItemInfo().getTitle());
 			date.setText(item.getRssItemInfo().getPubDate());
-
-			Picasso.with(context).load(item.getRssItemInfo().getThumbnail())
-					.into(img_article);
+			if (item.getRssItemInfo().getThumbnail().length() != 0) {
+				Picasso.with(context)
+						.load(item.getRssItemInfo().getThumbnail())
+						.into(img_article);
+			}
 
 		} else {
 			Log.i("adapter", "item null");

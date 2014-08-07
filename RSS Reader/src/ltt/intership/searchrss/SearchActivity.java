@@ -13,16 +13,21 @@ import org.jsoup.Jsoup;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Searchrss
@@ -44,10 +49,12 @@ public class SearchActivity extends Activity {
 	static String URL = "url";
 	static String TITLE = "title";
 	static String DESCRIPTION = "description";
+	protected static final int RESULT_SPEECH = 1;
 	public String searchKey;
 	public int flag;
 	
 	private EditText searchInput;
+	private ImageButton btnSpeak;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,7 @@ public class SearchActivity extends Activity {
 		Intent i = getIntent();
 		flag = Integer.parseInt(i.getStringExtra("flag"));
 		searchInput = (EditText) findViewById(R.id.searchInput);
+		btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
 		
 //		searchInput.addTextChangedListener(new TextWatcher() {
 //			
@@ -94,7 +102,46 @@ public class SearchActivity extends Activity {
 				return false;
 			}
 		});
+		btnSpeak.setOnClickListener(new View.OnClickListener() {
+			 
+            @Override
+            public void onClick(View v) {
+ 
+                Intent intent = new Intent(
+                        RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+ 
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+ 
+                try {
+                    startActivityForResult(intent, RESULT_SPEECH);
+                    searchInput.setText("");
+                } catch (ActivityNotFoundException a) {
+                    Toast t = Toast.makeText(getApplicationContext(),
+                            "Opps! Your device doesn't support Speech to Text",
+                            Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            }
+        });
 	}
+	 @Override
+	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	        super.onActivityResult(requestCode, resultCode, data);
+	 
+	        switch (requestCode) {
+	        case RESULT_SPEECH: {
+	            if (resultCode == RESULT_OK && null != data) {
+	 
+	                ArrayList<String> text = data
+	                        .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+	 
+	                searchInput.setText(text.get(0));
+	                new DownloadJSON().execute();
+	            }
+	            break;
+	        }
+	        }
+	 }
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(this, MetroActivity.class);
@@ -107,15 +154,15 @@ public class SearchActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			// Create a progressdialog
-			mProgressDialog = new ProgressDialog(SearchActivity.this);
-			// Set progressdialog title
-			mProgressDialog.setTitle("Android Search RSS");
-			// Set progressdialog message
-			mProgressDialog.setMessage("Loading application...");
-			mProgressDialog.setIndeterminate(false);
-			// Show progressdialog
-			mProgressDialog.show();
+//			// Create a progressdialog
+//			mProgressDialog = new ProgressDialog(SearchActivity.this);
+//			// Set progressdialog title
+//			mProgressDialog.setTitle("Android Search RSS");
+//			// Set progressdialog message
+//			mProgressDialog.setMessage("Loading application...");
+//			mProgressDialog.setIndeterminate(false);
+//			// Show progressdialog
+//			mProgressDialog.show();
 		}
 
 		@Override
@@ -143,7 +190,7 @@ public class SearchActivity extends Activity {
 					map.put("title", Jsoup.parse(jsonobject.getString("title")).text());
 //					map.put("description", Jsoup.parse(jsonobject.getString("contentSnippet")).text());
 					// Set the JSON Objects into the array
-					SystemClock.sleep(150);
+					SystemClock.sleep(100);
 					publishProgress(map);
 				}
 			} catch (JSONException e) {
@@ -176,7 +223,7 @@ public class SearchActivity extends Activity {
 //			// Set the adapter to the ListView
 //			listview.setAdapter(adapter);
 			// Close the progressdialog
-			mProgressDialog.dismiss();
+//			mProgressDialog.dismiss();
 		}
 	}
 }

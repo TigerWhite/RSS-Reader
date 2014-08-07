@@ -65,9 +65,10 @@
     <string name="play_services_error">Google Play services is not available.  This application will close.</string>
     <string name="close">Close</string>
     <!--  -->
-    <string name="urllabel">"Url : "</string>
-    <string name="titlelabel">"Title : "</string>
-    <string name="descriptionlabel">"Description : "</string>
+    <string name="urllabel">Url : </string>
+    <string name="titlelabel">Title : </string>
+    <string name="descriptionlabel">Description : </string>
+    <string name="speak">speak</string>
     <!--  -->
     <string-array name="rss_category">
         <item>http://feeds.feedburner.com/tedtalks_video</item>

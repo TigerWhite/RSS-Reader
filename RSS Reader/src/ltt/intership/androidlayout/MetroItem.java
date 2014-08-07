@@ -6,6 +6,7 @@ import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.util.Log;
@@ -94,12 +95,14 @@ public class MetroItem extends FrameLayout {
 		// imageView.setY(2);
 
 		textView = new TextView(context);
-		textView.setTextColor(getResources().getColor(android.R.color.white));
+		textView.setTextColor(Color.parseColor("#FFFFFF"));
 		Typeface dincond = Typeface.createFromAsset(context.getAssets(),
 				"fonts/segoeui.ttf");
 		textView.setTypeface(dincond);
-		textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+		textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
 		textView.setText(title);
+//		textView.setBackgroundColor(Color.parseColor("#CC000000"));
+		textView.setHighlightColor(Color.parseColor("#BCC6CC"));
 		// textView.setBackground(getResources().getDrawable(image));
 		// textView.setGravity(Gravity.BOTTOM);
 		textView.setGravity(Gravity.BOTTOM);
