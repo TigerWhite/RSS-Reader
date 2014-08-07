@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <!-- transparent background -->
+
+    <!-- transparent background -->
     <color name="white_transparent">#CCFFFFFF</color>
     <color name="default_background">#f8f8f8</color>
     <color name="default_pressed">#e8e8e8</color>
     <color name="default_text_color">#080808</color>
     <color name="default_text_hint">#808080</color>
+    <color name="control_one">#FF006699</color>
+    <color name="control_two">#FF1919FF</color>
+    <color name="control_one_opaque">#66006699</color>
+    <color name="control_two_opaque">#66009933</color>
+
 </resources>

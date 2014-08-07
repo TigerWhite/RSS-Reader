@@ -1,11 +1,10 @@
 package ltt.intership.fragment;
 
 import ltt.intership.R;
-import ltt.intership.activity.ListRssActivity;
-import ltt.intership.activity.ShowWebviewActivity;
 import ltt.intership.data.mNewsInfo;
 import ltt.intership.data.mRssItem;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -97,6 +96,14 @@ public class ScreenSlidePageFragment extends Fragment {
 						// i.putExtra("category",
 						// news.getNewsSource().getTitle());
 						// startActivity(i);
+						try {
+							Uri uri = Uri
+									.parse(item.getRssItemInfo().getLink());
+							getActivity().startActivity(
+									new Intent(Intent.ACTION_VIEW, uri));
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
 					}
 				});
 

@@ -1,17 +1,27 @@
 package ltt.intership.fragment;
 
+import java.util.List;
+
 import ltt.intership.R;
 import ltt.intership.activity.ReadArticleActivity;
 import ltt.intership.activity.SettingActivity;
 import ltt.intership.custom.mListRssAdapter;
+import ltt.intership.custom.mListTweetAdapter;
 import ltt.intership.custom.mListRssAdapter.OnItemClick;
 import ltt.intership.data.StreamRenderer;
 import ltt.intership.data.mListItem;
+import ltt.intership.utils.Config;
 
 import org.json.JSONObject;
 
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,13 +43,17 @@ public class ListRssFragment extends Fragment {
 	public ListRssFragment() {
 	}
 
-	mListRssAdapter mAdapter;
+	mListRssAdapter mRssAdapter;
+	mListTweetAdapter mTweetAdapter;
 	String url;
 	String category;
 	LinearLayout btnBack;
 	ListView lvRss;
 	mListItem list;
 	ImageButton btnSetting;
+
+	private SharedPreferences tweetPrefs;
+	private Twitter timelineTwitter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,19 +70,51 @@ public class ListRssFragment extends Fragment {
 
 		if (url.equalsIgnoreCase("facebook")) {
 			requestFbTimeline();
-			Log.d("lenglist", ""+StreamRenderer.getLengList());
-			for(int i=0;i<StreamRenderer.getLengList();i++){
+			Log.d("lenglist", "" + StreamRenderer.getLengList());
+			for (int i = 0; i < StreamRenderer.getLengList(); i++) {
 				Log.d("content", "" + i + "  "
 						+ StreamRenderer.getList(i).getMessage() + " -- "
 						+ StreamRenderer.getList(i).getDescription());
-				if(StreamRenderer.getList(i).getLengComment()!=0){
-					Log.d("lengcomment", ""+StreamRenderer.getList(i).getLengComment());
-					for(int j=0;j<StreamRenderer.getList(i).getLengComment();j++) {
-						Log.d("commet",""+j+"  "+StreamRenderer.getList(i).getComment(j).getMessage());
+				if (StreamRenderer.getList(i).getLengComment() != 0) {
+					Log.d("lengcomment", ""
+							+ StreamRenderer.getList(i).getLengComment());
+					for (int j = 0; j < StreamRenderer.getList(i)
+							.getLengComment(); j++) {
+						Log.d("commet",
+								""
+										+ j
+										+ "  "
+										+ StreamRenderer.getList(i)
+												.getComment(j).getMessage());
 					}
 				}
-					
+
 			}
+		} else if (url.equalsIgnoreCase("twitter")) {
+			tweetPrefs = getActivity().getSharedPreferences(
+					Config.GLOBAL_PREFS, 0);
+			String userToken = tweetPrefs.getString(Config.TWITTER_USER_TOKEN,
+					null);
+			String userSecret = tweetPrefs.getString(
+					Config.TWITTER_USER_SECRET, null);
+			// create new configuration
+			Configuration twitConf = new ConfigurationBuilder()
+					.setDebugEnabled(true)
+					.setOAuthConsumerKey(Config.TWITTER_KEY)
+					.setOAuthConsumerSecret(Config.TWITTER_SECRET)
+					.setOAuthAccessToken(userToken)
+					.setOAuthAccessTokenSecret(userSecret).build();
+			// instantiate new twitter
+			timelineTwitter = new TwitterFactory(twitConf).getInstance();
+			List<Status> homeTimeline = null;
+			try {
+				homeTimeline = timelineTwitter.getHomeTimeline();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			lvRss = (ListView) rootView.findViewById(R.id.listRss_lv);
+			mTweetAdapter = new mListTweetAdapter(getActivity(),
+					R.layout.tweet_info, homeTimeline);
 		} else {
 			lvRss = (ListView) rootView.findViewById(R.id.listRss_lv);
 
@@ -76,11 +122,11 @@ public class ListRssFragment extends Fragment {
 
 			Log.i("get instance", "size: " + list.getList().size());
 
-			mAdapter = new mListRssAdapter(getActivity(),
+			mRssAdapter = new mListRssAdapter(getActivity(),
 					R.layout.item_rss_layout, list);
-			lvRss.setAdapter(mAdapter);
+			lvRss.setAdapter(mRssAdapter);
 
-			mAdapter.setOnItemClick(new OnItemClick() {
+			mRssAdapter.setOnItemClick(new OnItemClick() {
 
 				@Override
 				public void onClick(int position) {
@@ -124,23 +170,25 @@ public class ListRssFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 	}
+
 	private void requestFbTimeline() {
 		Log.d("data", "start render");
 		Session session = Session.getActiveSession();
 		Request.Callback callback = new Request.Callback() {
 			public void onCompleted(Response response) {
-				JSONObject graphResponse = response.getGraphObject().getInnerJSONObject();
-				
+				JSONObject graphResponse = response.getGraphObject()
+						.getInnerJSONObject();
+
 				StreamRenderer.render(graphResponse);
 			}
 		};
 
-		Request request = new Request(session, "me/home", null,
-				HttpMethod.GET, callback);
+		Request request = new Request(session, "me/home", null, HttpMethod.GET,
+				callback);
 
 		RequestAsyncTask task = new RequestAsyncTask(request);
 		task.execute();
-		
+
 	}
 
 }
