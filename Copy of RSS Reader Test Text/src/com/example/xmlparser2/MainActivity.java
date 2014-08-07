@@ -1,15 +1,14 @@
-package com.example.xmlparser;
+package com.example.xmlparser2;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -21,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ltt.rssreader.NewsSourceInfo;
+import com.example.xmlparser.R;
 import com.ltt.rssreader.RssItemInfo;
 import com.ltt.rssreader.RssParser;
 import com.ltt.util.SourceHelper;
@@ -29,13 +28,8 @@ import com.ltt.util.WebAccessHandler;
 
 public class MainActivity extends Activity {
 
-	private ArrayList<RssItemInfo> listData;
-	private NewsSourceInfo ns;
 	private LinearLayout ll;
 	private TextView tv;
-	// private WebView wv;
-	private Button btnInfo;
-	private Button btnOk;
 	private Button btnGet;
 	private Spinner spinner1;
 	private Spinner spinner2;
@@ -52,14 +46,10 @@ public class MainActivity extends Activity {
 		ll = (LinearLayout) findViewById(R.id.linearLayout1);
 		tv = new TextView(this);
 
-		btnInfo = (Button) findViewById(R.id.btnInfo);
-		btnOk = (Button) findViewById(R.id.btnOk);
 		btnGet = (Button) findViewById(R.id.btnGet);
 		spinner1 = (Spinner) findViewById(R.id.spinner1);
 		spinner2 = (Spinner) findViewById(R.id.spinner2);
 
-		btnInfo.setOnClickListener(btnGetImgListener);
-		btnOk.setOnClickListener(btnGetImgListener);
 		btnGet.setOnClickListener(btnGetImgListener);
 		sh = new SourceHelper(this);
 
@@ -114,56 +104,12 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			WebAccessHandler webhandle = new WebAccessHandler();
-//			String link = spinner2.getSelectedItem().toString();
-			String link = "http://dantri.com.vn";
 
-			// Thuc hien phan tich XML
-			InputStream inStream = null;
-			inStream = webhandle.getStreamFromLink(link);
-			
-			if (inStream == null){
-				Toast.makeText(MainActivity.this,
-                		"No data received" ,
-                		Toast.LENGTH_SHORT).show();
-				return;
-			}
-			
-			switch (v.getId()){
-			case R.id.btnInfo:
-				ns = new RssParser().getSourceInfo(inStream);
-				ll.removeAllViews();
-				printSource(ns);
-				break;
-			case R.id.btnOk:
-				listData = new RssParser().parseXML(inStream, 3);
-				ll.removeAllViews();
-				try {
-					printData(listData);			
-				} catch (NullPointerException e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "no data", Toast.LENGTH_SHORT)
-							.show();
-					return;
-				}			
-				break;
-			case R.id.btnGet:
-				try {
-					printContent(inStream);
-				} catch (IOException e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "cannot display", Toast.LENGTH_SHORT)
-					.show();
-					return;
-				}
-			}
-			
-			//close connection
-			try {
-				inStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			ll.removeAllViews();
+
+			DownloadMultiSiteTask dtask = new DownloadMultiSiteTask(2);
+			dtask.execute(sh.getItems());
+
 		}
 	};
 
@@ -179,13 +125,6 @@ public class MainActivity extends Activity {
 			tv = new TextView(this);
 			tv.setText("MOTA : " + Html.fromHtml(RssItemInfo.getDescription()));
 			ll.addView(tv);
-			// wv = new WebView(this);
-			// wv.setLayoutParams(new
-			// WebView.LayoutParams(LayoutParams.WRAP_CONTENT,
-			// LayoutParams.WRAP_CONTENT, 0, 0));
-			// wv.loadDataWithBaseURL(RssItemInfo.getQuantity(),
-			// RssItemInfo.getItemNumber(), "text/html", "utf-8", null);
-			// ll.addView(wv);
 
 			tv = new TextView(this);
 			tv.setText("LINK : " + RssItemInfo.getLink());
@@ -202,7 +141,7 @@ public class MainActivity extends Activity {
 			tv = new TextView(this);
 			tv.setText("DATE FORMAT: " + RssItemInfo.getPubDateFormat());
 			ll.addView(tv);
-			
+
 			tv = new TextView(this);
 			tv.setText("---");
 			ll.addView(tv);
@@ -210,39 +149,59 @@ public class MainActivity extends Activity {
 
 	}
 
-	protected void printSource(NewsSourceInfo ns2) {
-		if (ns2 == null) return;
-		tv = new TextView(this);
-		tv.setText("Ten bao: " + ns.getTitle());
-		ll.addView(tv);
-		
-		tv = new TextView(this);
-		tv.setText("Mo ta: " + ns.getDescription());
-		ll.addView(tv);
-		
-		tv = new TextView(this);
-		tv.setText("link: " + ns.getLink());
-		ll.addView(tv);
-		
-		tv = new TextView(this);
-		tv.setText("thumb: " + ns.getThumbnail());
-		ll.addView(tv);
-		
-	}
+	/**
+	 * Lop download nhieu trang cung 1 luc
+	 * 
+	 * @author Nguyen Duc Hieu
+	 * 
+	 */
+	class DownloadMultiSiteTask extends
+			AsyncTask<String, ArrayList<RssItemInfo>, Integer> {
+		private WebAccessHandler webhandle = new WebAccessHandler();
+		private int sites = 0;
 
-	private void printContent(InputStream is) throws IOException {
-		String line;
-		StringBuilder sb = new StringBuilder();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is,
-				"UTF-8"));
+		int testNum = 0;
 
-		while ((line = br.readLine()) != null) {
-			sb.append(line).append("\n");
+		public DownloadMultiSiteTask() {
+			super();
 		}
-		tv = new TextView(this);
-		tv.setText(sb.toString());
-		ll.addView(tv);
 
+		public DownloadMultiSiteTask(int testNum) {
+			this.testNum = testNum;
+		}
+
+		@Override
+		protected void onProgressUpdate(ArrayList<RssItemInfo>... values) {
+			try {
+				printData(values[0]);
+			} catch (NullPointerException e) {
+				return;
+			}
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected Integer doInBackground(String... params) {
+			Log.v("doInBackground", "doing download of image");
+			for (String link : params) {
+				// Thuc hien phan tich XML
+				InputStream inStream = null;
+				inStream = webhandle.getStreamFromLink(link);
+
+				if (inStream == null) {
+					continue;
+				}
+				publishProgress(new RssParser().parseXML(inStream, testNum));
+				sites++;
+			}
+			return sites;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			Log.i("download task", "get from " + result + " sites");
+		}
+
+		
 	}
-
 }
