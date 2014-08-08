@@ -1,0 +1,366 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="zend.layout.StartUpActivity$PlaceholderFragment" >
+
+    <ImageView
+        android:id="@+id/startup_logo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:contentDescription="@string/img_description"
+        android:rotation="45"
+        android:src="@drawable/logo" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/startup_google_login_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <LinearLayout
+        android:id="@+id/startup_login_social_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/startup_googlePlus_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/custom_btn_gplus"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/img_description"
+                android:scaleType="fitXY"
+                android:src="@drawable/google_logo_transparent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:gravity="left"
+                android:text="@string/google_plus_sign_in"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <com.facebook.widget.LoginButton
+            android:id="@+id/startup_facebook_login_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <LinearLayout
+            android:id="@+id/startup_facebook_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_btn_fb"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_margin="8dp"
+                android:contentDescription="@string/img_description"
+                android:scaleType="fitXY"
+                android:src="@drawable/fb_logo_transparent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="34dp"
+                android:gravity="left"
+                android:text="@string/facebook_sign_in"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/startup_twitter_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_btn_twitter"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/img_description"
+                android:scaleType="fitXY"
+                android:src="@drawable/twitter_logo_transparent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:gravity="left"
+                android:text="@string/twitter_plus_sign_in"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="101" >
+
+            <LinearLayout
+                android:id="@+id/startup_get_started"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:background="@drawable/transparent_button"
+                android:clickable="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/get_started"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/get_started_information"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:alpha=".3"
+                android:background="#202020" />
+
+            <LinearLayout
+                android:id="@+id/startup_sign_in"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:background="@drawable/transparent_button"
+                android:clickable="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/sign_in"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/sign_in_information"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/startup_login_ltt_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <EditText
+            android:id="@+id/startup_edit_username"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#96FFFFAC"
+            android:hint="@string/user_name"
+            android:singleLine="true"
+            android:textSize="25sp" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/startup_edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:background="#96FFFFAC"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textSize="25sp" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/startup_tv_create_new_acc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:text="@string/create_new_account"
+            android:textColor="#FF5050"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/startup_tv_forgot_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:text="@string/forgot_account"
+            android:textColor="#FF5050"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/startup_btn_ltt_signin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_btn_sign_in"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="15dp"
+            android:text="@string/sign_in"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/startup_create_ltt_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <EditText
+            android:id="@+id/startup_ed_create_username"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#96FFFFAC"
+            android:hint="@string/user_name"
+            android:singleLine="true"
+            android:textSize="22sp" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/startup_ed_create_email"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:background="#96FFFFAC"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:textSize="22sp" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/startup_ed_create_password"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:background="#96FFFFAC"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textSize="22sp" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/startup_tv_existed_acc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:text="@string/existed"
+            android:textColor="#FF5050"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/startup_btn_ltt_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_btn_sign_in"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="15dp"
+            android:text="@string/sign_up"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,153 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_background"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="ltt.intership.SettingActivity$PlaceholderFragment" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rss_bar_height"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <ImageButton
+            android:id="@+id/setting_btn_back"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:contentDescription="@string/img_description"
+            android:scaleType="fitXY"
+            android:src="@drawable/act_back" />
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="8"
+            android:gravity="center"
+            android:text="@string/setting"
+            android:textColor="@color/default_text_color"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="2dp"
+        android:background="#c0c0c0" />
+
+    <LinearLayout
+        android:id="@+id/setting_btn_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_setting_default"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account"
+            android:textColor="@color/default_text_color"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acc_description" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0" />
+
+    <LinearLayout
+        android:id="@+id/setting_btn_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_setting_default"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language"
+            android:textColor="@color/default_text_color"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lang_description" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0" />
+
+    <LinearLayout
+        android:id="@+id/setting_btn_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_setting_default"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/theme"
+            android:textColor="@color/default_text_color"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/theme_description" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0" />
+
+    <LinearLayout
+        android:id="@+id/setting_btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_setting_default"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/log_out"
+            android:textColor="@color/default_text_color"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0" />
+
+</LinearLayout>
